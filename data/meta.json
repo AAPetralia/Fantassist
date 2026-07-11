@@ -1,10 +1,10 @@
 {
- "aggiornato": "2026-07-11T16:40:57.007947+00:00",
+ "aggiornato": "2026-07-11T16:51:42.952698+00:00",
  "esiti": {
-  "Statistiche giocatori": "ERRORE: 401 Client Error: Unauthorized for url: https://www.fantacalcio.it/api/v1/Excel/stats/20/1",
+  "Statistiche giocatori": "ok",
   "Classifica": "ok",
-  "Calendario": "ERRORE: Calendario: trovate solo 0 partite, struttura pagina cambiata?",
-  "Rigoristi": "ERRORE: Rigoristi: pagina non riconosciuta",
+  "Calendario": "ERRORE: Calendario: trovate 0 partite (normale a campionato fermo)",
+  "Rigoristi": "ERRORE: Rigoristi: meno di 15 squadre trovate (normale a campionato fermo)",
   "Indisponibili": "ok"
  }
 }
