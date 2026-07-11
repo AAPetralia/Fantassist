@@ -114,3 +114,150 @@ def job_statistiche() -> None:
             elif isinstance(v, float):
                 p[k] = round(v, 3)
             else:
+                p[k] = norm(v)
+        players.append(p)
+
+    save_json("players.json", {
+        "aggiornato": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "stagioneId": SEASON_ID,
+        "giocatori": players,
+    })
+    print(f"    {len(players)} giocatori")
+
+
+# ── 2. CLASSIFICA ─────────────────────────────────────────────────
+def job_classifica() -> None:
+    html = fetch(CLASSIFICA_URL).text
+    tables = pd.read_html(io.StringIO(html))
+    # scegliamo la tabella che contiene sia 'Squadra' sia i punti
+    table = None
+    for t in tables:
+        cols = [norm(c).lower() for c in t.columns.astype(str)]
+        if any("squadra" in c for c in cols) and any(c in ("pt", "punti", "pti") for c in cols):
+            table = t
+            break
+    if table is None:
+        raise ValueError("Tabella classifica non trovata")
+
+    table.columns = [norm(c).lower() for c in table.columns.astype(str)]
+    col_sq = next(c for c in table.columns if "squadra" in c)
+    col_pt = next(c for c in table.columns if c in ("pt", "punti", "pti"))
+
+    standings = []
+    for _, r in table.iterrows():
+        squadra = norm(r[col_sq])
+        squadra = re.sub(r"^(\d+\s*)", "", squadra)
+        try:
+            punti = int(r[col_pt])
+        except (ValueError, TypeError):
+            continue
+        standings.append({"squadra": squadra, "punti": punti})
+
+    if len(standings) < 18:
+        raise ValueError(f"Classifica incompleta: {len(standings)} squadre")
+    save_json("classifica.json", {
+        "aggiornato": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "classifica": standings,
+    })
+    print(f"    {len(standings)} squadre")
+
+
+# ── 3. CALENDARIO / PROSSIMA GIORNATA ─────────────────────────────
+def job_calendario() -> None:
+    """
+    Estrae dalla pagina calendario gli accoppiamenti squadra-squadra.
+    La pagina mostra la giornata corrente/prossima; salviamo le coppie
+    trovate con l'indicazione casa/trasferta.
+    """
+    html = fetch(CALENDARIO_URL).text
+    slugs = re.findall(r"/serie-a/squadre/([a-z0-9\-]+)", html)
+    seen_pairs, fixtures = set(), []
+    for i in range(0, len(slugs) - 1, 2):
+        home, away = slugs[i], slugs[i + 1]
+        if home == away:
+            continue
+        key = (home, away)
+        if key in seen_pairs:
+            continue
+        seen_pairs.add(key)
+        fixtures.append({"casa": home, "trasferta": away})
+        if len(fixtures) == 10:
+            break
+
+    if len(fixtures) < 8:
+        raise ValueError(f"Calendario: trovate solo {len(fixtures)} partite, struttura pagina cambiata?")
+    save_json("calendario.json", {
+        "aggiornato": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "partite": fixtures,
+    })
+    print(f"    {len(fixtures)} partite")
+
+
+# ── 4. RIGORISTI ──────────────────────────────────────────────────
+def job_rigoristi() -> None:
+    html = fetch(RIGORISTI_URL).text
+    matches = re.findall(r"/serie-a/squadre/([a-z0-9\-]+)/([a-z0-9\-\.]+)/\d+", html)
+    per_team = {}
+    for team, player in matches:
+        per_team.setdefault(team, [])
+        if player not in per_team[team] and len(per_team[team]) < 3:
+            per_team[team].append(player)
+
+    if len(per_team) < 15:
+        raise ValueError("Rigoristi: pagina non riconosciuta")
+    save_json("rigoristi.json", {
+        "aggiornato": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "rigoristi": per_team,
+    })
+    print(f"    {len(per_team)} squadre")
+
+
+# ── 5. INDISPONIBILI (infortunati + squalificati) ─────────────────
+def job_indisponibili() -> None:
+    html = fetch(INDISPONIBILI_URL).text
+    matches = re.findall(r"/serie-a/squadre/([a-z0-9\-]+)/([a-z0-9\-\.]+)/\d+", html)
+    out = {}
+    for team, player in matches:
+        out.setdefault(team, [])
+        if player not in out[team]:
+            out[team].append(player)
+
+    save_json("indisponibili.json", {
+        "aggiornato": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "indisponibili": out,
+    })
+    print(f"    {sum(len(v) for v in out.values())} giocatori in {len(out)} squadre")
+
+
+# ── MAIN ──────────────────────────────────────────────────────────
+JOBS = [
+    ("Statistiche giocatori", job_statistiche),
+    ("Classifica", job_classifica),
+    ("Calendario", job_calendario),
+    ("Rigoristi", job_rigoristi),
+    ("Indisponibili", job_indisponibili),
+]
+
+
+def main() -> int:
+    esiti = {}
+    for nome, fn in JOBS:
+        print(f"\n▶ {nome}")
+        try:
+            fn()
+            esiti[nome] = "ok"
+        except Exception as e:
+            esiti[nome] = f"ERRORE: {e}"
+            print(f"  ✘ {e}", file=sys.stderr)
+
+    save_json("meta.json", {
+        "aggiornato": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "esiti": esiti,
+    })
+    # exit code 0 anche con errori parziali: i JSON validi vanno comunque committati
+    print("\nRiepilogo:", json.dumps(esiti, ensure_ascii=False, indent=1))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
