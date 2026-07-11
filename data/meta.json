@@ -1,0 +1,10 @@
+{
+ "aggiornato": "2026-07-11T16:40:57.007947+00:00",
+ "esiti": {
+  "Statistiche giocatori": "ERRORE: 401 Client Error: Unauthorized for url: https://www.fantacalcio.it/api/v1/Excel/stats/20/1",
+  "Classifica": "ok",
+  "Calendario": "ERRORE: Calendario: trovate solo 0 partite, struttura pagina cambiata?",
+  "Rigoristi": "ERRORE: Rigoristi: pagina non riconosciuta",
+  "Indisponibili": "ok"
+ }
+}
