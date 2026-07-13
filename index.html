@@ -152,6 +152,20 @@ const MODULES = [
   {name:"4-5-1", d:4, c:5, a:1},
 ];
 
+/* Pesi bonus-performance MISURATI su Serie A 2025-26 (7270 osservazioni,
+   regressione standardizzata FV~segnali_p90 al netto della forma passata).
+   bonus_FV = beta · FV_sd(ruolo) · clamp((valore−media)/sd, −2, +2) */
+const PERF_W = {
+  cap: 2.0,
+  FV_sd: { A: 1.895, C: 1.328, D: 1.071 },
+  ruoli: {
+    A: { shots_p90: { beta: 0.112, mean: 2.451, sd: 0.943 }, xa_p90: { beta: 0.0, mean: 0.1425, sd: 0.1015 } },
+    C: { shots_p90: { beta: 0.103, mean: 1.357, sd: 0.7967 }, xa_p90: { beta: 0.0, mean: 0.1134, sd: 0.091 } },
+    D: { shots_p90: { beta: 0.051, mean: 0.6181, sd: 0.3926 }, xa_p90: { beta: 0.077, mean: 0.0678, sd: 0.0843 } },
+    P: {},
+  },
+};
+
 const S = {                    // stato applicazione
   db: [],                      // players.json → array giocatori
   byId: new Map(),
@@ -159,6 +173,7 @@ const S = {                    // stato applicazione
   fixtures: [],                // [{casa, trasferta}]
   rigoristi: {},               // slug → [slug giocatori]
   indisponibili: {},           // slug → [slug giocatori]
+  understat: {},               // id(cod) → {shots_p90, xa_p90} (feed offensivo, quando presente)
   meta: null,
   roster: [],                  // [{id, pTit, rig, sq, inf}]
   tab: "rosa", threshold: 66, selMod: null, mcSeed: 0,
@@ -190,8 +205,9 @@ async function loadData(){
   const res = await Promise.allSettled([
     getJSON("players.json"), getJSON("classifica.json"), getJSON("calendario.json"),
     getJSON("rigoristi.json"), getJSON("indisponibili.json"), getJSON("meta.json"),
+    getJSON("understat.json"),
   ]);
-  const [pl, cl, cal, rig, ind, meta] = res.map(r => r.status==="fulfilled" ? r.value : null);
+  const [pl, cl, cal, rig, ind, meta, us] = res.map(r => r.status==="fulfilled" ? r.value : null);
 
   if(pl){
     S.db = pl.giocatori.filter(p => p.id && p.nome);
@@ -209,6 +225,9 @@ async function loadData(){
   if(cal) S.fixtures = cal.partite || [];
   if(rig) S.rigoristi = rig.rigoristi || {};
   if(ind) S.indisponibili = ind.indisponibili || {};
+  if(us && us.giocatori){                      // feed offensivo: { giocatori: { cod: {shots_p90, xa_p90} } }
+    S.understat = us.giocatori;
+  }
   S.meta = meta;
 
   const dt = pl ? new Date(pl.aggiornato) : null;
@@ -247,10 +266,25 @@ function shrunk(st){
   return (pg*fm + K_SHRINK*PRIOR[roleOf(st)]) / (pg + K_SHRINK);
 }
 function roleOf(st){ return st.ruolo || "C"; }
+function perfBonus(st){                          // bonus da statistiche offensive Understat
+  const role = roleOf(st), w = PERF_W.ruoli[role], u = S.understat[st.id];
+  if (!w || !u) return { val: 0, has: false };   // nessun feed (es. campionato fermo) → 0
+  const fvsd = PERF_W.FV_sd[role] || 0;
+  let b = 0, used = false;
+  for (const sig of ["shots_p90", "xa_p90"]) {
+    const c = w[sig];
+    if (!c || !c.beta || u[sig] == null) continue;
+    const z = Math.max(-PERF_W.cap, Math.min(PERF_W.cap, (u[sig] - c.mean) / c.sd));
+    b += c.beta * fvsd * z; used = true;
+  }
+  return { val: b, has: used };
+}
 function expFV(r){                               // r = elemento roster
   const st = S.byId.get(r.id);
   const cal = calAdj(st.squadra);
-  return {val: shrunk(st) + cal.adj + (r.rig ? RIG_BONUS : 0), cal, base: shrunk(st), st};
+  const perf = perfBonus(st);
+  return { val: shrunk(st) + cal.adj + (r.rig ? RIG_BONUS : 0) + perf.val,
+           cal, base: shrunk(st), st, perf };
 }
 function slotEV(r){
   return (r.pTit/100) * expFV(r).val + (1 - r.pTit/100) * BENCH_FV;
@@ -363,7 +397,7 @@ function renderRosa(){
             <div>Rating base: <b>${fmt(e.base)}</b></div>
             <div>FM: <b>${fmt(st.fm)}</b> (${st.pv||0} pv)</div>
             <div>Δ calendario: <b>${e.cal.opp ? signedSpan(e.cal.adj) : "n/d"}</b></div>
-            <div>Gol/Assist: <b>${st.gol??0} / ${st.assist??0}</b></div>
+            <div>Performance: <b>${e.perf && e.perf.has ? signedSpan(e.perf.val) : "n/d"}</b></div>
           </div>
           <label>Titolarità: <b style="color:var(--chalk)">${r.pTit}%</b>
             <input type="range" min="0" max="100" step="5" value="${r.pTit}"
@@ -549,6 +583,10 @@ function openMetodo(){
       (pv·FM + 8·prior)/(pv + 8). Con poche presenze il giudizio resta prudente.</p>
       <p><b>Δ calendario</b> — funzione continua di casa/trasferta e forza dell'avversario
       (punti in classifica normalizzati). A campionato fermo vale 0 per tutti.</p>
+      <p><b>Performance</b> — bonus da statistiche offensive Understat (tiri e xA per-90),
+      con pesi <i>misurati</i> sulla stagione 2025-26: tiri per attaccanti e centrocampisti,
+      xA per i difensori. Effetto volutamente contenuto (tie-breaker). Attivo quando è presente
+      il feed; a campionato fermo vale 0.</p>
       <p><b>Rigorista</b> — +0,30 al fantavoto atteso; il flag viene proposto in automatico
       dalla gerarchia rigoristi del web, ma resta modificabile.</p>
       <p><b>Indisponibili</b> — squalificati e infortunati vengono proposti dai dati web
