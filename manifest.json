@@ -1,0 +1,14 @@
+{
+  "name": "Fantassist",
+  "short_name": "Fantassist",
+  "description": "Motore probabilistico per la formazione del Fantacalcio",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#0C1A12",
+  "theme_color": "#0C1A12",
+  "icons": [
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
