@@ -25,23 +25,31 @@ header{position:sticky; top:0; z-index:40; background:var(--bg);
 header .row{display:flex; justify-content:space-between; align-items:center}
 h1{margin:0; font-size:26px; font-weight:900}
 h1 .fluo{color:var(--fluo)}
-.sub{font-size:11px; color:var(--dim)}
+.ver{font-size:11px; font-weight:900; color:var(--bg); background:var(--fluo);
+  border-radius:6px; padding:1px 5px; margin-left:7px; vertical-align:super; letter-spacing:0}
+.sub{font-size:11px; color:var(--dim); margin-top:2px}
 .btn{background:var(--card); color:var(--fluo); border:1px solid var(--line);
-  border-radius:10px; padding:8px 12px; font:700 12px 'Saira'; cursor:pointer}
+  border-radius:10px; padding:8px 12px; font:700 12px 'Saira'; cursor:pointer;
+  transition:background .15s, border-color .15s}
+.btn:active{background:var(--cardhi)}
 .btn.primary{background:var(--fluo); color:var(--bg); border-color:var(--fluo); font-size:15px; padding:12px 22px}
 .btn:disabled{opacity:.5}
 nav{position:fixed; bottom:0; left:0; right:0; z-index:40;
   background:var(--bg2); border-top:1px solid var(--line)}
 nav .wrap{display:flex; padding:0}
 nav button{flex:1; background:none; border:none; color:var(--dim);
-  padding:9px 0 max(9px, env(safe-area-inset-bottom)); cursor:pointer; font-family:'Saira'}
+  padding:9px 0 max(9px, env(safe-area-inset-bottom)); cursor:pointer; font-family:'Saira';
+  position:relative; transition:color .15s}
 nav button.on{color:var(--fluo)}
+nav button.on::before{content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:26px; height:3px; border-radius:0 0 3px 3px; background:var(--fluo)}
 nav .ico{font-size:18px; line-height:1}
 nav .lab{font-size:11px; font-weight:700; margin-top:2px}
 .rolehead{font-size:11px; letter-spacing:.18em; text-transform:uppercase;
   font-weight:800; padding:12px 4px 6px}
 .card{background:var(--card); border-radius:14px; margin-bottom:8px; overflow:hidden}
-.prow{display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer}
+.prow{display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; transition:background .12s}
+.prow:active{background:var(--cardhi)}
 .rball{width:32px; height:32px; border-radius:50%; background:var(--bg2);
   display:flex; align-items:center; justify-content:center;
   font-weight:900; font-size:12px; flex-shrink:0; border:1.5px solid}
@@ -52,7 +60,7 @@ nav .lab{font-size:11px; font-weight:700; margin-top:2px}
 .chip.rig{color:var(--amber); border-color:var(--amber)}
 .chip.out{color:var(--red); border-color:var(--red)}
 .bar{height:5px; border-radius:99px; background:var(--line); margin-top:5px; position:relative}
-.bar i{position:absolute; left:0; top:0; bottom:0; border-radius:99px}
+.bar i{position:absolute; left:0; top:0; bottom:0; border-radius:99px; transition:width .35s ease}
 .pnum{text-align:right; flex-shrink:0}
 .pnum .v{font-size:18px; font-weight:900; font-variant-numeric:tabular-nums}
 .pnum .l{font-size:9px; color:var(--dim)}
@@ -118,7 +126,7 @@ svg{display:block}
 <body>
 <header><div class="wrap row">
   <div>
-    <h1>FANT<span class="fluo">ASSIST</span></h1>
+    <h1>FANT<span class="fluo">ASSIST</span><sup class="ver">2.0</sup></h1>
     <div class="sub" id="subtitle">caricamento dati…</div>
   </div>
   <button class="btn" onclick="openMetodo()">Metodo ƒ(x)</button>
