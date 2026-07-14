@@ -121,9 +121,16 @@ input[type=range]{width:100%; accent-color:var(--fluo); height:26px}
 .sheet h3{color:var(--chalk); margin:0 0 10px; font-size:18px}
 .sheet b{color:var(--fluo)}
 .updated{font-size:10px; color:var(--dim); text-align:center; padding:6px 0 2px}
-.importbar{display:flex; align-items:center; gap:10px; padding:10px 3px 4px; flex-wrap:wrap}
+.importbar{display:flex; align-items:center; gap:10px; padding:8px 3px 4px; flex-wrap:wrap}
 .importbar .myteam{font-size:12px; color:var(--dim)}
 .importbar .myteam b{color:var(--fluo)}
+.leaguebar{display:flex; gap:6px; overflow-x:auto; padding:10px 3px 2px; scrollbar-width:none}
+.leaguebar::-webkit-scrollbar{display:none}
+.lchip{flex-shrink:0; background:var(--card); color:var(--chalk); border:1px solid var(--line);
+  border-radius:99px; padding:6px 13px; font:700 12px 'Saira'; cursor:pointer; white-space:nowrap}
+.lchip.on{background:var(--fluo); color:var(--bg); border-color:var(--fluo)}
+.lchip.add{color:var(--fluo)}
+.lchip.del{color:var(--red); border-color:var(--red); font-size:11px; padding:5px 10px}
 .teampick{display:flex; justify-content:space-between; align-items:center; width:100%;
   background:var(--bg2); color:var(--chalk); border:1px solid var(--line); border-radius:10px;
   padding:11px 13px; margin-top:6px; font:700 14px 'Saira'; cursor:pointer}
@@ -211,26 +218,46 @@ const S = {                    // stato applicazione
   indisponibili: {},           // slug → [slug giocatori]
   understat: {},               // id(cod) → {shots_p90, xa_p90} (feed offensivo, quando presente)
   meta: null,
-  roster: [],                  // [{id, pTit, rig, sq, inf}]
-  leagueRosters: {},           // { nomeFantasquadra: [cod, ...] } dall'import Leghe Fantacalcio
-  myTeamName: null,            // la mia fantasquadra
+  roster: [],                  // vista attiva: rosa della lega selezionata (o standalone)
+  leagueRosters: {},           // vista attiva: { fantasquadra: [cod...] } della lega selezionata
+  myTeamName: null,            // vista attiva: la mia fantasquadra nella lega selezionata
+  leagues: {},                 // { nomeLega: { rosters:{team:[cod]}, myTeam, roster:[] } }
+  currentLeague: null,         // nome della lega selezionata
+  standalone: [],              // rosa manuale quando nessuna lega è selezionata
   oppName: null,               // avversario selezionato nella scheda Sfida
   tab: "rosa", threshold: 66, selMod: null, mcSeed: 0,
 };
 
+/* Allinea le "viste attive" (roster/leagueRosters/myTeamName) alla lega corrente.
+   Usa la STESSA referenza dell'array, così le modifiche si propagano da sole. */
+function syncActive(){
+  const L = S.currentLeague && S.leagues[S.currentLeague];
+  if(L){ S.roster = L.roster; S.leagueRosters = L.rosters; S.myTeamName = L.myTeam; }
+  else { S.roster = S.standalone; S.leagueRosters = {}; S.myTeamName = null; }
+}
+
 /* ---------- persistenza ---------- */
 function saveLocal(){
+  if(S.currentLeague && S.leagues[S.currentLeague]) S.leagues[S.currentLeague].myTeam = S.myTeamName;
   localStorage.setItem("fantassist", JSON.stringify(
-    {roster:S.roster, threshold:S.threshold,
-     leagueRosters:S.leagueRosters, myTeamName:S.myTeamName}));
+    {threshold:S.threshold, leagues:S.leagues, currentLeague:S.currentLeague, standalone:S.standalone}));
 }
 function loadLocal(){
   try{
     const d = JSON.parse(localStorage.getItem("fantassist") || "{}");
-    if(Array.isArray(d.roster)) S.roster = d.roster;
     if(d.threshold) S.threshold = d.threshold;
-    if(d.leagueRosters) S.leagueRosters = d.leagueRosters;
-    if(d.myTeamName) S.myTeamName = d.myTeamName;
+    if(d.standalone) S.standalone = d.standalone;
+    if(d.leagues && Object.keys(d.leagues).length){
+      S.leagues = d.leagues; S.currentLeague = d.currentLeague || Object.keys(d.leagues)[0];
+    } else if(d.leagueRosters && Object.keys(d.leagueRosters).length){
+      // migrazione dal vecchio formato a lega singola
+      const nome = "La mia lega";
+      S.leagues[nome] = {rosters:d.leagueRosters, myTeam:d.myTeamName||null, roster:Array.isArray(d.roster)?d.roster:[]};
+      S.currentLeague = nome;
+    } else if(Array.isArray(d.roster)){
+      S.standalone = d.roster;
+    }
+    syncActive();
   }catch(e){}
 }
 
@@ -393,23 +420,22 @@ function parseLeagueWorkbook(buf){
   const wb=XLSX.read(buf,{type:"array"});
   const ws=wb.Sheets["TutteLeRose"]||wb.Sheets[wb.SheetNames[0]];
   const rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true});
-  const RS=new Set(["P","D","C","A"]); const teams={};
+  const RS=new Set(["P","D","C","A"]); const teams={}; let league=null;
   for(const off of [0,5]){
     let cur=null;
     for(const r of rows){
       const a=(r[off]??"").toString().trim(), b=(r[off+1]??"").toString().trim();
       if(!a) continue;
+      const low=a.toLowerCase();
+      if(low.startsWith("rose lega")){ if(!league) league=a.replace(/rose lega/i,"").trim()||null; continue; }
       if(RS.has(a) && b){ if(cur) teams[cur].push({ruolo:a, nome:b, squadra:(r[off+2]??"").toString().trim()}); }
-      else{
-        const low=a.toLowerCase();
-        if(low!=="ruolo" && !a.startsWith("http") && !a.startsWith("*") && !low.startsWith("rose lega")){
-          cur=a; if(!teams[cur]) teams[cur]=[];
-        }
+      else if(low!=="ruolo" && !a.startsWith("http") && !a.startsWith("*")){
+        cur=a; if(!teams[cur]) teams[cur]=[];
       }
     }
   }
   const out={}; for(const k in teams){ if(teams[k].length>=15) out[k]=teams[k]; }
-  return out;
+  return {league, teams:out};
 }
 function matchLeagueRoster(players, idx){
   const cods=[], missed=[];
@@ -418,7 +444,7 @@ function matchLeagueRoster(players, idx){
     let ch=null;
     if(c.length===1) ch=c[0];
     else if(c.length>1) ch=c.find(x=>teamMatch(p.squadra,x.squadra))||c[0];
-    if(ch) cods.push(ch.id); else missed.push(p.nome);
+    if(ch && ch.id!=null) cods.push(ch.id); else missed.push(p.nome);  // niente id → segnalato, non sparito
   }
   return {cods, missed};
 }
@@ -428,27 +454,43 @@ function onLeagueFile(input){
   const reader=new FileReader();
   reader.onload=e=>{
     try{
-      const teams=parseLeagueWorkbook(e.target.result);
+      const {league, teams}=parseLeagueWorkbook(e.target.result);
       if(!Object.keys(teams).length) throw new Error("nessuna rosa riconosciuta");
       const idx=buildNameIndex(); const rosters={}, report={};
       for(const [name,players] of Object.entries(teams)){
         const {cods,missed}=matchLeagueRoster(players,idx);
-        rosters[name]=cods; report[name]={n:players.length, matched:cods.length, missed:missed.length};
+        rosters[name]=cods; report[name]={n:players.length, matched:cods.length, missed:missed.length, missedNames:missed};
       }
-      S.leagueRosters=rosters; S._importReport=report; saveLocal(); render();
+      // nome lega dal file, o generato se assente/duplicato
+      let lname=league || ("Lega " + (Object.keys(S.leagues).length+1));
+      if(S.leagues[lname] && league) lname=league;            // stesso nome → aggiorna quella lega
+      else if(S.leagues[lname]) lname=lname+" ("+(Object.keys(S.leagues).length+1)+")";
+      S.leagues[lname]={rosters, myTeam:(S.leagues[lname]?S.leagues[lname].myTeam:null), roster:(S.leagues[lname]?S.leagues[lname].roster:[])};
+      S.currentLeague=lname; syncActive();
+      S._importReport=report; saveLocal(); render();
     }catch(err){ alert("Non riesco a leggere il file: "+err.message); }
   };
   reader.readAsArrayBuffer(file);
   input.value="";
 }
+function switchLeague(name){
+  S.currentLeague=name; S.oppName=null; S._importReport=null; syncActive(); saveLocal(); render();
+}
+function deleteLeague(name){
+  if(!confirm("Rimuovere la lega \""+name+"\"?")) return;
+  delete S.leagues[name];
+  S.currentLeague=Object.keys(S.leagues)[0]||null;
+  syncActive(); saveLocal(); render();
+}
 function loadMyTeam(name){
-  const cods=S.leagueRosters[name]||[];
-  S.myTeamName=name;
-  S.roster=cods.map(id=>{
+  const L=S.leagues[S.currentLeague]; if(!L) return;
+  const cods=L.rosters[name]||[];
+  L.myTeam=name;
+  L.roster=cods.map(id=>{
     const st=S.byId.get(id), f=st?autoFlags(st):{sq:false,inf:false,rig:false};
     return {id, pTit:75, rig:f.rig, sq:f.sq, inf:f.inf};
   });
-  S._importReport=null; saveLocal(); S.tab="rosa"; render();
+  syncActive(); S._importReport=null; saveLocal(); S.tab="rosa"; render();
 }
 // miglior formazione per una rosa qualunque (lista di elementi {id,pTit,rig,sq,inf})
 function bestLineupFrom(roster, mod){
@@ -502,8 +544,13 @@ function addPlayer(id){
   S.roster.push({id, pTit:75, rig:f.rig, sq:f.sq, inf:f.inf});
   saveLocal(); render();
 }
+function setRoster(arr){       // aggiorna la vista attiva E il contenitore di appoggio (lega o standalone)
+  S.roster = arr;
+  if(S.currentLeague && S.leagues[S.currentLeague]) S.leagues[S.currentLeague].roster = arr;
+  else S.standalone = arr;
+}
 function removePlayer(id){
-  S.roster = S.roster.filter(r => r.id !== id);
+  setRoster(S.roster.filter(r => r.id !== id));
   saveLocal(); render();
 }
 function patch(id, k, v){
@@ -514,15 +561,23 @@ function renderRosa(){
   const counts = ROLES.map(role =>
     `<span class="${rosterByRole(role).length>=ROLE_MAX[role]?"full":""}">${role} ${rosterByRole(role).length}/${ROLE_MAX[role]}</span>`).join("");
 
-  // barra import + eventuale selettore squadra dopo un import
-  let importHtml = `<div class="importbar">
-      <button class="btn" onclick="triggerImport()">📥 Importa rose da file</button>
-      ${S.myTeamName?`<span class="myteam">La tua: <b>${esc(S.myTeamName)}</b></span>`:""}
+  // selettore leghe (se importate) + pulsante import + eventuale selettore squadra
+  const leagueNames = Object.keys(S.leagues);
+  let importHtml = "";
+  if(leagueNames.length){
+    importHtml += `<div class="leaguebar">${leagueNames.map(n=>
+      `<button class="lchip ${n===S.currentLeague?"on":""}" onclick="switchLeague('${n.replace(/'/g,"\\'")}')">${esc(n)}</button>`).join("")}
+      <button class="lchip add" onclick="triggerImport()">＋ lega</button></div>`;
+  }
+  importHtml += `<div class="importbar">
+      ${leagueNames.length?"":`<button class="btn" onclick="triggerImport()">📥 Importa rose da file</button>`}
+      ${S.currentLeague?`<span class="myteam">${esc(S.currentLeague)}${S.myTeamName?` · <b>${esc(S.myTeamName)}</b>`:""}</span>`:""}
+      ${S.currentLeague?`<button class="lchip del" onclick="deleteLeague('${S.currentLeague.replace(/'/g,"\\'")}')">rimuovi lega</button>`:""}
     </div>`;
   if(S._importReport){
     const teams=Object.keys(S._importReport);
     importHtml += `<div class="card" style="padding:12px; margin-bottom:8px">
-      <div style="font-weight:700; margin-bottom:8px">Rose importate — tocca la tua squadra:</div>
+      <div style="font-weight:700; margin-bottom:8px">${esc(S.currentLeague||"")} — tocca la tua squadra:</div>
       ${teams.map(t=>{const r=S._importReport[t];
         return `<button class="teampick" onclick="loadMyTeam('${t.replace(/'/g,"\\'")}')">
           <span>${esc(t)}</span><span class="tp-n">${r.matched}/${r.n}${r.missed?` · ${r.missed} n/d`:""}</span></button>`;}).join("")}
@@ -821,7 +876,7 @@ function renderSfida(){
     ${others.map(t=>`<option ${t===opp?"selected":""}>${esc(t)}</option>`).join("")}</select>`;
 
   el("main").innerHTML=`
-    <div class="rolehead" style="color:var(--dim)">Avversario di giornata</div>
+    <div class="rolehead" style="color:var(--dim)">${esc(S.currentLeague||"")} · Avversario di giornata</div>
     <div style="padding:0 3px 6px">${pick}</div>
     ${head}
     <div class="cmpgrid">
