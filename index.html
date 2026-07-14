@@ -131,6 +131,7 @@ input[type=range]{width:100%; accent-color:var(--fluo); height:26px}
 .lchip.on{background:var(--fluo); color:var(--bg); border-color:var(--fluo)}
 .lchip.add{color:var(--fluo)}
 .lchip.del{color:var(--red); border-color:var(--red); font-size:11px; padding:5px 10px}
+.lchip.chg{font-size:10px; padding:3px 8px; color:var(--fluo); border-color:var(--line)}
 .teampick{display:flex; justify-content:space-between; align-items:center; width:100%;
   background:var(--bg2); color:var(--chalk); border:1px solid var(--line); border-radius:10px;
   padding:11px 13px; margin-top:6px; font:700 14px 'Saira'; cursor:pointer}
@@ -476,6 +477,10 @@ function onLeagueFile(input){
 function switchLeague(name){
   S.currentLeague=name; S.oppName=null; S._importReport=null; syncActive(); saveLocal(); render();
 }
+function changeTeam(){
+  const L=S.currentLeague && S.leagues[S.currentLeague]; if(!L) return;
+  L.myTeam=null; L.roster=[]; syncActive(); saveLocal(); render();
+}
 function deleteLeague(name){
   if(!confirm("Rimuovere la lega \""+name+"\"?")) return;
   delete S.leagues[name];
@@ -571,16 +576,18 @@ function renderRosa(){
   }
   importHtml += `<div class="importbar">
       ${leagueNames.length?"":`<button class="btn" onclick="triggerImport()">📥 Importa rose da file</button>`}
-      ${S.currentLeague?`<span class="myteam">${esc(S.currentLeague)}${S.myTeamName?` · <b>${esc(S.myTeamName)}</b>`:""}</span>`:""}
+      ${S.currentLeague?`<span class="myteam">${esc(S.currentLeague)}${S.myTeamName?` · <b>${esc(S.myTeamName)}</b> <button class="lchip chg" onclick="changeTeam()">cambia</button>`:""}</span>`:""}
       ${S.currentLeague?`<button class="lchip del" onclick="deleteLeague('${S.currentLeague.replace(/'/g,"\\'")}')">rimuovi lega</button>`:""}
     </div>`;
-  if(S._importReport){
-    const teams=Object.keys(S._importReport);
+  if(S.currentLeague && S.leagues[S.currentLeague] && !S.myTeamName){
+    const L=S.leagues[S.currentLeague];
+    const rep=S._importReport;   // conteggi appaiati se disponibili (subito dopo l'import)
+    const teams=Object.keys(L.rosters);
     importHtml += `<div class="card" style="padding:12px; margin-bottom:8px">
-      <div style="font-weight:700; margin-bottom:8px">${esc(S.currentLeague||"")} — tocca la tua squadra:</div>
-      ${teams.map(t=>{const r=S._importReport[t];
+      <div style="font-weight:700; margin-bottom:8px">${esc(S.currentLeague)} — tocca la tua squadra:</div>
+      ${teams.map(t=>{const r=rep&&rep[t]; const n=(L.rosters[t]||[]).length;
         return `<button class="teampick" onclick="loadMyTeam('${t.replace(/'/g,"\\'")}')">
-          <span>${esc(t)}</span><span class="tp-n">${r.matched}/${r.n}${r.missed?` · ${r.missed} n/d`:""}</span></button>`;}).join("")}
+          <span>${esc(t)}</span><span class="tp-n">${r?`${r.matched}/${r.n}${r.missed?` · ${r.missed} n/d`:""}`:`${n} giocatori`}</span></button>`;}).join("")}
     </div>`;
   }
 
