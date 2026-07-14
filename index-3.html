@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fantassist</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-512.png">
+<meta name="theme-color" content="#0C1A12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700;900&family=Saira:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#0C1A12; --bg2:#10231A; --card:#16301F; --cardhi:#1C3B27;
+  --line:#2A4A35; --chalk:#EAF4EC; --dim:#9DB8A5;
+  --fluo:#D8F651; --amber:#FFC24B; --red:#FF6B6B; --cyan:#6BD5E1;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+body{margin:0; background:var(--bg); color:var(--chalk);
+  font-family:'Saira',system-ui,sans-serif; padding-bottom:76px}
+h1{font-family:'Saira Condensed',sans-serif; letter-spacing:.03em}
+.wrap{max-width:520px; margin:0 auto; padding:0 12px}
+header{position:sticky; top:0; z-index:40; background:var(--bg);
+  border-bottom:1px solid var(--line); padding:14px 0 10px}
+header .row{display:flex; justify-content:space-between; align-items:center}
+h1{margin:0; font-size:26px; font-weight:900}
+h1 .fluo{color:var(--fluo)}
+.ver{font-size:11px; font-weight:900; color:var(--bg); background:var(--fluo);
+  border-radius:6px; padding:1px 5px; margin-left:7px; vertical-align:super; letter-spacing:0}
+.sub{font-size:11px; color:var(--dim); margin-top:2px}
+.btn{background:var(--card); color:var(--fluo); border:1px solid var(--line);
+  border-radius:10px; padding:8px 12px; font:700 12px 'Saira'; cursor:pointer;
+  transition:background .15s, border-color .15s}
+.btn:active{background:var(--cardhi)}
+.btn.primary{background:var(--fluo); color:var(--bg); border-color:var(--fluo); font-size:15px; padding:12px 22px}
+.btn:disabled{opacity:.5}
+nav{position:fixed; bottom:0; left:0; right:0; z-index:40;
+  background:var(--bg2); border-top:1px solid var(--line)}
+nav .wrap{display:flex; padding:0}
+nav button{flex:1; background:none; border:none; color:var(--dim);
+  padding:11px 0 max(11px, env(safe-area-inset-bottom)); cursor:pointer; font-family:'Saira';
+  position:relative; transition:color .15s}
+nav button.on{color:var(--fluo)}
+nav button.on::before{content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:30px; height:3px; border-radius:0 0 3px 3px; background:var(--fluo)}
+nav .ico{font-size:32px; line-height:1}
+nav .lab{font-size:13px; font-weight:700; margin-top:4px}
+.rolehead{font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  font-weight:800; padding:12px 4px 6px}
+.card{background:var(--card); border-radius:14px; margin-bottom:8px; overflow:hidden}
+.prow{display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; transition:background .12s}
+.prow:active{background:var(--cardhi)}
+.rball{width:32px; height:32px; border-radius:50%; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:12px; flex-shrink:0; border:1.5px solid}
+.pmain{flex:1; min-width:0}
+.pname{font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pteam{font-size:11px; color:var(--dim); font-weight:400; margin-left:6px}
+.chip{font-size:10px; font-weight:800; border-radius:99px; padding:1px 7px; margin-left:5px; border:1px solid}
+.chip.rig{color:var(--amber); border-color:var(--amber)}
+.chip.out{color:var(--red); border-color:var(--red)}
+.bar{height:5px; border-radius:99px; background:var(--line); margin-top:5px; position:relative}
+.bar i{position:absolute; left:0; top:0; bottom:0; border-radius:99px; transition:width .35s ease}
+.pnum{text-align:right; flex-shrink:0}
+.pnum .v{font-size:18px; font-weight:900; font-variant-numeric:tabular-nums}
+.pnum .l{font-size:9px; color:var(--dim)}
+.pedit{padding:4px 14px 14px; font-size:13px; color:var(--dim); border-top:1px solid var(--line)}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:2px 14px; margin:8px 0; font-variant-numeric:tabular-nums}
+.grid2 b{color:var(--chalk)}
+input[type=range]{width:100%; accent-color:var(--fluo); height:26px}
+.togglerow{display:flex; gap:8px; margin-top:6px; flex-wrap:wrap}
+.tog{padding:7px 12px; border-radius:9px; font:700 12px 'Saira'; cursor:pointer;
+  background:var(--bg2); color:var(--dim); border:1px solid var(--line)}
+.tog.on{color:var(--bg); border-color:transparent}
+.tog.on.red{background:var(--red)} .tog.on.amber{background:var(--amber)}
+.tog.del{color:var(--red); border-color:var(--red); margin-left:auto}
+.search{width:100%; background:var(--bg2); border:1px solid var(--line); color:var(--chalk);
+  border-radius:12px; padding:12px 14px; font:600 15px 'Saira'; margin:10px 0 6px}
+.search:focus{outline:2px solid var(--fluo)}
+.hint{font-size:12px; color:var(--dim); padding:4px}
+.srow{display:flex; align-items:center; gap:10px; padding:9px 12px}
+.addbtn{background:var(--fluo); color:var(--bg); border:none; width:34px; height:34px;
+  border-radius:10px; font-size:20px; font-weight:900; cursor:pointer; flex-shrink:0}
+.addbtn:disabled{background:var(--line); color:var(--dim)}
+.counter{display:flex; gap:6px; margin:8px 0; font-size:12px; font-variant-numeric:tabular-nums}
+.counter span{background:var(--card); border-radius:8px; padding:4px 9px; color:var(--dim)}
+.counter span.full{color:var(--fluo)}
+.match{display:flex; align-items:center; padding:12px 16px}
+.match .t{flex:1; font-weight:700}
+.match .t.right{text-align:right}
+.match .d{font-size:12px; font-variant-numeric:tabular-nums; margin:0 6px}
+.match .vs{font-size:11px; color:var(--dim); padding:0 6px}
+.pos{color:var(--fluo)} .neg{color:var(--red)}
+.note{background:var(--bg2); border-radius:12px; padding:12px 14px; font-size:13px;
+  color:var(--dim); line-height:1.5; margin-top:10px}
+.modscroll{display:flex; gap:8px; overflow-x:auto; padding:12px 2px; scrollbar-width:none}
+.modscroll::-webkit-scrollbar{display:none}
+.modbtn{flex-shrink:0; border-radius:12px; padding:8px 13px; text-align:center; cursor:pointer;
+  background:var(--card); color:var(--chalk); border:1px solid var(--line); font-family:'Saira'}
+.modbtn.on{background:var(--fluo); color:var(--bg); border-color:var(--fluo)}
+.modbtn .n{font-weight:900; font-size:15px}
+.modbtn .e{font-size:11px; font-variant-numeric:tabular-nums; opacity:.75}
+.bighead{display:flex; justify-content:space-between; align-items:baseline; padding:12px 14px 0}
+.bighead .l{font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim)}
+.bighead .v{font-size:24px; font-weight:900; font-variant-numeric:tabular-nums}
+.mcgrid{display:grid; grid-template-columns:1fr 1fr 1fr; text-align:center; padding:10px 0 4px;
+  font-variant-numeric:tabular-nums}
+.mcgrid .v{font-size:18px; font-weight:900}
+.mcgrid .l{font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
+.thres{border-top:1px solid var(--line); margin:10px 14px 0; padding:12px 0 14px}
+.thres .row{display:flex; justify-content:space-between; align-items:baseline; font-size:14px; color:var(--dim)}
+.thres .p{font-size:24px; font-weight:900; font-variant-numeric:tabular-nums}
+.center{text-align:center; padding:22px 16px}
+.center .big{font-size:34px}
+.empty{padding:40px 20px; text-align:center; color:var(--dim); line-height:1.6}
+.sheet-bg{position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:50;
+  display:flex; align-items:flex-end; justify-content:center}
+.sheet{background:var(--bg2); width:100%; max-width:520px; border-radius:18px 18px 0 0;
+  padding:20px; max-height:80vh; overflow-y:auto; font-size:14px; line-height:1.55; color:var(--dim)}
+.sheet h3{color:var(--chalk); margin:0 0 10px; font-size:18px}
+.sheet b{color:var(--fluo)}
+.updated{font-size:10px; color:var(--dim); text-align:center; padding:6px 0 2px}
+.importbar{display:flex; align-items:center; gap:10px; padding:10px 3px 4px; flex-wrap:wrap}
+.importbar .myteam{font-size:12px; color:var(--dim)}
+.importbar .myteam b{color:var(--fluo)}
+.teampick{display:flex; justify-content:space-between; align-items:center; width:100%;
+  background:var(--bg2); color:var(--chalk); border:1px solid var(--line); border-radius:10px;
+  padding:11px 13px; margin-top:6px; font:700 14px 'Saira'; cursor:pointer}
+.teampick:active{background:var(--cardhi)}
+.teampick .tp-n{font-size:11px; color:var(--dim); font-weight:600}
+.oppsel{width:100%; background:var(--card); color:var(--chalk); border:1px solid var(--line);
+  border-radius:12px; padding:12px 14px; font:700 15px 'Saira'; -webkit-appearance:none; appearance:none}
+.vsrow{display:flex; align-items:center; text-align:center}
+.vsside{flex:1; min-width:0}
+.vsname{font-weight:800; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.vstot{font-size:30px; font-weight:900; font-variant-numeric:tabular-nums; margin-top:2px}
+.vsmid{flex:0 0 96px; padding:0 4px}
+.wp{font-size:26px; font-weight:900; font-variant-numeric:tabular-nums; line-height:1}
+.wplab{font-size:9px; text-transform:uppercase; letter-spacing:.14em; color:var(--dim)}
+.vsmod{font-size:10px; color:var(--dim); margin-top:5px}
+.cmpgrid{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px}
+.cmphead{font-size:11px; text-transform:uppercase; letter-spacing:.1em; font-weight:800; color:var(--dim); margin-bottom:6px}
+.minixi{display:flex; flex-direction:column; gap:3px}
+.mline{display:flex; align-items:center; gap:6px; font-size:12px}
+.mrole{font-weight:900; width:14px; flex-shrink:0}
+.mname{flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mval{font-weight:800; font-variant-numeric:tabular-nums; flex-shrink:0}
+svg{display:block}
+</style>
+</head>
+<body>
+<header><div class="wrap row">
+  <div>
+    <h1>FANT<span class="fluo">ASSIST</span><sup class="ver">2.0</sup></h1>
+    <div class="sub" id="subtitle">caricamento dati…</div>
+  </div>
+  <button class="btn" onclick="openMetodo()">Metodo ƒ(x)</button>
+</div></header>
+
+<main class="wrap" id="main"></main>
+<input type="file" id="leaguefile" accept=".xlsx,.xls" style="display:none" onchange="onLeagueFile(this)">
+
+<nav><div class="wrap">
+  <button data-tab="rosa"><div class="ico">👥</div><div class="lab">Rosa</div></button>
+  <button data-tab="giornata"><div class="ico">📅</div><div class="lab">Giornata</div></button>
+  <button data-tab="formazione"><div class="ico">⚽</div><div class="lab">Formazione</div></button>
+  <button data-tab="sfida"><div class="ico">⚔️</div><div class="lab">Sfida</div></button>
+  <button data-tab="fattorec"><div class="ico">🍀</div><div class="lab">Fattore C</div></button>
+</div></nav>
+
+<div id="sheet"></div>
+
+<script>
+"use strict";
+/* ============ FANTASSIST — motore probabilistico ============ */
+const ROLES = ["P","D","C","A"];
+const ROLE_LABEL = {P:"Portieri", D:"Difensori", C:"Centrocampisti", A:"Attaccanti"};
+const ROLE_COLOR = {P:"var(--amber)", D:"var(--cyan)", C:"var(--chalk)", A:"var(--fluo)"};
+const ROLE_MAX = {P:3, D:8, C:8, A:6};
+const SIGMA = {P:1.1, D:1.2, C:1.4, A:1.9};
+const PRIOR = {P:4.6, D:5.8, C:6.1, A:6.4};
+const K_SHRINK = 8, BENCH_FV = 4.0, RIG_BONUS = 0.3, N_SIM = 3000;
+const MODULES = [
+  {name:"3-4-3", d:3, c:4, a:3}, {name:"4-3-3", d:4, c:3, a:3},
+  {name:"4-4-2", d:4, c:4, a:2}, {name:"3-5-2", d:3, c:5, a:2},
+  {name:"5-3-2", d:5, c:3, a:2}, {name:"5-4-1", d:5, c:4, a:1},
+  {name:"4-5-1", d:4, c:5, a:1},
+];
+
+/* Pesi bonus-performance MISURATI su Serie A 2025-26 (7270 osservazioni,
+   regressione standardizzata FV~segnali_p90 al netto della forma passata).
+   bonus_FV = beta · FV_sd(ruolo) · clamp((valore−media)/sd, −2, +2) */
+const PERF_W = {
+  cap: 2.0,
+  FV_sd: { A: 1.895, C: 1.328, D: 1.071 },
+  ruoli: {
+    A: { shots_p90: { beta: 0.112, mean: 2.451, sd: 0.943 }, xa_p90: { beta: 0.0, mean: 0.1425, sd: 0.1015 } },
+    C: { shots_p90: { beta: 0.103, mean: 1.357, sd: 0.7967 }, xa_p90: { beta: 0.0, mean: 0.1134, sd: 0.091 } },
+    D: { shots_p90: { beta: 0.051, mean: 0.6181, sd: 0.3926 }, xa_p90: { beta: 0.077, mean: 0.0678, sd: 0.0843 } },
+    P: {},
+  },
+};
+
+const S = {                    // stato applicazione
+  db: [],                      // players.json → array giocatori
+  byId: new Map(),
+  points: {},                  // slug squadra → punti classifica
+  fixtures: [],                // [{casa, trasferta}]
+  rigoristi: {},               // slug → [slug giocatori]
+  indisponibili: {},           // slug → [slug giocatori]
+  understat: {},               // id(cod) → {shots_p90, xa_p90} (feed offensivo, quando presente)
+  meta: null,
+  roster: [],                  // [{id, pTit, rig, sq, inf}]
+  leagueRosters: {},           // { nomeFantasquadra: [cod, ...] } dall'import Leghe Fantacalcio
+  myTeamName: null,            // la mia fantasquadra
+  oppName: null,               // avversario selezionato nella scheda Sfida
+  tab: "rosa", threshold: 66, selMod: null, mcSeed: 0,
+};
+
+/* ---------- persistenza ---------- */
+function saveLocal(){
+  localStorage.setItem("fantassist", JSON.stringify(
+    {roster:S.roster, threshold:S.threshold,
+     leagueRosters:S.leagueRosters, myTeamName:S.myTeamName}));
+}
+function loadLocal(){
+  try{
+    const d = JSON.parse(localStorage.getItem("fantassist") || "{}");
+    if(Array.isArray(d.roster)) S.roster = d.roster;
+    if(d.threshold) S.threshold = d.threshold;
+    if(d.leagueRosters) S.leagueRosters = d.leagueRosters;
+    if(d.myTeamName) S.myTeamName = d.myTeamName;
+  }catch(e){}
+}
+
+/* ---------- caricamento dati pipeline ---------- */
+async function getJSON(name){
+  const r = await fetch("data/" + name, {cache:"no-store"});
+  if(!r.ok) throw new Error(name + ": " + r.status);
+  return r.json();
+}
+const normName = s => (s||"").toLowerCase().normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+
+async function loadData(){
+  const res = await Promise.allSettled([
+    getJSON("players.json"), getJSON("classifica.json"), getJSON("calendario.json"),
+    getJSON("rigoristi.json"), getJSON("indisponibili.json"), getJSON("meta.json"),
+    getJSON("understat.json"),
+  ]);
+  const [pl, cl, cal, rig, ind, meta, us] = res.map(r => r.status==="fulfilled" ? r.value : null);
+
+  if(pl){
+    S.db = pl.giocatori.filter(p => p.id && p.nome);
+    S.db.forEach(p => S.byId.set(p.id, p));
+  }
+  if(cl){
+    // mappa nome classifica → slug squadra dei giocatori
+    const slugs = [...new Set(S.db.map(p => p.squadra))];
+    cl.classifica.forEach(row => {
+      const n = normName(row.squadra);
+      const slug = slugs.find(s => n.includes(normName(s)) || normName(s).includes(n));
+      if(slug) S.points[slug] = row.punti;
+    });
+  }
+  if(cal) S.fixtures = cal.partite || [];
+  if(rig) S.rigoristi = rig.rigoristi || {};
+  if(ind) S.indisponibili = ind.indisponibili || {};
+  if(us && us.giocatori){                      // feed offensivo: { giocatori: { cod: {shots_p90, xa_p90} } }
+    S.understat = us.giocatori;
+  }
+  S.meta = meta;
+
+  const dt = pl ? new Date(pl.aggiornato) : null;
+  document.getElementById("subtitle").textContent = pl
+    ? `${S.db.length} giocatori · dati ${dt.toLocaleDateString("it-IT")}`
+    : "⚠ dati non raggiungibili";
+}
+
+/* ---------- motore ---------- */
+function playerSlugOf(p){                    // slug del giocatore dal nome (per rigoristi/indisponibili)
+  return normName(p.nome).replace(/\./g,"");
+}
+function ptsRange(){
+  const v = Object.values(S.points);
+  return v.length ? [Math.min(...v), Math.max(...v)] : [0, 1];
+}
+function strength(teamSlug){
+  const [lo, hi] = ptsRange();
+  const p = S.points[teamSlug];
+  return p == null || hi === lo ? 0.5 : (p - lo) / (hi - lo);
+}
+function matchInfo(teamSlug){
+  for(const f of S.fixtures){
+    if(f.casa === teamSlug) return {opp:f.trasferta, home:true};
+    if(f.trasferta === teamSlug) return {opp:f.casa, home:false};
+  }
+  return null;
+}
+function calAdj(teamSlug){
+  const m = matchInfo(teamSlug);
+  if(!m) return {adj:0, opp:null, home:null};    // campionato fermo o squadra a riposo
+  return {adj:(m.home ? .15 : -.15) + (0.5 - strength(m.opp)) * 0.9, opp:m.opp, home:m.home};
+}
+function shrunk(st){
+  const pg = st.pv || 0, fm = st.fm ?? PRIOR[roleOf(st)];
+  return (pg*fm + K_SHRINK*PRIOR[roleOf(st)]) / (pg + K_SHRINK);
+}
+function roleOf(st){ return st.ruolo || "C"; }
+function perfBonus(st){                          // bonus da statistiche offensive Understat
+  const role = roleOf(st), w = PERF_W.ruoli[role], u = S.understat[st.id];
+  if (!w || !u) return { val: 0, has: false };   // nessun feed (es. campionato fermo) → 0
+  const fvsd = PERF_W.FV_sd[role] || 0;
+  let b = 0, used = false;
+  for (const sig of ["shots_p90", "xa_p90"]) {
+    const c = w[sig];
+    if (!c || !c.beta || u[sig] == null) continue;
+    const z = Math.max(-PERF_W.cap, Math.min(PERF_W.cap, (u[sig] - c.mean) / c.sd));
+    b += c.beta * fvsd * z; used = true;
+  }
+  return { val: b, has: used };
+}
+function expFV(r){                               // r = elemento roster
+  const st = S.byId.get(r.id);
+  const cal = calAdj(st.squadra);
+  const perf = perfBonus(st);
+  return { val: shrunk(st) + cal.adj + (r.rig ? RIG_BONUS : 0) + perf.val,
+           cal, base: shrunk(st), st, perf };
+}
+function slotEV(r){
+  return (r.pTit/100) * expFV(r).val + (1 - r.pTit/100) * BENCH_FV;
+}
+function rosterByRole(role){
+  return S.roster.filter(r => roleOf(S.byId.get(r.id)) === role);
+}
+function bestLineup(mod){
+  const avail = S.roster.filter(r => !r.sq && !r.inf);
+  const by = role => avail.filter(r => roleOf(S.byId.get(r.id)) === role)
+    .sort((a,b) => slotEV(b) - slotEV(a));
+  const xi = [...by("P").slice(0,1), ...by("D").slice(0,mod.d),
+              ...by("C").slice(0,mod.c), ...by("A").slice(0,mod.a)];
+  const need = 1 + mod.d + mod.c + mod.a;
+  const bench = {};
+  ROLES.forEach(role => bench[role] = by(role).filter(r => !xi.includes(r)));
+  return {xi, bench, complete: xi.length === need,
+          ev: xi.reduce((s,r) => s + slotEV(r), 0) - (xi.length === need ? 0 : 99)};
+}
+function gauss(){
+  let u = 0, v = 0;
+  while(!u) u = Math.random();
+  while(!v) v = Math.random();
+  return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+}
+function monteCarlo(lu){
+  const totals = new Float64Array(N_SIM);
+  const xi = lu.xi.map(r => ({p:r.pTit/100, e:expFV(r).val, s:SIGMA[roleOf(S.byId.get(r.id))], role:roleOf(S.byId.get(r.id))}));
+  const bench = {};
+  ROLES.forEach(role => bench[role] = lu.bench[role].map(r =>
+    ({e:expFV(r).val, s:SIGMA[role]})));
+  for(let i=0; i<N_SIM; i++){
+    let tot = 0; const used = {P:0,D:0,C:0,A:0};
+    for(const x of xi){
+      if(Math.random() < x.p) tot += x.e + x.s*gauss();
+      else{
+        const sub = bench[x.role][used[x.role]++];
+        tot += sub ? sub.e*0.97 + sub.s*gauss() : 0;
+      }
+    }
+    totals[i] = tot;
+  }
+  const s = Array.from(totals).sort((a,b) => a-b);
+  const q = x => s[Math.floor(x*(N_SIM-1))];
+  return {sorted:s, mean:s.reduce((a,b)=>a+b,0)/N_SIM, p10:q(.1), p50:q(.5), p90:q(.9)};
+}
+
+/* ---------- LEGA: import rose + confronto ---------- */
+function teamMatch(abbr, slug){       // per risolvere le omonimie con la squadra
+  const a=normName(abbr), b=normName(slug);
+  if(!a||!b) return false;
+  return b.startsWith(a.slice(0,3)) || a.startsWith(b.slice(0,3)) || b.includes(a) || a.includes(b);
+}
+function buildNameIndex(){
+  const idx=new Map();
+  for(const p of S.db){
+    const k=normName(p.nome);
+    if(!idx.has(k)) idx.set(k,[]);
+    idx.get(k).push(p);
+  }
+  return idx;
+}
+function parseLeagueWorkbook(buf){
+  const wb=XLSX.read(buf,{type:"array"});
+  const ws=wb.Sheets["TutteLeRose"]||wb.Sheets[wb.SheetNames[0]];
+  const rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true});
+  const RS=new Set(["P","D","C","A"]); const teams={};
+  for(const off of [0,5]){
+    let cur=null;
+    for(const r of rows){
+      const a=(r[off]??"").toString().trim(), b=(r[off+1]??"").toString().trim();
+      if(!a) continue;
+      if(RS.has(a) && b){ if(cur) teams[cur].push({ruolo:a, nome:b, squadra:(r[off+2]??"").toString().trim()}); }
+      else{
+        const low=a.toLowerCase();
+        if(low!=="ruolo" && !a.startsWith("http") && !a.startsWith("*") && !low.startsWith("rose lega")){
+          cur=a; if(!teams[cur]) teams[cur]=[];
+        }
+      }
+    }
+  }
+  const out={}; for(const k in teams){ if(teams[k].length>=15) out[k]=teams[k]; }
+  return out;
+}
+function matchLeagueRoster(players, idx){
+  const cods=[], missed=[];
+  for(const p of players){
+    const c=idx.get(normName(p.nome))||[];
+    let ch=null;
+    if(c.length===1) ch=c[0];
+    else if(c.length>1) ch=c.find(x=>teamMatch(p.squadra,x.squadra))||c[0];
+    if(ch) cods.push(ch.id); else missed.push(p.nome);
+  }
+  return {cods, missed};
+}
+function triggerImport(){ el("leaguefile").click(); }
+function onLeagueFile(input){
+  const file=input.files && input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const teams=parseLeagueWorkbook(e.target.result);
+      if(!Object.keys(teams).length) throw new Error("nessuna rosa riconosciuta");
+      const idx=buildNameIndex(); const rosters={}, report={};
+      for(const [name,players] of Object.entries(teams)){
+        const {cods,missed}=matchLeagueRoster(players,idx);
+        rosters[name]=cods; report[name]={n:players.length, matched:cods.length, missed:missed.length};
+      }
+      S.leagueRosters=rosters; S._importReport=report; saveLocal(); render();
+    }catch(err){ alert("Non riesco a leggere il file: "+err.message); }
+  };
+  reader.readAsArrayBuffer(file);
+  input.value="";
+}
+function loadMyTeam(name){
+  const cods=S.leagueRosters[name]||[];
+  S.myTeamName=name;
+  S.roster=cods.map(id=>{
+    const st=S.byId.get(id), f=st?autoFlags(st):{sq:false,inf:false,rig:false};
+    return {id, pTit:75, rig:f.rig, sq:f.sq, inf:f.inf};
+  });
+  S._importReport=null; saveLocal(); S.tab="rosa"; render();
+}
+// miglior formazione per una rosa qualunque (lista di elementi {id,pTit,rig,sq,inf})
+function bestLineupFrom(roster, mod){
+  const avail=roster.filter(r=>!r.sq&&!r.inf);
+  const by=role=>avail.filter(r=>roleOf(S.byId.get(r.id))===role).sort((a,b)=>slotEV(b)-slotEV(a));
+  const xi=[...by("P").slice(0,1),...by("D").slice(0,mod.d),...by("C").slice(0,mod.c),...by("A").slice(0,mod.a)];
+  const need=1+mod.d+mod.c+mod.a; const bench={};
+  ROLES.forEach(role=>bench[role]=by(role).filter(r=>!xi.includes(r)));
+  return {xi,bench,complete:xi.length===need, ev:xi.reduce((s,r)=>s+slotEV(r),0)-(xi.length===need?0:99)};
+}
+function bestOf(roster){
+  const r=MODULES.map(m=>({mod:m,lu:bestLineupFrom(roster,m)})).filter(x=>x.lu.complete)
+    .sort((a,b)=>b.lu.ev-a.lu.ev);
+  return r[0]||null;
+}
+function oppRosterOf(name){
+  return (S.leagueRosters[name]||[]).map(id=>{
+    const st=S.byId.get(id), f=st?autoFlags(st):{sq:false,inf:false,rig:false};
+    return {id, pTit:75, rig:f.rig, sq:f.sq, inf:f.inf};
+  });
+}
+function winProb(a, b, k=4000){       // P(a batte b) da due distribuzioni simulate
+  let w=0,e=0; const na=a.length, nb=b.length;
+  for(let i=0;i<k;i++){ const x=a[(Math.random()*na)|0], y=b[(Math.random()*nb)|0];
+    if(x>y) w++; else if(x===y) e++; }
+  return {win:w/k, draw:e/k};
+}
+
+/* ---------- helper UI ---------- */
+const fmt = (x,d=2) => x==null ? "–" : (Math.round(x*10**d)/10**d).toFixed(d);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const el = id => document.getElementById(id);
+function signedSpan(x, d=2){
+  return `<span class="${x>=0?"pos":"neg"}">${x>=0?"+":""}${fmt(x,d)}</span>`;
+}
+
+/* ---------- TAB: ROSA ---------- */
+let searchQ = "", openId = null;
+function autoFlags(st){
+  const team = st.squadra, ps = playerSlugOf(st);
+  const inList = arr => (arr||[]).some(s => normName(s).replace(/\./g,"") === ps);
+  return {sq:false, inf: inList(S.indisponibili[team]),
+          rig: inList((S.rigoristi[team]||[]).slice(0,1))};
+}
+function addPlayer(id){
+  const st = S.byId.get(id);
+  const role = roleOf(st);
+  if(S.roster.some(r => r.id === id)) return;
+  if(rosterByRole(role).length >= ROLE_MAX[role]) return;
+  const f = autoFlags(st);
+  S.roster.push({id, pTit:75, rig:f.rig, sq:f.sq, inf:f.inf});
+  saveLocal(); render();
+}
+function removePlayer(id){
+  S.roster = S.roster.filter(r => r.id !== id);
+  saveLocal(); render();
+}
+function patch(id, k, v){
+  const r = S.roster.find(r => r.id === id);
+  if(r){ r[k] = v; saveLocal(); render(); }
+}
+function renderRosa(){
+  const counts = ROLES.map(role =>
+    `<span class="${rosterByRole(role).length>=ROLE_MAX[role]?"full":""}">${role} ${rosterByRole(role).length}/${ROLE_MAX[role]}</span>`).join("");
+
+  // barra import + eventuale selettore squadra dopo un import
+  let importHtml = `<div class="importbar">
+      <button class="btn" onclick="triggerImport()">📥 Importa rose da file</button>
+      ${S.myTeamName?`<span class="myteam">La tua: <b>${esc(S.myTeamName)}</b></span>`:""}
+    </div>`;
+  if(S._importReport){
+    const teams=Object.keys(S._importReport);
+    importHtml += `<div class="card" style="padding:12px; margin-bottom:8px">
+      <div style="font-weight:700; margin-bottom:8px">Rose importate — tocca la tua squadra:</div>
+      ${teams.map(t=>{const r=S._importReport[t];
+        return `<button class="teampick" onclick="loadMyTeam('${t.replace(/'/g,"\\'")}')">
+          <span>${esc(t)}</span><span class="tp-n">${r.matched}/${r.n}${r.missed?` · ${r.missed} n/d`:""}</span></button>`;}).join("")}
+    </div>`;
+  }
+
+  let html = importHtml + `<input class="search" id="q" placeholder="Cerca giocatore da aggiungere…"
+    value="${esc(searchQ)}" oninput="searchQ=this.value; renderSearchResults()">
+    <div class="counter">${counts}</div><div id="results"></div>`;
+
+  if(!S.roster.length){
+    html += `<div class="empty">Rosa vuota.<br>Cerca qui sopra i tuoi 25 dell'asta:<br>3 portieri · 8 difensori · 8 centrocampisti · 6 attaccanti</div>`;
+  }
+  for(const role of ROLES){
+    const rows = rosterByRole(role).sort((a,b) => slotEV(b) - slotEV(a));
+    if(!rows.length) continue;
+    html += `<div class="rolehead" style="color:${ROLE_COLOR[role]}">${ROLE_LABEL[role]}</div>`;
+    for(const r of rows){
+      const e = expFV(r), st = e.st, out = r.sq || r.inf, open = openId === r.id;
+      html += `<div class="card" style="${out?"opacity:.55":""}">
+        <div class="prow" onclick="openId = openId===${r.id}?null:${r.id}; render()">
+          <div class="rball" style="color:${ROLE_COLOR[role]}; border-color:${ROLE_COLOR[role]}">${role}</div>
+          <div class="pmain">
+            <div class="pname">${esc(st.nome)}<span class="pteam">${esc(st.squadra)}</span>${
+              r.rig?'<span class="chip rig">R</span>':""}${r.sq?'<span class="chip out">SQ</span>':""}${
+              r.inf?'<span class="chip out">INF</span>':""}</div>
+            <div class="bar"><i style="width:${Math.min(100, e.val/9*100)}%; background:${ROLE_COLOR[role]}"></i></div>
+          </div>
+          <div class="pnum"><div class="v" style="color:${ROLE_COLOR[role]}">${fmt(e.val)}</div><div class="l">E[fv] · tit ${r.pTit}%</div></div>
+        </div>
+        ${open ? `<div class="pedit">
+          <div class="grid2">
+            <div>Rating base: <b>${fmt(e.base)}</b></div>
+            <div>FM: <b>${fmt(st.fm)}</b> (${st.pv||0} pv)</div>
+            <div>Δ calendario: <b>${e.cal.opp ? signedSpan(e.cal.adj) : "n/d"}</b></div>
+            <div>Performance: <b>${e.perf && e.perf.has ? signedSpan(e.perf.val) : "n/d"}</b></div>
+          </div>
+          <label>Titolarità: <b style="color:var(--chalk)">${r.pTit}%</b>
+            <input type="range" min="0" max="100" step="5" value="${r.pTit}"
+              oninput="patch(${r.id},'pTit',+this.value)"></label>
+          <div class="togglerow">
+            <button class="tog ${r.sq?"on red":""}" onclick="patch(${r.id},'sq',${!r.sq})">Squalificato</button>
+            <button class="tog ${r.inf?"on red":""}" onclick="patch(${r.id},'inf',${!r.inf})">Infortunato</button>
+            <button class="tog ${r.rig?"on amber":""}" onclick="patch(${r.id},'rig',${!r.rig})">Rigorista</button>
+            <button class="tog del" onclick="removePlayer(${r.id})">Rimuovi</button>
+          </div>
+        </div>` : ""}
+      </div>`;
+    }
+  }
+  el("main").innerHTML = html;
+  renderSearchResults();
+}
+function renderSearchResults(){
+  const box = el("results");
+  if(!box) return;
+  const q = normName(searchQ);
+  if(q.length < 2){ box.innerHTML = ""; return; }
+  const hits = S.db.filter(p => normName(p.nome).includes(q)).slice(0, 15);
+  box.innerHTML = hits.map(p => {
+    const role = roleOf(p), inRoster = S.roster.some(r => r.id === p.id);
+    const full = rosterByRole(role).length >= ROLE_MAX[role];
+    return `<div class="card"><div class="srow">
+      <div class="rball" style="color:${ROLE_COLOR[role]}; border-color:${ROLE_COLOR[role]}">${role}</div>
+      <div class="pmain"><div class="pname">${esc(p.nome)}<span class="pteam">${esc(p.squadra)} · FM ${fmt(p.fm)} · ${p.pv||0} pv</span></div></div>
+      <button class="addbtn" ${inRoster||full?"disabled":""} onclick="addPlayer(${p.id})">${inRoster?"✓":"+"}</button>
+    </div></div>`;
+  }).join("") || `<div class="hint">Nessun risultato per «${esc(searchQ)}»</div>`;
+}
+
+/* ---------- TAB: GIORNATA ---------- */
+function renderGiornata(){
+  if(!S.fixtures.length){
+    el("main").innerHTML = `<div class="empty">📅<br>Nessuna partita in calendario al momento.<br>
+      A campionato fermo il Δ calendario è neutro (0):<br>il motore usa solo rating, rigorista e titolarità.<br>
+      Tutto tornerà a regime alla prima giornata.</div>`;
+    return;
+  }
+  const myTeams = new Set(S.roster.map(r => S.byId.get(r.id).squadra));
+  let html = `<div class="rolehead" style="color:var(--dim)">Prossima giornata · Δ calendario</div>`;
+  for(const f of S.fixtures){
+    const dH = calAdj(f.casa).adj, dA = calAdj(f.trasferta).adj;
+    html += `<div class="card"><div class="match">
+      <div class="t" style="${myTeams.has(f.casa)?"color:var(--fluo)":""}">${esc(f.casa)}
+        <span class="d">${signedSpan(dH)}</span></div>
+      <div class="vs">vs</div>
+      <div class="t right" style="${myTeams.has(f.trasferta)?"color:var(--fluo)":""}">
+        <span class="d">${signedSpan(dA)}</span> ${esc(f.trasferta)}</div>
+    </div></div>`;
+  }
+  html += `<div class="note">Δ continuo = ±0,15 casa/trasferta + 0,9 · (0,5 − forza avversario),
+    con la forza normalizzata sui punti in classifica. Le tue squadre sono in giallo.</div>`;
+  el("main").innerHTML = html;
+}
+
+/* ---------- TAB: FORMAZIONE ---------- */
+function pitchSVG(lu, mod){
+  const rows = [["A", mod.a, 66], ["C", mod.c, 164], ["D", mod.d, 262], ["P", 1, 348]];
+  const byRole = {P:[],D:[],C:[],A:[]};
+  lu.xi.forEach(r => byRole[roleOf(S.byId.get(r.id))].push(r));
+  let g = "";
+  for(const [role, n, y] of rows){
+    byRole[role].slice(0, n).forEach((r, i) => {
+      const x = 340/(n+1)*(i+1), st = S.byId.get(r.id), e = expFV(r).val;
+      const nm = st.nome.length > 11 ? st.nome.slice(0,10)+"…" : st.nome;
+      g += `<circle cx="${x}" cy="${y}" r="15" fill="var(--card)" stroke="${ROLE_COLOR[role]}" stroke-width="2"/>
+        <text x="${x}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="800" fill="${ROLE_COLOR[role]}">${fmt(e,1)}</text>
+        <text x="${x}" y="${y+30}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--chalk)">${esc(nm)}</text>`;
+    });
+  }
+  return `<svg viewBox="0 0 340 396" style="width:100%; max-height:380px">
+    <rect x="8" y="8" width="324" height="380" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
+    <line x1="8" y1="30" x2="332" y2="30" stroke="var(--line)"/>
+    <circle cx="170" cy="30" r="34" fill="none" stroke="var(--line)"/>
+    <rect x="95" y="326" width="150" height="62" fill="none" stroke="var(--line)"/>
+    <rect x="135" y="361" width="70" height="27" fill="none" stroke="var(--line)"/>${g}</svg>`;
+}
+function histSVG(mc){
+  const bins = 26, lo = mc.sorted[0], hi = mc.sorted[mc.sorted.length-1];
+  const w = (hi-lo)/bins || 1, counts = new Array(bins).fill(0);
+  mc.sorted.forEach(v => counts[Math.min(bins-1, Math.floor((v-lo)/w))]++);
+  const maxC = Math.max(...counts);
+  let bars = "";
+  counts.forEach((c, i) => {
+    const mid = lo + w*(i+.5), h = c/maxC*80;
+    bars += `<rect x="${i*(340/bins)+1}" y="${86-h}" width="${340/bins-2}" height="${Math.max(h,2)}" rx="1.5"
+      fill="${mid >= S.threshold ? "var(--fluo)" : "var(--line)"}"/>`;
+  });
+  return `<svg viewBox="0 0 340 90" style="width:100%; padding:0 14px; box-sizing:border-box">${bars}</svg>`;
+}
+function renderFormazione(){
+  const missing = ROLES.filter(role => !rosterByRole(role).length);
+  if(missing.length){
+    el("main").innerHTML = `<div class="empty">⚽<br>Per calcolare la formazione servono giocatori
+      in tutti i reparti.<br>Mancano: <b style="color:var(--chalk)">${missing.map(r=>ROLE_LABEL[r]).join(", ")}</b><br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai alla Rosa</button></div>`;
+    return;
+  }
+  const ranking = MODULES.map(m => ({mod:m, lu:bestLineup(m)})).sort((a,b) => b.lu.ev - a.lu.ev);
+  const sel = S.selMod ? ranking.find(x => x.mod.name === S.selMod) || ranking[0] : ranking[0];
+  const mc = monteCarlo(sel.lu);
+  const pAbove = mc.sorted.filter(v => v >= S.threshold).length / mc.sorted.length;
+
+  el("main").innerHTML = `
+    <div class="modscroll">${ranking.map(x =>
+      `<div class="modbtn ${x===sel?"on":""}" onclick="S.selMod='${x.mod.name}'; S.mcSeed++; render()">
+        <div class="n">${x.mod.name}</div><div class="e">${x.lu.complete ? fmt(x.lu.ev,1) : "n/d"}</div></div>`).join("")}
+    </div>
+    <div class="card">
+      <div class="bighead">
+        <div><div class="l">${sel === ranking[0] ? "Modulo ottimo" : "Modulo scelto"}</div>
+          <div class="v" style="color:var(--fluo)">${sel.mod.name}</div></div>
+        <div style="text-align:right"><div class="l">totale atteso</div>
+          <div class="v">${fmt(mc.mean,1)}</div></div>
+      </div>
+      <div style="padding:8px">${pitchSVG(sel.lu, sel.mod)}</div>
+    </div>
+    <div class="card">
+      <div class="bighead"><div class="l">Simulazione · ${N_SIM} giornate</div>
+        <button class="btn" onclick="S.mcSeed++; render()">↻ Rilancia</button></div>
+      ${histSVG(mc)}
+      <div class="mcgrid">
+        <div><div class="v">${fmt(mc.p10,1)}</div><div class="l">P10</div></div>
+        <div><div class="v">${fmt(mc.p50,1)}</div><div class="l">Mediana</div></div>
+        <div><div class="v">${fmt(mc.p90,1)}</div><div class="l">P90</div></div>
+      </div>
+      <div class="thres">
+        <div class="row"><span>P(totale ≥ <b style="color:var(--chalk)">${S.threshold}</b>)</span>
+          <span class="p" style="color:${pAbove>=.5?"var(--fluo)":"var(--amber)"}">${fmt(pAbove*100,0)}%</span></div>
+        <input type="range" min="55" max="85" value="${S.threshold}"
+          oninput="S.threshold=+this.value; saveLocal(); render()">
+      </div>
+    </div>
+    ${!S.fixtures.length ? `<div class="note">Campionato fermo: Δ calendario neutro per tutti.</div>` : ""}`;
+}
+
+/* ---------- TAB: FATTORE C ---------- */
+let fcResult = null;
+function spinFC(){
+  const avail = S.roster.filter(r => !r.sq && !r.inf);
+  const mod = MODULES[Math.floor(Math.random()*MODULES.length)];
+  const pick = (role, n) => {
+    const pool = avail.filter(r => roleOf(S.byId.get(r.id)) === role);
+    for(let i = pool.length-1; i > 0; i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    return pool.slice(0, n);
+  };
+  const xi = [...pick("P",1), ...pick("D",mod.d), ...pick("C",mod.c), ...pick("A",mod.a)];
+  fcResult = {mod, lu:{xi}};
+  render();
+}
+function renderFattoreC(){
+  el("main").innerHTML = `
+    <div class="card center">
+      <div class="big">🍀</div>
+      <h3 style="margin:4px 0">Fattore C</h3>
+      <p style="color:var(--dim); font-size:14px; margin:4px 0 16px">
+        Quando l'algoritmo ti ha tradito tre giornate di fila, resta solo lui.<br>
+        Modulo e undici estratti a sorte, come da tradizione.</p>
+      <button class="btn primary" ${S.roster.length<11?"disabled":""} onclick="spinFC()">ESTRAI LA FORMAZIONE</button>
+      ${S.roster.length<11?'<div class="hint" style="margin-top:8px">Servono almeno 11 giocatori in rosa</div>':""}
+    </div>
+    ${fcResult ? `<div class="card">
+      <div class="bighead" style="justify-content:center; text-align:center">
+        <div><div class="l">Il modulo fortunato è</div>
+        <div class="v" style="color:var(--amber)">${fcResult.mod.name}</div></div></div>
+      <div style="padding:8px">${pitchSVG(fcResult.lu, fcResult.mod)}</div>
+    </div>` : ""}`;
+}
+
+/* ---------- Metodo ---------- */
+function openMetodo(){
+  el("sheet").innerHTML = `<div class="sheet-bg" onclick="el('sheet').innerHTML=''">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <h3>Il metodo, in breve</h3>
+      <p><b>Rating base</b> — fantamedia con shrinkage bayesiano verso il prior di ruolo:
+      (pv·FM + 8·prior)/(pv + 8). Con poche presenze il giudizio resta prudente.</p>
+      <p><b>Δ calendario</b> — funzione continua di casa/trasferta e forza dell'avversario
+      (punti in classifica normalizzati). A campionato fermo vale 0 per tutti.</p>
+      <p><b>Performance</b> — bonus da statistiche offensive Understat (tiri e xA per-90),
+      con pesi <i>misurati</i> sulla stagione 2025-26: tiri per attaccanti e centrocampisti,
+      xA per i difensori. Effetto volutamente contenuto (tie-breaker). Attivo quando è presente
+      il feed; a campionato fermo vale 0.</p>
+      <p><b>Rigorista</b> — +0,30 al fantavoto atteso; il flag viene proposto in automatico
+      dalla gerarchia rigoristi del web, ma resta modificabile.</p>
+      <p><b>Indisponibili</b> — squalificati e infortunati vengono proposti dai dati web
+      al momento dell'aggiunta in rosa; verifica sempre prima della giornata.</p>
+      <p><b>Titolarità</b> — E[slot] = p·E[fv] + (1−p)·valore riserva. La simulazione
+      estrae chi gioca davvero e fa subentrare la panchina.</p>
+      <p><b>Monte Carlo</b> — ${N_SIM} giornate simulate con fantavoti gaussiani
+      (σ per ruolo: P 1,1 · D 1,2 · C 1,4 · A 1,9): mediana, banda P10–P90 e
+      probabilità di superare la soglia scelta.</p>
+      <p style="font-size:12px">Dati: fantacalcio.it via pipeline GitHub Actions ·
+      ${S.meta ? "ultimo aggiornamento " + new Date(S.meta.aggiornato).toLocaleString("it-IT") : ""}</p>
+      <button class="btn" style="width:100%; padding:13px; margin-top:8px"
+        onclick="el('sheet').innerHTML=''">Chiudi</button>
+    </div></div>`;
+}
+
+/* ---------- TAB: SFIDA (confronto con avversario) ---------- */
+function miniPitch(best, color){
+  if(!best) return `<div class="hint">Rosa incompleta per un modulo valido.</div>`;
+  const byRole={P:[],D:[],C:[],A:[]};
+  best.lu.xi.forEach(r=>byRole[roleOf(S.byId.get(r.id))].push(r));
+  let h=`<div class="minixi">`;
+  for(const role of ROLES){
+    for(const r of byRole[role]){
+      const st=S.byId.get(r.id);
+      h+=`<div class="mline"><span class="mrole" style="color:${ROLE_COLOR[role]}">${role}</span>
+        <span class="mname">${esc(st?st.nome:r.id)}</span>
+        <span class="mval" style="color:${color}">${fmt(expFV(r).val,1)}</span></div>`;
+    }
+  }
+  return h+`</div>`;
+}
+function renderSfida(){
+  const teams=Object.keys(S.leagueRosters);
+  if(!teams.length){
+    el("main").innerHTML=`<div class="empty">⚔️<br>Per il confronto serve prima importare le rose della lega.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa → Importa</button></div>`;
+    return;
+  }
+  if(!S.myTeamName){
+    el("main").innerHTML=`<div class="empty">Indica prima qual è la <b>tua</b> squadra.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa</button></div>`;
+    return;
+  }
+  const others=teams.filter(t=>t!==S.myTeamName);
+  const opp=(S.oppName&&others.includes(S.oppName))?S.oppName:others[0];
+  S.oppName=opp;
+
+  const myBest=bestOf(S.roster);
+  const oppBest=bestOf(oppRosterOf(opp));
+  let head='';
+  if(myBest&&oppBest){
+    const mMC=monteCarlo(myBest.lu), oMC=monteCarlo(oppBest.lu);
+    const wp=winProb(mMC.sorted,oMC.sorted);
+    const myWin=wp.win+wp.draw/2;    // metà dei pareggi
+    head=`<div class="card" style="padding:14px">
+      <div class="vsrow">
+        <div class="vsside"><div class="vsname" style="color:var(--fluo)">${esc(S.myTeamName)}</div>
+          <div class="vstot">${fmt(mMC.mean,1)}</div></div>
+        <div class="vsmid">
+          <div class="wp" style="color:${myWin>=.5?"var(--fluo)":"var(--amber)"}">${fmt(myWin*100,0)}%</div>
+          <div class="wplab">vittoria</div>
+          <div class="vsmod">${myBest.mod.name} · ${oppBest.mod.name}</div>
+        </div>
+        <div class="vsside"><div class="vsname">${esc(opp)}</div>
+          <div class="vstot">${fmt(oMC.mean,1)}</div></div>
+      </div>
+    </div>`;
+  }
+  const pick=`<select class="oppsel" onchange="S.oppName=this.value; render()">
+    ${others.map(t=>`<option ${t===opp?"selected":""}>${esc(t)}</option>`).join("")}</select>`;
+
+  el("main").innerHTML=`
+    <div class="rolehead" style="color:var(--dim)">Avversario di giornata</div>
+    <div style="padding:0 3px 6px">${pick}</div>
+    ${head}
+    <div class="cmpgrid">
+      <div class="card" style="padding:10px"><div class="cmphead" style="color:var(--fluo)">La tua formazione</div>${miniPitch(myBest,"var(--fluo)")}</div>
+      <div class="card" style="padding:10px"><div class="cmphead">${esc(opp)}</div>${miniPitch(oppBest,"var(--chalk)")}</div>
+    </div>
+    <div class="note">La tua formazione usa i tuoi ritocchi (titolarità, squalifiche…); quella avversaria
+      parte da impostazioni standard. Probabilità stimata da ${N_SIM} simulazioni per parte.</div>`;
+}
+
+/* ---------- routing ---------- */
+function render(){
+  document.querySelectorAll("nav button").forEach(b =>
+    b.classList.toggle("on", b.dataset.tab === S.tab));
+  ({rosa:renderRosa, giornata:renderGiornata,
+    formazione:renderFormazione, fattorec:renderFattoreC, sfida:renderSfida})[S.tab]();
+}
+document.querySelectorAll("nav button").forEach(b =>
+  b.addEventListener("click", () => { S.tab = b.dataset.tab; render(); }));
+
+loadLocal();
+loadData().then(render).catch(() => {
+  el("main").innerHTML = `<div class="empty">⚠ Impossibile caricare i dati.<br>
+    Verifica che la cartella <b>data/</b> con i JSON sia nel repository.</div>`;
+});
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
