@@ -44,8 +44,8 @@ nav button{flex:1; background:none; border:none; color:var(--dim);
 nav button.on{color:var(--fluo)}
 nav button.on::before{content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
   width:30px; height:3px; border-radius:0 0 3px 3px; background:var(--fluo)}
-nav .ico{font-size:32px; line-height:1}
-nav .lab{font-size:13px; font-weight:700; margin-top:4px}
+nav .ico{font-size:29px; line-height:1}
+nav .lab{font-size:11px; font-weight:700; margin-top:3px}
 .rolehead{font-size:11px; letter-spacing:.18em; text-transform:uppercase;
   font-weight:800; padding:12px 4px 6px}
 .card{background:var(--card); border-radius:14px; margin-bottom:8px; overflow:hidden}
@@ -154,6 +154,14 @@ input[type=range]{width:100%; accent-color:var(--fluo); height:26px}
 .mrole{font-weight:900; width:14px; flex-shrink:0}
 .mname{flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .mval{font-weight:800; font-variant-numeric:tabular-nums; flex-shrink:0}
+.mkhint{font-size:13px; color:var(--dim); padding:2px 4px 8px; line-height:1.4}
+.mkline{display:flex; align-items:center; gap:8px; padding:6px 10px}
+.mkteam{font-size:11px; color:var(--dim); font-weight:400}
+.mkstat{text-align:center; font-weight:800; font-variant-numeric:tabular-nums; font-size:14px; flex-shrink:0; min-width:38px}
+.mkstat .mksub{display:block; font-size:8px; font-weight:600; color:var(--dim); text-transform:uppercase; letter-spacing:.06em}
+.mkdelta{font-weight:900; font-variant-numeric:tabular-nums; font-size:13px; flex-shrink:0; min-width:42px; text-align:right}
+.mktag{font-size:9px; font-weight:800; border:1px solid; border-radius:99px; padding:1px 6px; flex-shrink:0}
+.mkarrow{font-size:11px; color:var(--dim); text-align:center; padding:2px 0}
 svg{display:block}
 </style>
 </head>
@@ -174,6 +182,7 @@ svg{display:block}
   <button data-tab="giornata"><div class="ico">📅</div><div class="lab">Giornata</div></button>
   <button data-tab="formazione"><div class="ico">⚽</div><div class="lab">Formazione</div></button>
   <button data-tab="sfida"><div class="ico">⚔️</div><div class="lab">Sfida</div></button>
+  <button data-tab="mercato"><div class="ico">💡</div><div class="lab">Mercato</div></button>
   <button data-tab="fattorec"><div class="ico">🍀</div><div class="lab">Fattore C</div></button>
 </div></nav>
 
@@ -894,12 +903,92 @@ function renderSfida(){
       parte da impostazioni standard. Probabilità stimata da ${N_SIM} simulazioni per parte.</div>`;
 }
 
+/* ---------- TAB: SPUNTI DI MERCATO ---------- */
+const MKT_REG = 25;                       // presenze ~ titolare fisso in una stagione
+function availab(st){ return Math.min(1, (st.pv||0)/MKT_REG); }
+function marketScore(st){                  // qualità × titolarità: chi non gioca non viene consigliato
+  return shrunk(st) * (0.15 + 0.85*availab(st));
+}
+function statsReady(){                     // i dati stagionali (fantamedie reali) sono disponibili?
+  return S.db.filter(p => (p.fm||0) >= 4).length >= 30;
+}
+function mkRow(st, tag, tagColor, delta){
+  const role=roleOf(st), av=Math.round(availab(st)*100);
+  return `<div class="mkline">
+    <span class="mrole" style="color:${ROLE_COLOR[role]}">${role}</span>
+    <span class="mname">${esc(st.nome)}<span class="mkteam"> ${esc(st.squadra||"")}</span></span>
+    <span class="mkstat">${fmt(shrunk(st),2)}<span class="mksub">rating</span></span>
+    <span class="mkstat">${st.pv||0}<span class="mksub">pres.</span></span>
+    ${delta!=null?`<span class="mkdelta ${delta>=0?"pos":"neg"}">${delta>=0?"+":""}${fmt(delta,2)}</span>`:""}
+    ${tag?`<span class="mktag" style="color:${tagColor};border-color:${tagColor}">${tag}</span>`:""}
+  </div>`;
+}
+function renderMercato(){
+  if(!S.currentLeague || !S.leagues[S.currentLeague]){
+    el("main").innerHTML=`<div class="empty">💡<br>Gli spunti di mercato servono le rose della lega.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa → Importa</button></div>`; return;
+  }
+  if(!S.myTeamName || !S.roster.length){
+    el("main").innerHTML=`<div class="empty">Scegli prima la <b>tua</b> squadra in questa lega.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa</button></div>`; return;
+  }
+  if(!statsReady()){
+    el("main").innerHTML=`<div class="empty">💡<br>Spunti di mercato pronto, ma servono i dati stagionali.<br><br>
+      Al momento le fantamedie e le presenze non sono disponibili (campionato fermo / fuori stagione):
+      senza rendimento e titolarità reali i suggerimenti non avrebbero senso.<br><br>
+      Il tool si accende da solo appena la nuova stagione produce statistiche. ⚽</div>`; return;
+  }
+  // svincolati = giocatori con id non presenti in NESSUNA rosa della lega
+  const owned=new Set();
+  Object.values(S.leagueRosters).forEach(cods=>cods.forEach(c=>owned.add(c)));
+  const freeByRole={P:[],D:[],C:[],A:[]};
+  for(const p of S.db){ if(p.id==null||owned.has(p.id)) continue; const r=roleOf(p); if(freeByRole[r]) freeByRole[r].push(p); }
+  ROLES.forEach(r=>freeByRole[r].sort((a,b)=>marketScore(b)-marketScore(a)));
+
+  // i tuoi peggiori (per punteggio di mercato: scarso rendimento O poca titolarità)
+  const mine=S.roster.map(r=>S.byId.get(r.id)).filter(Boolean).slice();
+  mine.sort((a,b)=>marketScore(a)-marketScore(b));
+  const used=new Set(); const swaps=[];
+  for(const st of mine.slice(0,6)){
+    const role=roleOf(st);
+    const fa=freeByRole[role].find(p=>!used.has(p.id) && marketScore(p)>marketScore(st)+0.05);
+    if(fa){ used.add(fa.id); swaps.push({out:st, in:fa}); }
+  }
+
+  let html=`<div class="rolehead" style="color:var(--dim)">${esc(S.currentLeague)} · ${esc(S.myTeamName)} — spunti di mercato</div>`;
+  if(swaps.length){
+    html+=`<div class="mkhint">I tuoi anelli deboli e il miglior svincolato per rimpiazzarli (per rating e titolarità):</div>`;
+    for(const s of swaps){
+      const d=marketScore(s.in)-marketScore(s.out);
+      html+=`<div class="card" style="padding:8px 4px; margin-bottom:8px">
+        ${mkRow(s.out,"CEDI","var(--red)")}
+        <div class="mkarrow">↓ rimpiazza con</div>
+        ${mkRow(s.in,"PRENDI","var(--fluo)", shrunk(s.in)-shrunk(s.out))}
+      </div>`;
+    }
+  } else {
+    html+=`<div class="mkhint">Nessun upgrade evidente tra gli svincolati: la tua rosa regge bene. 👌</div>`;
+  }
+
+  // esplora i migliori svincolati per ruolo
+  const fr=S._mktRole||"A";
+  html+=`<div class="rolehead" style="color:var(--dim); margin-top:8px">Migliori svincolati per ruolo</div>
+    <div class="leaguebar">${ROLES.map(r=>`<button class="lchip ${r===fr?"on":""}" onclick="S._mktRole='${r}'; render()">${ROLE_LABEL[r]}</button>`).join("")}</div>
+    <div class="card" style="padding:8px 4px">
+      ${freeByRole[fr].slice(0,12).map(p=>mkRow(p)).join("") || `<div class="hint">Nessuno svincolato in questo ruolo.</div>`}
+    </div>
+    <div class="note">Punteggio di mercato = rating (fantamedia bayesiana) pesato per la titolarità
+      (presenze): un fuoriclasse che gioca poco scende in graduatoria. Svincolato = non presente
+      in nessuna rosa della lega selezionata.</div>`;
+  el("main").innerHTML=html;
+}
+
 /* ---------- routing ---------- */
 function render(){
   document.querySelectorAll("nav button").forEach(b =>
     b.classList.toggle("on", b.dataset.tab === S.tab));
   ({rosa:renderRosa, giornata:renderGiornata,
-    formazione:renderFormazione, fattorec:renderFattoreC, sfida:renderSfida})[S.tab]();
+    formazione:renderFormazione, fattorec:renderFattoreC, sfida:renderSfida, mercato:renderMercato})[S.tab]();
 }
 document.querySelectorAll("nav button").forEach(b =>
   b.addEventListener("click", () => { S.tab = b.dataset.tab; render(); }));
