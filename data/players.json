@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-07-13T13:30:51.681229+00:00",
+ "aggiornato": "2026-07-14T04:47:49.284856+00:00",
  "fonte": "tabella HTML statistiche-serie-a",
  "giocatori": [
   {
@@ -462,9 +462,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 6060,
    "nome": "Laurientè",
-   "squadra": null,
+   "squadra": "sassuolo",
    "ruolo": "A",
    "pv": 0,
    "mv": null,
@@ -717,9 +717,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 5734,
    "nome": "Soulè",
-   "squadra": null,
+   "squadra": "roma",
    "ruolo": "A",
    "pv": 0,
    "mv": null,
@@ -1125,9 +1125,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 6717,
    "nome": "Konè I.",
-   "squadra": null,
+   "squadra": "sassuolo",
    "ruolo": "C",
    "pv": 0,
    "mv": null,
@@ -1584,9 +1584,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 5589,
    "nome": "Konè M.",
-   "squadra": null,
+   "squadra": "roma",
    "ruolo": "C",
    "pv": 0,
    "mv": null,
@@ -1873,9 +1873,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 6666,
    "nome": "Bernabè",
-   "squadra": null,
+   "squadra": "parma",
    "ruolo": "C",
    "pv": 0,
    "mv": null,
@@ -4117,9 +4117,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 5885,
    "nome": "Dodò",
-   "squadra": null,
+   "squadra": "fiorentina",
    "ruolo": "D",
    "pv": 0,
    "mv": null,
@@ -4406,9 +4406,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 2762,
    "nome": "Kouamè",
-   "squadra": null,
+   "squadra": "fiorentina",
    "ruolo": "A",
    "pv": 0,
    "mv": null,
@@ -5341,9 +5341,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 6042,
    "nome": "Lucumì",
-   "squadra": null,
+   "squadra": "bologna",
    "ruolo": "D",
    "pv": 0,
    "mv": null,
@@ -6004,9 +6004,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 7146,
    "nome": "Tourè I.",
-   "squadra": null,
+   "squadra": "pisa",
    "ruolo": "C",
    "pv": 0,
    "mv": null,
@@ -7211,9 +7211,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 7274,
    "nome": "Zè Pedro",
-   "squadra": null,
+   "squadra": "cagliari",
    "ruolo": "D",
    "pv": 0,
    "mv": null,
@@ -8027,9 +8027,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 6985,
    "nome": "Candè",
-   "squadra": null,
+   "squadra": "sassuolo",
    "ruolo": "D",
    "pv": 0,
    "mv": null,
@@ -8537,9 +8537,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 4904,
    "nome": "Marì",
-   "squadra": null,
+   "squadra": "fiorentina",
    "ruolo": "D",
    "pv": 0,
    "mv": null,
@@ -8928,9 +8928,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 6826,
    "nome": "Dembelè A.",
-   "squadra": null,
+   "squadra": "torino",
    "ruolo": "D",
    "pv": 0,
    "mv": null,
@@ -8945,9 +8945,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 4957,
    "nome": "Montipò",
-   "squadra": null,
+   "squadra": "verona",
    "ruolo": "P",
    "pv": 54,
    "mv": null,
@@ -9319,9 +9319,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 6229,
    "nome": "Tourè E.",
-   "squadra": null,
+   "squadra": "atalanta",
    "ruolo": "A",
    "pv": 0,
    "mv": null,
@@ -10815,9 +10815,9 @@
    "espulsioni": null
   },
   {
-   "id": null,
+   "id": 6618,
    "nome": "Cissè A.",
-   "squadra": null,
+   "squadra": "verona",
    "ruolo": "C",
    "pv": 0,
    "mv": null,
