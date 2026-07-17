@@ -198,9 +198,38 @@ const ROLES = ["P","D","C","A"];
 const ROLE_LABEL = {P:"Portieri", D:"Difensori", C:"Centrocampisti", A:"Attaccanti"};
 const ROLE_COLOR = {P:"var(--amber)", D:"var(--cyan)", C:"var(--chalk)", A:"var(--fluo)"};
 const ROLE_MAX = {P:3, D:8, C:8, A:6};
-const SIGMA = {P:1.1, D:1.2, C:1.4, A:1.9};
-const PRIOR = {P:4.6, D:5.8, C:6.1, A:6.4};
-const K_SHRINK = 8, BENCH_FV = 4.0, RIG_BONUS = 0.3, N_SIM = 3000;
+/* ============================================================
+   COSTANTI DEL MOTORE — taratura del 17/07/2026
+   Misurate su 10.504 fantavoti reali (Serie A 2025-26, 37 giornate)
+   incrociati con Understat. Vedi METODO.md, Parte 3.
+   ============================================================ */
+
+// Volatilità del fantavoto per ruolo (σ). MISURATE.
+const SIGMA = {P:1.55, D:1.07, C:1.33, A:1.90};
+
+// Fantamedia media della popolazione per ruolo. MISURATI.
+const PRIOR = {P:5.02, D:5.99, C:6.20, A:6.53};
+
+// Forza dello shrinkage, per ruolo. Bayes empirico: K* = σ²(rumore) / σ²(vere differenze).
+// Il rumore di giornata è 10-28× le vere differenze tra giocatori dello stesso ruolo:
+// per questo si restringe molto più di quanto (K=8) assumessi prima.
+const K_SHRINK = {P:28, D:16, C:15, A:19};
+
+// Forza della PROPRIA squadra (γ). Sopravvive al controllo per la fantamedia passata
+// in ogni ruolo → non è doppio conteggio. Applicata a (forza − 0,5), quindi ±γ/2.
+const GAMMA_TEAM = {P:0.476, D:0.432, C:0.436, A:0.464};
+
+// Forza dell'AVVERSARIO. Fortemente dipendente dal ruolo: un portiere è colpito
+// 2,3× più di un centrocampista. Applicata a (forza_avv − 0,5).
+const OPP_W = {P:-1.018, D:-0.534, C:-0.444, A:-0.891};
+
+// Scarto casa−trasferta. Applicato a (casa − 0,5), quindi ±HOME/2 ≈ ±0,08.
+// La versione precedente (±0,15) raddoppiava il vantaggio del campo.
+const HOME_W = {P:0.167, D:0.172, C:0.144, A:0.155};
+
+// NON ricalibrate: RIG_BONUS (campione n<10, troppo fragile) e BENCH_FV
+// (va ripensato in funzione delle regole di sostituzione della lega, non ritarato).
+const BENCH_FV = 4.0, RIG_BONUS = 0.3, N_SIM = 3000;
 const MODULES = [
   {name:"3-4-3", d:3, c:4, a:3}, {name:"4-3-3", d:4, c:3, a:3},
   {name:"4-4-2", d:4, c:4, a:2}, {name:"3-5-2", d:3, c:5, a:2},
@@ -348,14 +377,31 @@ function matchInfo(teamSlug){
   }
   return null;
 }
-function calAdj(teamSlug){
+/* Δ della giornata: dipende dal RUOLO, perché avversario e campo non colpiscono tutti uguale.
+   A campionato fermo (nessuna partita) vale 0; senza classifica strength()=0,5 → contributo nullo. */
+function calAdj(teamSlug, role){
   const m = matchInfo(teamSlug);
   if(!m) return {adj:0, opp:null, home:null};    // campionato fermo o squadra a riposo
-  return {adj:(m.home ? .15 : -.15) + (0.5 - strength(m.opp)) * 0.9, opp:m.opp, home:m.home};
+  const adj = HOME_W[role] * (m.home ? .5 : -.5)
+            + OPP_W[role]  * (strength(m.opp) - 0.5);
+  return {adj, opp:m.opp, home:m.home};
 }
+function calAdjAvg(teamSlug){                    // media sui ruoli, per la vista Giornata
+  const m = matchInfo(teamSlug);
+  if(!m) return {adj:0, opp:null, home:null};
+  const adj = ROLES.reduce((s,r) => s + calAdj(teamSlug, r).adj, 0) / ROLES.length;
+  return {adj, opp:m.opp, home:m.home};
+}
+/* Rating del giocatore: shrinkage bayesiano verso il prior di ruolo, con K per ruolo. */
 function shrunk(st){
-  const pg = st.pv || 0, fm = st.fm ?? PRIOR[roleOf(st)];
-  return (pg*fm + K_SHRINK*PRIOR[roleOf(st)]) / (pg + K_SHRINK);
+  const role = roleOf(st), pg = st.pv || 0, fm = st.fm ?? PRIOR[role], K = K_SHRINK[role];
+  return (pg*fm + K*PRIOR[role]) / (pg + K);
+}
+/* Forza della PROPRIA squadra. È un attributo del giocatore (varia 0,005 dentro la stagione),
+   non un fattore di giornata: entra nel rating, non nel Δ calendario.
+   Senza classifica caricata strength() restituisce 0,5 → il termine si annulla da solo. */
+function teamAdj(st){
+  return GAMMA_TEAM[roleOf(st)] * (strength(st.squadra) - 0.5);
 }
 function roleOf(st){ return st.ruolo || "C"; }
 function perfBonus(st){                          // bonus da statistiche offensive Understat
@@ -373,10 +419,13 @@ function perfBonus(st){                          // bonus da statistiche offensi
 }
 function expFV(r){                               // r = elemento roster
   const st = S.byId.get(r.id);
-  const cal = calAdj(st.squadra);
+  const role = roleOf(st);
+  const cal = calAdj(st.squadra, role);
+  const team = teamAdj(st);                      // contesto squadra (costante nella stagione)
   const perf = perfBonus(st);
-  return { val: shrunk(st) + cal.adj + (r.rig ? RIG_BONUS : 0) + perf.val,
-           cal, base: shrunk(st), st, perf };
+  const base = shrunk(st) + team;                // rating di giocatore = fantamedia ristretta + squadra
+  return { val: base + cal.adj + (r.rig ? RIG_BONUS : 0) + perf.val,
+           cal, base, team, rating: shrunk(st), st, perf };
 }
 function slotEV(r){
   return (r.pTit/100) * expFV(r).val + (1 - r.pTit/100) * BENCH_FV;
@@ -641,6 +690,7 @@ function renderRosa(){
           <div class="grid2">
             <div>Rating base: <b>${fmt(e.base)}</b></div>
             <div>FM: <b>${fmt(st.fm)}</b> (${st.pv||0} pv)</div>
+            <div>Forza squadra: <b>${e.team ? signedSpan(e.team) : "n/d"}</b></div>
             <div>Δ calendario: <b>${e.cal.opp ? signedSpan(e.cal.adj) : "n/d"}</b></div>
             <div>Performance: <b>${e.perf && e.perf.has ? signedSpan(e.perf.val) : "n/d"}</b></div>
           </div>
@@ -688,7 +738,7 @@ function renderGiornata(){
   const myTeams = new Set(S.roster.map(r => S.byId.get(r.id).squadra));
   let html = `<div class="rolehead" style="color:var(--dim)">Prossima giornata · Δ calendario</div>`;
   for(const f of S.fixtures){
-    const dH = calAdj(f.casa).adj, dA = calAdj(f.trasferta).adj;
+    const dH = calAdjAvg(f.casa).adj, dA = calAdjAvg(f.trasferta).adj;
     html += `<div class="card"><div class="match">
       <div class="t" style="${myTeams.has(f.casa)?"color:var(--fluo)":""}">${esc(f.casa)}
         <span class="d">${signedSpan(dH)}</span></div>
@@ -697,8 +747,10 @@ function renderGiornata(){
         <span class="d">${signedSpan(dA)}</span> ${esc(f.trasferta)}</div>
     </div></div>`;
   }
-  html += `<div class="note">Δ continuo = ±0,15 casa/trasferta + 0,9 · (0,5 − forza avversario),
-    con la forza normalizzata sui punti in classifica. Le tue squadre sono in giallo.</div>`;
+  html += `<div class="note">Δ misurato sulla stagione 2025-26: dipende dal <b>ruolo</b> — un portiere
+    subisce l'avversario forte 2,3 volte più di un centrocampista. Qui è mostrata la media sui ruoli;
+    nel dettaglio di ogni giocatore trovi il Δ esatto. Forza normalizzata sui punti in classifica.
+    Le tue squadre sono in giallo.</div>`;
   el("main").innerHTML = html;
 }
 
@@ -824,10 +876,18 @@ function openMetodo(){
   el("sheet").innerHTML = `<div class="sheet-bg" onclick="el('sheet').innerHTML=''">
     <div class="sheet" onclick="event.stopPropagation()">
       <h3>Il metodo, in breve</h3>
+      <p style="font-size:12px; color:var(--fluo)">Taratura 17/07/2026 — costanti misurate su
+      10.504 fantavoti reali (Serie A 2025-26), non più assunte a tavolino.</p>
       <p><b>Rating base</b> — fantamedia con shrinkage bayesiano verso il prior di ruolo:
-      (pv·FM + 8·prior)/(pv + 8). Con poche presenze il giudizio resta prudente.</p>
-      <p><b>Δ calendario</b> — funzione continua di casa/trasferta e forza dell'avversario
-      (punti in classifica normalizzati). A campionato fermo vale 0 per tutti.</p>
+      (pv·FM + K·prior)/(pv + K), con K per ruolo (P 28 · D 16 · C 15 · A 19) stimato per
+      Bayes empirico. Si restringe molto perché il rumore di una giornata è 10-28 volte più
+      grande delle vere differenze tra giocatori dello stesso ruolo.</p>
+      <p><b>Forza squadra</b> — la posizione in classifica della <i>propria</i> squadra vale
+      quanto e più dell'avversario, e non è già contenuta nella fantamedia (verificato).
+      Essendo costante nella stagione entra nel rating, non nel Δ di giornata.</p>
+      <p><b>Δ calendario</b> — casa/trasferta e forza dell'avversario, entrambi <b>dipendenti dal
+      ruolo</b>: un portiere subisce l'avversario forte 2,3 volte più di un centrocampista.
+      A campionato fermo vale 0 per tutti.</p>
       <p><b>Performance</b> — bonus da statistiche offensive Understat (tiri e xA per-90),
       con pesi <i>misurati</i> sulla stagione 2025-26: tiri per attaccanti e centrocampisti,
       xA per i difensori. Effetto volutamente contenuto (tie-breaker). Attivo quando è presente
@@ -839,8 +899,9 @@ function openMetodo(){
       <p><b>Titolarità</b> — E[slot] = p·E[fv] + (1−p)·valore riserva. La simulazione
       estrae chi gioca davvero e fa subentrare la panchina.</p>
       <p><b>Monte Carlo</b> — ${N_SIM} giornate simulate con fantavoti gaussiani
-      (σ per ruolo: P 1,1 · D 1,2 · C 1,4 · A 1,9): mediana, banda P10–P90 e
-      probabilità di superare la soglia scelta.</p>
+      (σ misurate: P 1,55 · D 1,07 · C 1,33 · A 1,90): mediana, banda P10–P90 e
+      probabilità di superare la soglia scelta. I portieri sono molto più volatili di
+      quanto assumessi prima.</p>
       <p style="font-size:12px">Dati: fantacalcio.it via pipeline GitHub Actions ·
       ${S.meta ? "ultimo aggiornamento " + new Date(S.meta.aggiornato).toLocaleString("it-IT") : ""}</p>
       <button class="btn" style="width:100%; padding:13px; margin-top:8px"
@@ -920,7 +981,7 @@ function renderSfida(){
 const MKT_REG = 25;                       // presenze ~ titolare fisso in una stagione
 function availab(st){ return Math.min(1, (st.pv||0)/MKT_REG); }
 function marketScore(st){                  // qualità × titolarità: chi non gioca non viene consigliato
-  return shrunk(st) * (0.15 + 0.85*availab(st));
+  return (shrunk(st) + teamAdj(st)) * (0.15 + 0.85*availab(st));
 }
 function statsReady(){                     // i dati stagionali (fantamedie reali) sono disponibili?
   return S.db.filter(p => (p.fm||0) >= 4).length >= 30;
