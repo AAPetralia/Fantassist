@@ -28,7 +28,7 @@ h1{margin:0; font-size:26px; font-weight:900}
 h1 .fluo{color:var(--fluo)}
 .ver{font-size:11px; font-weight:900; color:var(--bg); background:var(--fluo);
   border-radius:6px; padding:1px 5px; margin-left:7px; vertical-align:super; letter-spacing:0}
-.sub{font-size:11px; color:var(--dim); margin-top:2px}
+.sub{font-size:12px; color:var(--dim); margin-top:2px}
 .btn{background:var(--card); color:var(--fluo); border:1px solid var(--line);
   border-radius:10px; padding:8px 12px; font:700 12px 'Saira'; cursor:pointer;
   transition:background .15s, border-color .15s}
@@ -47,7 +47,7 @@ nav button.on::before{content:""; position:absolute; top:0; left:50%; transform:
 nav .ico{height:34px; display:flex; align-items:center; justify-content:center}
 nav .ico svg{width:32px; height:32px}
 nav .lab{font-size:13px; font-weight:700; margin-top:4px; white-space:nowrap}
-.rolehead{font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+.rolehead{font-size:12px; letter-spacing:.18em; text-transform:uppercase;
   font-weight:800; padding:12px 4px 6px}
 .card{background:var(--card); border-radius:14px; margin-bottom:8px; overflow:hidden}
 .prow{display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; transition:background .12s}
@@ -56,8 +56,8 @@ nav .lab{font-size:13px; font-weight:700; margin-top:4px; white-space:nowrap}
   display:flex; align-items:center; justify-content:center;
   font-weight:900; font-size:12px; flex-shrink:0; border:1.5px solid}
 .pmain{flex:1; min-width:0}
-.pname{font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-.pteam{font-size:11px; color:var(--dim); font-weight:400; margin-left:6px}
+.pname{font-weight:700; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pteam{font-size:12px; color:var(--dim); font-weight:400; margin-left:6px}
 .chip{font-size:10px; font-weight:800; border-radius:99px; padding:1px 7px; margin-left:5px; border:1px solid}
 .chip.rig{color:var(--amber); border-color:var(--amber)}
 .chip.out{color:var(--red); border-color:var(--red)}
@@ -79,12 +79,12 @@ input[type=range]{width:100%; accent-color:var(--fluo); height:26px}
 .search{width:100%; background:var(--bg2); border:1px solid var(--line); color:var(--chalk);
   border-radius:12px; padding:12px 14px; font:600 15px 'Saira'; margin:10px 0 6px}
 .search:focus{outline:2px solid var(--fluo)}
-.hint{font-size:12px; color:var(--dim); padding:4px}
+.hint{font-size:13px; color:var(--dim); padding:4px}
 .srow{display:flex; align-items:center; gap:10px; padding:9px 12px}
 .addbtn{background:var(--fluo); color:var(--bg); border:none; width:34px; height:34px;
   border-radius:10px; font-size:20px; font-weight:900; cursor:pointer; flex-shrink:0}
 .addbtn:disabled{background:var(--line); color:var(--dim)}
-.counter{display:flex; gap:6px; margin:8px 0; font-size:12px; font-variant-numeric:tabular-nums}
+.counter{display:flex; gap:6px; margin:8px 0; font-size:13px; font-variant-numeric:tabular-nums}
 .counter span{background:var(--card); border-radius:8px; padding:4px 9px; color:var(--dim)}
 .counter span.full{color:var(--fluo)}
 .match{display:flex; align-items:center; padding:12px 16px}
@@ -143,22 +143,22 @@ input[type=range]{width:100%; accent-color:var(--fluo); height:26px}
   border-radius:12px; padding:12px 14px; font:700 15px 'Saira'; -webkit-appearance:none; appearance:none}
 .vsrow{display:flex; align-items:center; text-align:center}
 .vsside{flex:1; min-width:0}
-.vsname{font-weight:800; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.vsname{font-weight:800; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .vstot{font-size:30px; font-weight:900; font-variant-numeric:tabular-nums; margin-top:2px}
 .vsmid{flex:0 0 96px; padding:0 4px}
 .wp{font-size:26px; font-weight:900; font-variant-numeric:tabular-nums; line-height:1}
 .wplab{font-size:9px; text-transform:uppercase; letter-spacing:.14em; color:var(--dim)}
 .vsmod{font-size:10px; color:var(--dim); margin-top:5px}
 .cmpgrid{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px}
-.cmphead{font-size:11px; text-transform:uppercase; letter-spacing:.1em; font-weight:800; color:var(--dim); margin-bottom:6px}
+.cmphead{font-size:13px; text-transform:uppercase; letter-spacing:.1em; font-weight:800; color:var(--dim); margin-bottom:6px}
 .minixi{display:flex; flex-direction:column; gap:3px}
-.mline{display:flex; align-items:center; gap:6px; font-size:12px}
-.mrole{font-weight:900; width:14px; flex-shrink:0}
+.mline{display:flex; align-items:center; gap:6px; font-size:14px; padding:1px 0}
+.mrole{font-weight:900; width:15px; flex-shrink:0}
 .mname{flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .mval{font-weight:800; font-variant-numeric:tabular-nums; flex-shrink:0}
 .mkhint{font-size:13px; color:var(--dim); padding:2px 4px 8px; line-height:1.4}
 .mkline{display:flex; align-items:center; gap:8px; padding:6px 10px}
-.mkteam{font-size:11px; color:var(--dim); font-weight:400}
+.mkteam{font-size:12px; color:var(--dim); font-weight:400}
 .mkstat{text-align:center; font-weight:800; font-variant-numeric:tabular-nums; font-size:14px; flex-shrink:0; min-width:38px}
 .mkstat .mksub{display:block; font-size:8px; font-weight:600; color:var(--dim); text-transform:uppercase; letter-spacing:.06em}
 .mkdelta{font-weight:900; font-variant-numeric:tabular-nums; font-size:13px; flex-shrink:0; min-width:42px; text-align:right}
@@ -763,13 +763,14 @@ function pitchSVG(lu, mod){
   for(const [role, n, y] of rows){
     byRole[role].slice(0, n).forEach((r, i) => {
       const x = 340/(n+1)*(i+1), st = S.byId.get(r.id), e = expFV(r).val;
-      const nm = st.nome.length > 11 ? st.nome.slice(0,10)+"…" : st.nome;
-      g += `<circle cx="${x}" cy="${y}" r="15" fill="var(--card)" stroke="${ROLE_COLOR[role]}" stroke-width="2"/>
-        <text x="${x}" y="${y+4}" text-anchor="middle" font-size="10" font-weight="800" fill="${ROLE_COLOR[role]}">${fmt(e,1)}</text>
-        <text x="${x}" y="${y+30}" text-anchor="middle" font-size="10" font-weight="700" fill="var(--chalk)">${esc(nm)}</text>`;
+      const maxc = n >= 5 ? 7 : n === 4 ? 8 : 11;      // fila affollata → nome più corto
+      const nm = st.nome.length > maxc ? st.nome.slice(0, maxc-1)+"…" : st.nome;
+      g += `<circle cx="${x}" cy="${y}" r="17" fill="var(--card)" stroke="${ROLE_COLOR[role]}" stroke-width="2"/>
+        <text x="${x}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="800" fill="${ROLE_COLOR[role]}">${fmt(e,1)}</text>
+        <text x="${x}" y="${y+34}" text-anchor="middle" font-size="14" font-weight="700" fill="var(--chalk)">${esc(nm)}</text>`;
     });
   }
-  return `<svg viewBox="0 0 340 396" style="width:100%; max-height:380px">
+  return `<svg viewBox="0 0 340 396" style="width:100%; max-height:460px">
     <rect x="8" y="8" width="324" height="380" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
     <line x1="8" y1="30" x2="332" y2="30" stroke="var(--line)"/>
     <circle cx="170" cy="30" r="34" fill="none" stroke="var(--line)"/>
