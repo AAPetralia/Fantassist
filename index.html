@@ -42,6 +42,35 @@ nav button{flex:1; background:none; border:none; color:var(--dim);
   padding:11px 0 max(11px, env(safe-area-inset-bottom)); cursor:pointer; font-family:'Saira';
   position:relative; transition:color .15s}
 nav button.on{color:var(--fluo)}
+.menu{display:flex; flex-direction:column; gap:10px; margin-top:14px}
+.menurow{display:flex; align-items:center; gap:13px; background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:15px 14px; cursor:pointer}
+.menurow:active{background:var(--cardhi)}
+.menurow .mic{flex-shrink:0; width:24px; height:24px; color:var(--fluo); display:flex; align-items:center}
+.menurow .mic svg{width:24px; height:24px; display:block}
+.menurow .mtx{flex:1; display:flex; flex-direction:column; gap:2px}
+.menurow .mtx b{font-size:16px; color:var(--chalk); font-weight:800}
+.menurow .mtx i{font-style:normal; font-size:12.5px; color:var(--dim); line-height:1.35}
+.menurow .mch{color:var(--dim); font-size:22px; flex-shrink:0}
+.backlink{display:inline-flex; align-items:center; gap:5px; color:var(--fluo); font-weight:800;
+  font-size:13.5px; cursor:pointer; margin-bottom:12px}
+.ch-input{width:100%; box-sizing:border-box; background:var(--card); border:1px solid var(--line);
+  border-radius:12px; padding:13px 14px; color:var(--chalk); font-size:16px; font-family:inherit; margin:6px 0 14px}
+.ch-input:focus{outline:none; border-color:var(--fluo)}
+.ch-input::placeholder{color:var(--dim)}
+.ch-hint,.ch-none{color:var(--dim); font-size:13.5px; line-height:1.5}
+.ch-none{margin-top:8px; font-style:italic}
+.ch-player{display:flex; align-items:center; gap:9px; margin-bottom:6px}
+.ch-role{font-weight:900; font-size:13px; width:16px; flex-shrink:0}
+.ch-player b{font-size:16px; color:var(--chalk)}
+.ch-team{color:var(--dim); font-size:12.5px}
+.ch-hit{display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid var(--line)}
+.ch-hit.mine{opacity:.85}
+.ch-lega{flex:1; font-weight:700; color:var(--chalk); font-size:14px}
+.ch-squadra{color:var(--dim); font-size:13px}
+.ch-wa{flex-shrink:0; background:#25925a; color:#fff; border:none; border-radius:9px;
+  width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer}
+.ch-wa:active{background:#1d7548}
 nav button.on::before{content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
   width:30px; height:3px; border-radius:0 0 3px 3px; background:var(--fluo)}
 nav .ico{height:34px; display:flex; align-items:center; justify-content:center}
@@ -183,10 +212,7 @@ svg{display:block}
   <button data-tab="rosa"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 L4 6 L6.2 10.2 L8 9.2 V21 H16 V9.2 L17.8 10.2 L20 6 L15 3"/><path d="M9 3 a3.2 3.2 0 0 0 6 0"/></svg></div><div class="lab">Rosa</div></button>
   <button data-tab="giornata"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 2.5 V6 M16 2.5 V6 M3 10 H21"/><circle cx="8.5" cy="14.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="14.5" r="1.1" fill="currentColor" stroke="none"/></svg></div><div class="lab">Giornata</div></button>
   <button data-tab="formazione"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3.5" width="18" height="17" rx="2.5"/><path d="M3 12 H21"/><circle cx="12" cy="12" r="3"/><path d="M9 3.5 V6 H15 V3.5 M9 20.5 V18 H15 V20.5"/></svg></div><div class="lab">Formazione</div></button>
-  <button data-tab="sfida"><div class="ico"><svg viewBox="0 0 24 24" fill="none"><g transform="translate(2.70,18.75) scale(0.0196,-0.0196)" fill="currentColor"><path transform="translate(0,0)" d="M120 0 5 688H187L247 184H258L315 688H494L379 0Z"/>
-<path transform="translate(499,0)" d="M36 11V147Q129 140 173 140Q204 140 218.0 142.0Q232 144 238 151Q244 157 246.0 168.0Q248 179 248 199Q248 229 244.0 241.5Q240 254 228.0 260.0Q216 266 185 271L100 287Q58 295 40.5 344.5Q23 394 23 484Q23 572 49.5 618.5Q76 665 121.5 680.5Q167 696 236 696Q288 696 332.0 690.0Q376 684 401 678V541Q341 548 278 548Q249 548 235.5 546.5Q222 545 215 539Q208 533 205.5 522.0Q203 511 203 490Q203 466 205.5 455.0Q208 444 216.0 439.0Q224 434 243 430L316 416Q350 409 373.5 394.0Q397 379 412 341Q428 297 428 223Q428 122 402.5 72.0Q377 22 335.0 7.0Q293 -8 225 -8Q179 -8 126.0 -2.5Q73 3 36 11Z"/></g></svg></div><div class="lab">Sfida</div></button>
-  <button data-tab="mercato"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5 H17"/><path d="M13.5 5 L17 8.5 L13.5 12"/><path d="M20.5 15.5 H7"/><path d="M10.5 12 L7 15.5 L10.5 19"/></svg></div><div class="lab">Mercato</div></button>
-  <button data-tab="fattorec"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.4" r="3.5" fill="currentColor" stroke="none"/><circle cx="16.6" cy="12" r="3.5" fill="currentColor" stroke="none"/><circle cx="12" cy="16.6" r="3.5" fill="currentColor" stroke="none"/><circle cx="7.4" cy="12" r="3.5" fill="currentColor" stroke="none"/><path d="M12.5 16 C13 19 14 20.5 16.5 21.5"/></svg></div><div class="lab">Fattore C</div></button>
+  <button data-tab="altro"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></div><div class="lab">Altro</div></button>
 </div></nav>
 
 <div id="sheet"></div>
@@ -1059,11 +1085,110 @@ function renderMercato(){
 }
 
 /* ---------- routing ---------- */
+const SOTTO_ALTRO = ["sfida","mercato","fattorec","cellha"];
+
+/* ---- CHI CE L'HA: cerca un giocatore in tutte le leghe ---- */
+function cellhaSearch(q){
+  S._cellhaQ = q;
+  render();
+}
+function renderCellHa(){
+  const leghe = Object.keys(S.leagues||{});
+  if(!leghe.length){
+    el("main").innerHTML = `<h1>Chi ce l'ha</h1>
+      <div class="empty">Per scoprire chi ha un giocatore servono le rose delle tue leghe.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa → Importa</button></div>`;
+    return;
+  }
+  const q = (S._cellhaQ||"").trim();
+  const nq = normName(q);
+  let risultati = "";
+  if(nq.length >= 2){
+    // giocatori del DB che combaciano
+    const cand = S.db.filter(p => normName(p.nome).includes(nq)).slice(0, 8);
+    if(!cand.length){
+      risultati = `<div class="empty" style="padding:24px 0">Nessun giocatore trovato per “${esc(q)}”.</div>`;
+    } else {
+      risultati = cand.map(p => {
+        // in quali squadre di quali leghe si trova questo id
+        const trovato = [];
+        for(const lega of leghe){
+          const rosters = (S.leagues[lega].rosters)||{};
+          for(const squadra in rosters){
+            if((rosters[squadra]||[]).includes(p.id)) trovato.push({lega, squadra});
+          }
+        }
+        const rc = ROLE_COLOR[roleOf(p)] || "var(--chalk)";
+        const testa = `<div class="ch-player">
+          <span class="ch-role" style="color:${rc}">${roleOf(p)}</span>
+          <b>${esc(p.nome)}</b><span class="ch-team">${esc(p.squadra||"")}</span></div>`;
+        if(!trovato.length){
+          return `<div class="card">${testa}
+            <div class="ch-none">Svincolato in tutte le tue leghe</div></div>`;
+        }
+        const righe = trovato.map(t=>{
+          const mio = (S.leagues[t.lega].myTeam === t.squadra);
+          const msg = `${p.nome} (${p.squadra}) ce l'ha ${t.squadra} nella lega ${t.lega}`;
+          return `<div class="ch-hit${mio?' mine':''}">
+            <span class="ch-lega">${esc(t.lega)}</span>
+            <span class="ch-squadra">${esc(t.squadra)}${mio?' · tu':''}</span>
+            <button class="ch-wa" onclick="waCellha(${JSON.stringify(msg).replace(/"/g,'&quot;')})" title="Prepara messaggio">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.2 14.8l-.3-.2-2.8.9.9-2.7-.2-.3A8 8 0 0 1 12 4zm4.5 10.4c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.7.7-.8 1.7-.3 2.8a8 8 0 0 0 3.7 3.9c1.6.8 2.3.7 3 .5.4-.1 1.2-.5 1.4-1 .2-.5.2-.9.1-1z"/></svg>
+            </button></div>`;
+        }).join("");
+        return `<div class="card">${testa}${righe}</div>`;
+      }).join("");
+    }
+  } else {
+    risultati = `<div class="ch-hint">Scrivi il cognome di un giocatore per vedere chi lo ha nelle tue ${leghe.length} legh${leghe.length===1?'a':'e'}.</div>`;
+  }
+
+  el("main").innerHTML = `<h1>Chi ce l'ha</h1>
+    <input class="ch-input" type="text" placeholder="Cerca un giocatore…" value="${esc(q)}"
+      oninput="cellhaSearch(this.value)" autocomplete="off">
+    ${risultati}`;
+  // il campo perde il focus a ogni render: lo rimetto in fondo
+  const inp = el("main").querySelector(".ch-input");
+  if(inp){ inp.focus(); const v=inp.value; inp.value=""; inp.value=v; }
+}
+function waCellha(msg){
+  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+}
+
+function renderAltro(){
+  const voci = [
+    { tab:"cellha",   tit:"Chi ce l'ha",  sub:"Cerca un giocatore in tutte le tue leghe",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.7-4.7"/><path d="M10.5 8v5M8 10.5h5"/></svg>` },
+    { tab:"mercato",  tit:"Mercato",   sub:"Consiglia acquisti e cessioni",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5 H17"/><path d="M13.5 5 L17 8.5 L13.5 12"/><path d="M20.5 15.5 H7"/><path d="M10.5 12 L7 15.5 L10.5 19"/></svg>` },
+    { tab:"sfida",    tit:"Sfida",     sub:"Confronta la tua formazione con un avversario",
+      ic:`<svg viewBox="0 0 24 24" fill="none"><g transform="translate(2.70,18.75) scale(0.0196,-0.0196)" fill="currentColor"><path d="M120 0 5 688H187L247 184H258L315 688H494L379 0Z"/><path transform="translate(499,0)" d="M36 11V147Q129 140 173 140Q204 140 218 142Q232 144 238 151Q244 157 246 168Q248 179 248 199Q248 229 244 241Q240 254 228 260Q216 266 185 271L100 287Q58 295 40 344Q23 394 23 484Q23 572 49 618Q76 665 121 680Q167 696 236 696Q288 696 332 690Q376 684 401 678V541Q341 548 278 548Q249 548 235 546Q222 545 215 539Q208 533 205 522Q203 511 203 490Q203 466 205 455Q208 444 216 439Q224 434 243 430L316 416Q350 409 373 394Q397 379 412 341Q428 297 428 223Q428 122 402 72Q377 22 335 7Q293 -8 225 -8Q179 -8 126 -2Q73 3 36 11Z"/></g></svg>` },
+    { tab:"fattorec", tit:"Fattore C",  sub:"Quanto la fortuna ha inciso sui tuoi risultati",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.4" r="3.5" fill="currentColor" stroke="none"/><circle cx="16.6" cy="12" r="3.5" fill="currentColor" stroke="none"/><circle cx="12" cy="16.6" r="3.5" fill="currentColor" stroke="none"/><circle cx="7.4" cy="12" r="3.5" fill="currentColor" stroke="none"/><path d="M12.5 16 C13 19 14 20.5 16.5 21.5"/></svg>` },
+  ];
+  el("main").innerHTML = `<h1>Altro</h1>
+    <div class="menu">` + voci.map(v=>`
+      <div class="menurow" onclick="S.tab='${v.tab}'; render()">
+        <span class="mic">${v.ic}</span>
+        <span class="mtx"><b>${v.tit}</b><i>${v.sub}</i></span>
+        <span class="mch">›</span>
+      </div>`).join("") + `</div>`;
+}
+
 function render(){
+  const attivo = SOTTO_ALTRO.includes(S.tab) ? "altro" : S.tab;
   document.querySelectorAll("nav button").forEach(b =>
-    b.classList.toggle("on", b.dataset.tab === S.tab));
-  ({rosa:renderRosa, giornata:renderGiornata,
-    formazione:renderFormazione, fattorec:renderFattoreC, sfida:renderSfida, mercato:renderMercato})[S.tab]();
+    b.classList.toggle("on", b.dataset.tab === attivo));
+  ({rosa:renderRosa, giornata:renderGiornata, formazione:renderFormazione, altro:renderAltro,
+    fattorec:renderFattoreC, sfida:renderSfida, mercato:renderMercato, cellha:renderCellHa})[S.tab]();
+  if(SOTTO_ALTRO.includes(S.tab)){
+    const m=el("main");
+    const back=document.createElement("div");
+    back.className="backlink";
+    back.innerHTML="‹ Altro";
+    back.onclick=()=>{ S.tab="altro"; render(); };
+    m.insertBefore(back, m.firstChild);
+  }
 }
 document.querySelectorAll("nav button").forEach(b =>
   b.addEventListener("click", () => { S.tab = b.dataset.tab; render(); }));
