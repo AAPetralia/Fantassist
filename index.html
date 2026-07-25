@@ -542,9 +542,25 @@ function matchLeagueRoster(players, idx){
     let ch=null;
     if(c.length===1) ch=c[0];
     else if(c.length>1) ch=c.find(x=>teamMatch(p.squadra,x.squadra))||c[0];
-    if(ch && ch.id!=null) cods.push(ch.id); else missed.push(p.nome);  // niente id → segnalato, non sparito
+    if(ch && ch.id!=null){ cods.push(ch.id); }
+    else {
+      // giocatore non nel listone: NON lo perdo, gli do un id sintetico e ne ricordo il nome
+      const sid = "x:" + normName(p.nome);
+      cods.push(sid);
+      if(!S.extraNames) S.extraNames = {};
+      S.extraNames[sid] = { nome:p.nome, squadra:p.squadra||"" };
+      missed.push(p.nome);
+    }
   }
   return {cods, missed};
+}
+/* nome di un giocatore da un codice, anche se fuori listone */
+function nomeDaCod(id){
+  const st = S.byId.get(id);
+  if(st) return {nome:st.nome, squadra:st.squadra||"", ruolo:roleOf(st), inDb:true};
+  const ex = S.extraNames && S.extraNames[id];
+  if(ex) return {nome:ex.nome, squadra:ex.squadra, ruolo:"?", inDb:false};
+  return null;
 }
 function triggerImport(){ el("leaguefile").click(); }
 function onLeagueFile(input){
@@ -1087,6 +1103,31 @@ function renderMercato(){
 /* ---------- routing ---------- */
 const SOTTO_ALTRO = ["sfida","mercato","fattorec","cellha"];
 
+/* distanza di edit (Levenshtein) per tollerare refusi tipo susic/sucic */
+function editDist(a, b){
+  const m=a.length, n=b.length;
+  if(Math.abs(m-n) > 3) return 99;
+  const dp=Array.from({length:m+1}, (_,i)=>[i, ...Array(n).fill(0)]);
+  for(let j=0;j<=n;j++) dp[0][j]=j;
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++){
+    dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1]
+      : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  }
+  return dp[m][n];
+}
+/* un giocatore combacia con la query se la contiene, o se un pezzo del nome le somiglia */
+function nomeMatch(nomeNorm, q){
+  if(nomeNorm.includes(q)) return true;
+  if(q.length < 4) return false;                 // troppo corta per il fuzzy
+  // confronto la query con ogni parola del nome e col nome intero
+  const soglia = q.length <= 5 ? 1 : 2;
+  if(editDist(nomeNorm, q) <= soglia) return true;
+  for(const parte of nomeNorm.split(/(?=[A-Z])| /)){
+    if(parte.length>=4 && editDist(parte, q) <= soglia) return true;
+  }
+  return false;
+}
+
 /* ---- CHI CE L'HA: cerca un giocatore in tutte le leghe ---- */
 function cellhaSearch(q){
   S._cellhaQ = q;
@@ -1104,13 +1145,21 @@ function renderCellHa(){
   const nq = normName(q);
   let risultati = "";
   if(nq.length >= 2){
-    // giocatori del DB che combaciano
-    const cand = S.db.filter(p => normName(p.nome).includes(nq)).slice(0, 8);
-    if(!cand.length){
+    // candidati dal DB ufficiale
+    const cand = S.db.filter(p => nomeMatch(normName(p.nome), nq)).map(p=>({id:p.id, nome:p.nome, squadra:p.squadra, ruolo:roleOf(p), inDb:true}));
+    // candidati fuori listone (presenti nelle rose ma non nel DB)
+    const visti = new Set(cand.map(c=>c.id));
+    for(const sid in (S.extraNames||{})){
+      if(visti.has(sid)) continue;
+      if(nomeMatch(normName(S.extraNames[sid].nome), nq))
+        cand.push({id:sid, nome:S.extraNames[sid].nome, squadra:S.extraNames[sid].squadra, ruolo:"?", inDb:false});
+    }
+    cand.sort((a,b)=> a.nome.localeCompare(b.nome));
+    const lista = cand.slice(0, 10);
+    if(!lista.length){
       risultati = `<div class="empty" style="padding:24px 0">Nessun giocatore trovato per “${esc(q)}”.</div>`;
     } else {
-      risultati = cand.map(p => {
-        // in quali squadre di quali leghe si trova questo id
+      risultati = lista.map(p => {
         const trovato = [];
         for(const lega of leghe){
           const rosters = (S.leagues[lega].rosters)||{};
@@ -1118,17 +1167,17 @@ function renderCellHa(){
             if((rosters[squadra]||[]).includes(p.id)) trovato.push({lega, squadra});
           }
         }
-        const rc = ROLE_COLOR[roleOf(p)] || "var(--chalk)";
+        const rc = ROLE_COLOR[p.ruolo] || "var(--dim)";
         const testa = `<div class="ch-player">
-          <span class="ch-role" style="color:${rc}">${roleOf(p)}</span>
-          <b>${esc(p.nome)}</b><span class="ch-team">${esc(p.squadra||"")}</span></div>`;
+          <span class="ch-role" style="color:${rc}">${p.ruolo}</span>
+          <b>${esc(p.nome)}</b><span class="ch-team">${esc(p.squadra||"")}${p.inDb?"":" · fuori listone"}</span></div>`;
         if(!trovato.length){
           return `<div class="card">${testa}
             <div class="ch-none">Svincolato in tutte le tue leghe</div></div>`;
         }
         const righe = trovato.map(t=>{
           const mio = (S.leagues[t.lega].myTeam === t.squadra);
-          const msg = `${p.nome} (${p.squadra}) ce l'ha ${t.squadra} nella lega ${t.lega}`;
+          const msg = `${t.squadra}, fantassist mi ricorda che hai ${p.nome}`;
           return `<div class="ch-hit${mio?' mine':''}">
             <span class="ch-lega">${esc(t.lega)}</span>
             <span class="ch-squadra">${esc(t.squadra)}${mio?' · tu':''}</span>
