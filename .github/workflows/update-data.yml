@@ -22,8 +22,16 @@ jobs:
       - name: Installa dipendenze
         run: pip install -r requirements.txt
 
-      - name: Esegui scraper
+      - name: Esegui scraper fantacalcio.it
         run: python scraper.py
+
+      - name: Esegui scraper Understat
+        run: python understat_pull.py
+        continue-on-error: true
+
+      - name: Elabora Understat (CSV → JSON)
+        run: python understat_process.py
+        continue-on-error: true
 
       - name: Commit dei JSON aggiornati
         run: |
