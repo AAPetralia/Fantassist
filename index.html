@@ -15,7 +15,20 @@
   --bg:#F7F8F3; --bg2:#EFF1E8; --card:#FFFFFF; --cardhi:#EAEEE1;
   --line:#DBE0D2; --chalk:#1E2A20; --dim:#71806E;
   --fluo:#4C7A3D; --amber:#B87A0A; --red:#C6433D; --cyan:#1E7E8C;
+  --por:#FFD700; --dif:#4CAF50; --cen:#2196F3; --att:#FF5252;
 }
+/* ── TEMA DARK (toggle) ── */
+html.dark{
+  --bg:#0C1A12; --bg2:#10231A; --card:#16301F; --cardhi:#1C3B27;
+  --line:#2A4A35; --chalk:#EAF4EC; --dim:#9DB8A5;
+  --fluo:#D8F651; --amber:#FFC24B; --red:#FF6B6B; --cyan:#6BD5E1;
+  --por:#FFD700; --dif:#4CAF50; --cen:#2196F3; --att:#FF5252;
+}
+/* Colori ruoli */
+.role-por{color:var(--por); font-weight:900}
+.role-dif{color:var(--dif); font-weight:900}
+.role-cen{color:var(--cen); font-weight:900}
+.role-att{color:var(--att); font-weight:900}
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
 body{margin:0; background:var(--bg); color:var(--chalk);
   font-family:'Saira',system-ui,sans-serif; padding-bottom:76px}
@@ -257,7 +270,8 @@ svg{display:block}
     <h1>FANT<span class="fluo">ASSIST</span><sup class="ver">2.0</sup></h1>
     <div class="sub" id="subtitle">caricamento dati…</div>
   </div>
-  <button class="btn" onclick="openMetodo()">Metodo ƒ(x)</button>
+  <button class="btn" onclick="openMetodo()" style="margin-right:8px">Metodo ƒ(x)</button>
+  <button class="btn" id="themeToggle" onclick="toggleTheme()" title="Cambia tema" style="padding:8px; font-size:20px">🌙</button>
 </div></header>
 
 <main class="wrap" id="main"></main>
@@ -1568,6 +1582,32 @@ function render(){
 }
 document.querySelectorAll("nav button").forEach(b =>
   b.addEventListener("click", () => { S.tab = b.dataset.tab; render(); }));
+
+/* ── THEME TOGGLE (dark/light) ── */
+const htmlEl = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('fantassist-theme') || 'light';
+
+function applyTheme(theme) {
+  if (theme === 'dark') {
+    htmlEl.classList.add('dark');
+    themeToggle.textContent = '☀️';
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0C1A12');
+  } else {
+    htmlEl.classList.remove('dark');
+    themeToggle.textContent = '🌙';
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F7F8F3');
+  }
+}
+
+function toggleTheme() {
+  const currentTheme = htmlEl.classList.contains('dark') ? 'dark' : 'light';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(newTheme);
+  localStorage.setItem('fantassist-theme', newTheme);
+}
+
+applyTheme(savedTheme);
 
 loadLocal();
 loadData().then(render).catch(() => {
