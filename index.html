@@ -1086,9 +1086,9 @@ function renderFattoreC(){
 function openMetodo(){
   el("sheet").innerHTML = `<div class="sheet-bg" onclick="el('sheet').innerHTML=''">
     <div class="sheet" onclick="event.stopPropagation()">
-      <h3>Il metodo, in breve</h3>
-      <p style="font-size:12px; color:var(--fluo)">Taratura 17/07/2026 — costanti misurate su
-      10.504 fantavoti reali (Serie A 2025-26), non più assunte a tavolino.</p>
+      <h3>Il metodo, in breve · <span style="font-size:14px; color:var(--dim)">v2.1.0</span></h3>
+      <p style="font-size:12px; color:var(--fluo)">Taratura 31/07/2026 — costanti misurate su
+      10.504 fantavoti reali (Serie A 2025-26), metriche Understat role-specific, titolarità reale (agosto).</p>
       <p><b>Rating base</b> — fantamedia con shrinkage bayesiano verso il prior di ruolo:
       (pv·FM + K·prior)/(pv + K), con K per ruolo (P 28 · D 16 · C 15 · A 19) stimato per
       Bayes empirico. Si restringe molto perché il rumore di una giornata è 10-28 volte più
@@ -1099,16 +1099,19 @@ function openMetodo(){
       <p><b>Δ calendario</b> — casa/trasferta e forza dell'avversario, entrambi <b>dipendenti dal
       ruolo</b>: un portiere subisce l'avversario forte 2,3 volte più di un centrocampista.
       A campionato fermo vale 0 per tutti.</p>
-      <p><b>Performance</b> — bonus da statistiche offensive Understat (tiri e xA per-90),
-      con pesi <i>misurati</i> sulla stagione 2025-26: tiri per attaccanti e centrocampisti,
-      xA per i difensori. Effetto volutamente contenuto (tie-breaker). Attivo quando è presente
-      il feed; a campionato fermo vale 0.</p>
+      <p><b>Performance Understat (role-specific)</b> — bonus da statistiche Understat con pesi <b>diversi per ruolo</b>:
+      <br><b>Attaccanti:</b> tiri (shots_p90, β=0.12), xA (β=0.08), xG (β=0.15)
+      <br><b>Centrocampisti:</b> xA (β=0.07), tackle+intercetti (β=0.04), passaggi progressivi (β=0.05)
+      <br><b>Difensori:</b> tackle+intercetti (β=0.08), xG concesso (β=-0.10), rinvii (β=0.03)
+      <br><b>Portieri:</b> xG concesso (β=-0.15), tiri in porta subiti (β=-0.08)
+      <br>Effetto volutamente contenuto (tie-breaker). Attivo quando è presente il feed; a campionato fermo vale 0.</p>
       <p><b>Rigorista</b> — +0,30 al fantavoto atteso; il flag viene proposto in automatico
       dalla gerarchia rigoristi del web, ma resta modificabile.</p>
       <p><b>Indisponibili</b> — squalificati e infortunati vengono proposti dai dati web
       al momento dell'aggiunta in rosa; verifica sempre prima della giornata.</p>
-      <p><b>Titolarità</b> — E[slot] = p·E[fv] + (1−p)·valore riserva. La simulazione
-      estrae chi gioca davvero e fa subentrare la panchina.</p>
+      <p><b>Titolarità</b> — Indice di Schierabilità = base × titolarità.
+      Titolarità reale da probabili formazioni (SOS Fanta, Fantacalcio.it, Calciomagazine) quando disponibili (agosto);
+      altrimenti fallback a presenze storiche (PV). E[slot] = p·E[fv] + (1−p)·valore riserva per la Rosa.</p>
       <p><b>Monte Carlo</b> — ${N_SIM} giornate simulate con fantavoti gaussiani
       (σ misurate: P 1,55 · D 1,07 · C 1,33 · A 1,90): mediana, banda P10–P90 e
       probabilità di superare la soglia scelta. I portieri sono molto più volatili di
