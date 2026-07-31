@@ -511,12 +511,20 @@ function teamAdj(st){
   return GAMMA_TEAM[roleOf(st)] * (strength(st.squadra) - 0.5);
 }
 function roleOf(st){ return st.ruolo || "C"; }
-function perfBonus(st){                          // bonus da statistiche offensive Understat
+function perfBonus(st){                          // bonus da statistiche Understat role-specific
   const role = roleOf(st), w = PERF_W.ruoli[role], u = S.understat[st.id];
   if (!w || !u) return { val: 0, has: false };   // nessun feed (es. campionato fermo) → 0
   const fvsd = PERF_W.FV_sd[role] || 0;
   let b = 0, used = false;
-  for (const sig of ["shots_p90", "xa_p90"]) {
+  
+  // Metriche specifiche per ruolo
+  let metrics = ["shots_p90", "xa_p90"];  // Default
+  if(role === "A") metrics = ["shots_p90", "xa_p90", "xg_p90"];  // Attaccanti: aggiungi xG
+  if(role === "C") metrics = ["xa_p90", "tackles_interceptions_p90", "passes_progressive_p90"];  // Centrocampisti
+  if(role === "D") metrics = ["tackles_interceptions_p90", "xga_90", "clearances_p90"];  // Difensori
+  if(role === "P") metrics = ["xga_90", "shots_on_target_p90"];  // Portieri (no save_rate, non disponibile)
+  
+  for (const sig of metrics) {
     const c = w[sig];
     if (!c || !c.beta || u[sig] == null) continue;
     const z = Math.max(-PERF_W.cap, Math.min(PERF_W.cap, (u[sig] - c.mean) / c.sd));
@@ -524,6 +532,31 @@ function perfBonus(st){                          // bonus da statistiche offensi
   }
   return { val: b, has: used };
 }
+
+function scheierability(r){                     // Indice di Schierabilità: "Se gioca, quanto varrà?"
+  const st = S.byId.get(r.id);
+  const role = roleOf(st);
+  
+  // BASE: Tutti i fattori che predicono il voto IN CAMPO
+  const rating_base = shrunk(st);               // Rating core (Fantamedia shrunk)
+  const bonus_squadra = teamAdj(st);            // Forza della propria squadra (costante stagione)
+  const bonus_calendario = calAdj(st.squadra, role).adj;  // Avversario prossima giornata (role-specific)
+  const bonus_performance = perfBonus(st).val;  // Understat (role-specific)
+  const bonus_rigori = (r.rig ? RIG_BONUS : 0);  // Se rigorista
+  
+  const base = rating_base + bonus_squadra + bonus_calendario + bonus_performance + bonus_rigori;
+  
+  // TITOLARITÀ: Certezza che il giocatore gioca
+  // Prende dai dati REALI (probabili formazioni) o fallback a PV storica
+  let titolarita = Math.min(1, (st.pv || 0) / MKT_REG);  // Default: PV storica
+  if(S.titolarita_reale && S.titolarita_reale[st.id]){
+    titolarita = S.titolarita_reale[st.id].confidence;  // Quando disponibile (agosto)
+  }
+  
+  // RISULTATO: Base × probabilità che gioca
+  return base * titolarita;
+}
+
 function expFV(r){                               // r = elemento roster
   const st = S.byId.get(r.id);
   const role = roleOf(st);
@@ -746,11 +779,13 @@ function loadMyTeam(name){
 // miglior formazione per una rosa qualunque (lista di elementi {id,pTit,rig,sq,inf})
 function bestLineupFrom(roster, mod){
   const avail=roster.filter(r=>!r.sq&&!r.inf);
-  const by=role=>avail.filter(r=>roleOf(S.byId.get(r.id))===role).sort((a,b)=>slotEV(b)-slotEV(a));
+  // FORMAZIONE: Ordina per scheierability (valore QUANDO gioca)
+  const by=role=>avail.filter(r=>roleOf(S.byId.get(r.id))===role).sort((a,b)=>scheierability(b)-scheierability(a));
   const xi=[...by("P").slice(0,1),...by("D").slice(0,mod.d),...by("C").slice(0,mod.c),...by("A").slice(0,mod.a)];
   const need=1+mod.d+mod.c+mod.a; const bench={};
   ROLES.forEach(role=>bench[role]=by(role).filter(r=>!xi.includes(r)));
-  return {xi,bench,complete:xi.length===need, ev:xi.reduce((s,r)=>s+slotEV(r),0)-(xi.length===need?0:99)};
+  // EV: Valore totale della formazione (quando i giocatori giocano)
+  return {xi,bench,complete:xi.length===need, ev:xi.reduce((s,r)=>s+scheierability(r),0)-(xi.length===need?0:99)};
 }
 function bestOf(roster){
   const r=MODULES.map(m=>({mod:m,lu:bestLineupFrom(roster,m)})).filter(x=>x.lu.complete)
