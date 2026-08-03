@@ -2,9 +2,16 @@ name: Aggiorna dati Fantassist
 
 on:
   schedule:
+    # Lunedì 05:00 UTC (dopo la giornata) e venerdì 12:00 UTC (prima della giornata,
+    # per classifica, rigoristi e indisponibili aggiornati)
     - cron: "0 5 * * 1"
     - cron: "0 12 * * 5"
-  workflow_dispatch:
+  workflow_dispatch:   # avvio manuale dal tab Actions
+    inputs:
+      giornata:
+        description: "Numero giornata di cui scaricare i voti reali (lascia vuoto per saltare questo step)"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -22,17 +29,13 @@ jobs:
       - name: Installa dipendenze
         run: pip install -r requirements.txt
 
-      - name: Esegui scraper fantacalcio.it
+      - name: Esegui scraper fantacalcio.it (statistiche stagionali)
         run: python scraper.py
 
-      # TEMPORANEAMENTE DISABILITATO (fino ad agosto quando campionato riprende)
-      # Il parsing Understat fallisce fuori stagione (struttura pagina cambia)
-      # Riabilitare a campionato avviato
-      #
+      # UNDERSTAT TEMPORANEAMENTE DISABILITATO (fuori stagione)
       # - name: Esegui scraper Understat
       #   run: python understat_pull.py
       #   continue-on-error: true
-      #
       # - name: Elabora Understat (CSV → JSON)
       #   run: python understat_process.py
       #   continue-on-error: true
@@ -43,4 +46,39 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/*.json
           git diff --cached --quiet || git commit -m "Dati aggiornati $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
+
+  voti-giornata:
+    # Job separato: gira SOLO se lanci manualmente il workflow specificando il
+    # numero di giornata. Scarica i voti reali (3 redazioni) di quella giornata
+    # e li integra nello storico data/voti_storico.json.
+    if: github.event_name == 'workflow_dispatch' && inputs.giornata != ''
+    needs: update
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.0
+        with:
+          ref: main   # riparte dal commit appena pushato dal job 'update'
+
+      - uses: actions/setup-python@v5.2.0
+        with:
+          python-version: "3.12"
+
+      - name: Installa Playwright
+        run: |
+          pip install playwright
+          python -m playwright install chromium --with-deps
+
+      - name: Scarica voti giornata ${{ inputs.giornata }}
+        run: python voti_giornata_scraper_v2.py ${{ inputs.giornata }}
+
+      - name: Integra nello storico
+        run: python integra_voti_storico.py data/voti_giornata_${{ inputs.giornata }}.json ${{ inputs.giornata }}
+
+      - name: Commit voti storico aggiornato
+        run: |
+          git config user.name "fantassist-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/voti_storico.json data/voti_giornata_${{ inputs.giornata }}.json
+          git diff --cached --quiet || git commit -m "Voti giornata ${{ inputs.giornata }} integrati $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
