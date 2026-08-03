@@ -388,6 +388,7 @@ function pickViceCaptain(xi, captain){
 }
 function fasceBonus(voto){
   const fasce = [...(S.leagueRules.captain.fasce||[])].sort((a,b) => a.min-b.min);
+  if(!fasce.length) return 0;
   const f = fasce.find(f => voto >= f.min && voto <= f.max);
   return f ? f.val ?? f.bonus : 0;
 }
@@ -571,7 +572,18 @@ function loadLocal(){
     if(d.standalone) S.standalone = d.standalone;
     if(d.extraNames) S.extraNames = d.extraNames;
     if(d.asta) S.asta = d.asta;
-    if(d.leagueRules) S.leagueRules = d.leagueRules;
+    if(d.leagueRules){
+      // Merge difensivo: uno stato salvato PRIMA di un aggiornamento può non avere
+      // i campi nuovi (es. fasce, vice). Sovrascrivere in blocco romperebbe la UI.
+      S.leagueRules.captain = {...S.leagueRules.captain, ...(d.leagueRules.captain||{})};
+      S.leagueRules.defMod  = {...S.leagueRules.defMod,  ...(d.leagueRules.defMod||{})};
+      if(!Array.isArray(S.leagueRules.captain.fasce) || !S.leagueRules.captain.fasce.length){
+        S.leagueRules.captain.fasce = [{min:6.5,max:6.99,bonus:0},{min:7,max:7.49,bonus:1},{min:7.5,max:7.99,bonus:2},{min:8,max:99,bonus:2}];
+      }
+      if(!Array.isArray(S.leagueRules.defMod.thresholds) || !S.leagueRules.defMod.thresholds.length){
+        S.leagueRules.defMod.thresholds = [{gol:0,val:1},{gol:1,val:0},{gol:2,val:-1},{gol:3,val:-2},{gol:4,val:-3},{gol:5,val:-4}];
+      }
+    }
     if(d.listone && d.listone.giocatori){
       S.listone = d.listone;
       S.listone.giocatori.forEach(g => S.listoneById.set(g.id, g));
@@ -1870,7 +1882,7 @@ function renderRegoleLega(){
           <th></th>
         </tr></thead>
         <tbody>
-        ${c.fasce.map((f,i) => `
+        ${(c.fasce||[]).map((f,i) => `
           <tr>
             <td style="padding:3px"><input type="number" step="0.5" value="${f.min}" oninput="setCaptainFasciaField(${i},'min',this.value)"
               style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
@@ -1924,7 +1936,7 @@ function renderRegoleLega(){
           <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Bonus/Malus</th>
         </tr></thead>
         <tbody>
-        ${d.thresholds.map((t,i) => `
+        ${(d.thresholds||[]).map((t,i) => `
           <tr>
             <td style="padding:4px 4px">${i === d.thresholds.length-1 ? t.gol+"+" : t.gol}</td>
             <td style="padding:4px 4px">
