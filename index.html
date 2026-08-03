@@ -380,6 +380,12 @@ function pickCaptain(xi){
   if(!S.leagueRules?.captain?.enabled || !xi || !xi.length) return null;
   return xi.reduce((best, r) => scheierability(r) > scheierability(best) ? r : best, xi[0]);
 }
+function pickViceCaptain(xi, captain){
+  if(!S.leagueRules?.captain?.enabled || !S.leagueRules?.captain?.vice || !xi || !captain) return null;
+  const rest = xi.filter(r => r.id !== captain.id);
+  if(!rest.length) return null;
+  return rest.reduce((best, r) => scheierability(r) > scheierability(best) ? r : best, rest[0]);
+}
 function captainAdjustedValue(rating){
   const c = S.leagueRules.captain;
   return c.type === "raddoppio" ? rating*2 : rating + (Number(c.fixedValue)||0);
@@ -507,7 +513,7 @@ const S = {                    // stato applicazione
   extraNames: {},              // id sintetico "x:nome" → {nome,squadra} per i fuori-listone
   asta: null,                  // {budget, slot:{P,D,C,A}, giocatori:[{id,nome,squadra,ruolo,qt,tit,quota,stato,prezzo}]}
   leagueRules: {                // regole di punteggio configurabili, non tutte le leghe sono uguali
-    captain: { enabled:false, type:"raddoppio", fixedValue:3 },
+    captain: { enabled:false, type:"raddoppio", fixedValue:3, vice:false },
     defMod: { enabled:false, thresholds:[
       {gol:0,val:1},{gol:1,val:0},{gol:2,val:-1},{gol:3,val:-2},{gol:4,val:-3},{gol:5,val:-4}
     ]}
@@ -1186,6 +1192,7 @@ function renderFormazione(){
   const mc = monteCarlo(sel.lu);
   const pAbove = mc.sorted.filter(v => v >= S.threshold).length / mc.sorted.length;
   const captain = pickCaptain(sel.lu.xi);
+  const vice = pickViceCaptain(sel.lu.xi, captain);
   const captainDelta = captain ? captainAdjustedValue(scheierability(captain)) - scheierability(captain) : 0;
   const totaleConCapitano = mc.mean + captainDelta;
 
@@ -1205,7 +1212,8 @@ function renderFormazione(){
       ${captain ? `<div class="sub" style="padding:0 14px 10px; text-align:center">
         🎖 Capitano: <b style="color:var(--chalk)">${esc(S.byId.get(captain.id).nome)}</b>
         (${S.leagueRules.captain.type==="raddoppio"?"×2":"+"+fmt(S.leagueRules.captain.fixedValue,1)}
-        → +${fmt(captainDelta,1)} al totale)</div>` : ""}
+        → +${fmt(captainDelta,1)} al totale)${vice ? `<br>🥈 Vice: <b style="color:var(--chalk)">${esc(S.byId.get(vice.id).nome)}</b>
+        <span style="color:var(--dim)">(subentra se il capitano non gioca)</span>` : ""}</div>` : ""}
     </div>
     <div class="card">
       <div class="bighead"><div class="l">Simulazione · ${N_SIM} giornate</div>
@@ -1773,6 +1781,7 @@ function regoleLegaSummary(){
 function setCaptainEnabled(v){ S.leagueRules.captain.enabled = v; saveLocal(); render(); }
 function setCaptainType(t){ S.leagueRules.captain.type = t; saveLocal(); render(); }
 function setCaptainFixed(v){ S.leagueRules.captain.fixedValue = Number(v)||0; saveLocal(); }
+function setCaptainVice(v){ S.leagueRules.captain.vice = v; saveLocal(); render(); }
 function setDefModEnabled(v){ S.leagueRules.defMod.enabled = v; saveLocal(); render(); }
 function setDefModThreshold(idx, v){
   S.leagueRules.defMod.thresholds[idx].val = Number(v)||0; saveLocal();
@@ -1805,8 +1814,14 @@ function renderRegoleLega(){
         <input type="number" step="0.5" value="${c.fixedValue}" oninput="setCaptainFixed(this.value)"
           style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit; margin-top:4px">
       </div>` : ""}
+      <div class="bighead" style="margin-top:12px">
+        <div><div class="l">VICE CAPITANO</div>
+          <div class="v" style="font-size:14px">Sostituisce il capitano se non gioca</div></div>
+        <label class="switch"><input type="checkbox" ${c.vice?"checked":""}
+          onchange="setCaptainVice(this.checked)"><span></span></label>
+      </div>
       <p class="sub" style="margin:10px 0 0">Il capitano è scelto automaticamente: il giocatore con
-        l'indice di schierabilità più alto nell'undici titolare.</p>` : ""}
+        l'indice di schierabilità più alto nell'undici titolare.${c.vice?" Il vice è il secondo migliore — dichiarali entrambi quando invii la formazione nella tua lega.":""}</p>` : ""}
     </div>
 
     <div class="card" style="padding:14px; margin-top:12px">
