@@ -336,41 +336,25 @@ const HOME_W = {P:0.167, D:0.172, C:0.144, A:0.155};
 const BENCH_FV = 4.0, RIG_BONUS = 0.3, N_SIM = 3000;
 
 /* ============================================================
-   MODIFICATORE DI DIFESA — stima euristica (provvisoria)
-   Non basata su xGA reale (arriverà con Understat ad agosto);
-   usa la forza relativa propria/avversario già disponibile
-   (stesse fonti di calAdj) per stimare i gol subiti attesi
-   via Poisson, poi il valore atteso del modificatore configurato.
+   MODIFICATORE DI DIFESA — meccanismo reale fantacalcio.it
+   Fonte: regolamento ufficiale leghe.fantacalcio.it + riscontri incrociati
+   (FantaMaster, SOS Fanta, Goal.com). Si attiva SOLO con almeno 4 difensori
+   schierati (moduli a 3 esclusi). Si calcola la MEDIA del voto PURO (senza
+   bonus/malus) di portiere + 3 migliori difensori tra quelli schierati
+   (scartando il peggiore se sono esattamente 4). Quella media cade in una
+   fascia (configurabile in Regole Lega) che dà un bonus/malus UNICO
+   all'intera squadra — non è distribuito sui singoli giocatori.
    ============================================================ */
-const DEF_MOD_LEAGUE_AVG = 1.35;   // gol subiti medi a partita, Serie A
-const DEF_MOD_STRENGTH_K = 0.55;   // sensibilità alla differenza di forza
-function factorial(n){ let f=1; for(let i=2;i<=n;i++) f*=i; return f; }
-function poissonPMF(lambda, k){ return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k); }
-function expectedGoalsConceded(teamSlug){
-  const m = matchInfo(teamSlug);
-  if(!m) return null;                              // campionato fermo o squadra a riposo
-  const own = strength(teamSlug), opp = strength(m.opp);
-  const lambda = DEF_MOD_LEAGUE_AVG
-    * (1 - DEF_MOD_STRENGTH_K*(own-0.5))            // difesa propria forte → meno gol subiti
-    * (1 + DEF_MOD_STRENGTH_K*(opp-0.5));           // attacco avversario forte → più gol subiti
-  return Math.max(0.15, lambda);                    // pavimento di sicurezza
-}
-// bonus/malus atteso per il reparto difensivo, dato il modificatore configurato dall'utente
-function defModBonus(st, role){
+function defModTeamBonus(votoP, votiD){
   if(!S.leagueRules?.defMod?.enabled) return 0;
-  if(role !== "D" && role !== "P") return 0;
-  const lambda = expectedGoalsConceded(st.squadra);
-  if(lambda == null) return 0;
-  const table = [...(S.leagueRules.defMod.thresholds||[])].sort((a,b)=>a.gol-b.gol);
-  if(!table.length) return 0;
-  let expected = 0, cumP = 0;
-  for(let i=0;i<table.length-1;i++){
-    const p = poissonPMF(lambda, table[i].gol);
-    expected += p * table[i].val; cumP += p;
-  }
-  const last = table[table.length-1];
-  expected += Math.max(0, 1-cumP) * last.val;        // ultima soglia = "e oltre"
-  return expected;
+  if(votoP == null || votiD.length < 4) return 0;             // serve il portiere + almeno 4 difensori
+  const validi = votiD.filter(v => v != null);
+  if(validi.length < 4) return 0;
+  const best3 = [...validi].sort((a,b) => b-a).slice(0,3);
+  const media = (votoP + best3.reduce((s,v) => s+v, 0)) / 4;
+  const fasce = [...(S.leagueRules.defMod.fasce||[])].sort((a,b) => a.min-b.min);
+  const f = fasce.find(f => media >= f.min && media <= f.max);
+  return f ? f.val : 0;
 }
 
 /* ============================================================
@@ -442,49 +426,6 @@ function availableGiornate(){                          // elenco giornate con al
   return Array.from(set).sort((a,b) => b-a);
 }
 
-/* ---- Modificatore di Difesa applicato ai voti REALI (Top 11) ----
-   Il fantavoto scaricato dal sito è calcolato in Classic: malus -1 al portiere
-   per ogni gol subito, nessun effetto sui difensori. Verificato empiricamente
-   su 13/13 portieri (giornata 16): delta FV-V = -1 × gol_subiti esatto, 0/0
-   difensori con questo malus individuale. Per applicare IL NOSTRO modificatore
-   si toglie quel malus al portiere e si sostituisce, per portiere e difensori
-   della squadra, con il valore reale (gol subiti effettivi, non stimati) letto
-   dalle soglie configurate in Regole Lega. */
-function realGoalsConceded(teamSlug, giornata){
-  let found = null;
-  for(const p of Object.values(S.votiStorico||{})){
-    if(p.squadra !== teamSlug || p.ruolo !== "p") continue;
-    const g = p.giornate?.[String(giornata)];
-    const bm = g?.bonus_malus?.find(b => b.tipo === "Gol subiti");
-    if(bm) found = Math.max(found ?? 0, bm.valore);   // proxy: portiere con più minuti/eventi
-  }
-  return found;   // null se nessun portiere trovato con quel dato per la squadra/giornata
-}
-function realDefModPoints(teamSlug, giornata){
-  if(!S.leagueRules?.defMod?.enabled) return 0;
-  const goals = realGoalsConceded(teamSlug, giornata);
-  if(goals == null) return 0;
-  const table = [...(S.leagueRules.defMod.thresholds||[])].sort((a,b) => a.gol-b.gol);
-  if(!table.length) return 0;
-  for(const t of table) if(goals <= t.gol) return t.val;
-  return table[table.length-1].val;                  // oltre l'ultima soglia = "e oltre"
-}
-function realFVLega(playerId, giornata){               // fantavoto reale, riadattato alle regole lega
-  const fv = realFV(playerId, giornata);
-  if(fv == null) return null;
-  if(!S.leagueRules?.defMod?.enabled) return fv;
-  const st = S.byId.get(playerId);
-  const role = roleOf(st);
-  if(role !== "P" && role !== "D") return fv;
-  const defPts = realDefModPoints(st.squadra, giornata);
-  if(role === "P"){
-    const goals = realGoalsConceded(st.squadra, giornata);
-    const malusClassicGiaApplicato = goals != null ? -goals : 0;   // -1/gol, validato empiricamente
-    return fv - malusClassicGiaApplicato + defPts;                 // annulla Classic, applica il nostro
-  }
-  return fv + defPts;                                              // difensore: Classic non lo tocca, si somma soltanto
-}
-
 const MODULES = [
   {name:"3-4-3", d:3, c:4, a:3}, {name:"4-3-3", d:4, c:3, a:3},
   {name:"4-4-2", d:4, c:4, a:2}, {name:"3-5-2", d:3, c:5, a:2},
@@ -543,8 +484,8 @@ const S = {                    // stato applicazione
     captain: { enabled:false, type:"raddoppio", fixedValue:3, vice:false,
       fasce: [{min:6.5,max:6.99,bonus:0},{min:7,max:7.49,bonus:1},{min:7.5,max:7.99,bonus:2},{min:8,max:99,bonus:2}],
       raddoppiaBonus:false, raddoppiaMalus:false },
-    defMod: { enabled:false, thresholds:[
-      {gol:0,val:1},{gol:1,val:0},{gol:2,val:-1},{gol:3,val:-2},{gol:4,val:-3},{gol:5,val:-4}
+    defMod: { enabled:false, fasce:[
+      {min:6, max:6.49, val:1}, {min:6.5, max:6.99, val:3}, {min:7, max:99, val:6}
     ]}
   },
   tab: "rosa", threshold: 66, selMod: null, mcSeed: 0,
@@ -580,8 +521,8 @@ function loadLocal(){
       if(!Array.isArray(S.leagueRules.captain.fasce) || !S.leagueRules.captain.fasce.length){
         S.leagueRules.captain.fasce = [{min:6.5,max:6.99,bonus:0},{min:7,max:7.49,bonus:1},{min:7.5,max:7.99,bonus:2},{min:8,max:99,bonus:2}];
       }
-      if(!Array.isArray(S.leagueRules.defMod.thresholds) || !S.leagueRules.defMod.thresholds.length){
-        S.leagueRules.defMod.thresholds = [{gol:0,val:1},{gol:1,val:0},{gol:2,val:-1},{gol:3,val:-2},{gol:4,val:-3},{gol:5,val:-4}];
+      if(!Array.isArray(S.leagueRules.defMod.fasce) || !S.leagueRules.defMod.fasce.length){
+        S.leagueRules.defMod.fasce = [{min:6,max:6.49,val:1},{min:6.5,max:6.99,val:3},{min:7,max:99,val:6}];
       }
     }
     if(d.listone && d.listone.giocatori){
@@ -737,10 +678,9 @@ function expFV(r){                               // r = elemento roster
   const cal = calAdj(st.squadra, role);
   const team = teamAdj(st);                      // contesto squadra (costante nella stagione)
   const perf = perfBonus(st);
-  const defMod = defModBonus(st, role);           // 0 se il modificatore non è attivo in lega
   const base = shrunk(st) + team;                // rating di giocatore = fantamedia ristretta + squadra
-  return { val: base + cal.adj + (r.rig ? RIG_BONUS : 0) + perf.val + defMod,
-           cal, base, team, rating: shrunk(st), st, perf, defMod };
+  return { val: base + cal.adj + (r.rig ? RIG_BONUS : 0) + perf.val,
+           cal, base, team, rating: shrunk(st), st, perf };
 }
 function slotEV(r){
   return (r.pTit/100) * expFV(r).val + (1 - r.pTit/100) * BENCH_FV;
@@ -751,14 +691,19 @@ function rosterByRole(role){
 function bestLineup(mod){
   const avail = S.roster.filter(r => !r.sq && !r.inf);
   const by = role => avail.filter(r => roleOf(S.byId.get(r.id)) === role)
-    .sort((a,b) => slotEV(b) - slotEV(a));
+    .sort((a,b) => scheierability(b) - scheierability(a));
   const xi = [...by("P").slice(0,1), ...by("D").slice(0,mod.d),
               ...by("C").slice(0,mod.c), ...by("A").slice(0,mod.a)];
   const need = 1 + mod.d + mod.c + mod.a;
   const bench = {};
   ROLES.forEach(role => bench[role] = by(role).filter(r => !xi.includes(r)));
-  return {xi, bench, complete: xi.length === need,
-          ev: xi.reduce((s,r) => s + slotEV(r), 0) - (xi.length === need ? 0 : 99)};
+  // Modificatore di difesa: bonus/malus UNICO alla squadra (richiede almeno 4 difensori schierati),
+  // stimato sul rating previsto di portiere e difensori come proxy del voto puro.
+  const pRow = xi.find(r => roleOf(S.byId.get(r.id))==="P");
+  const dRows = xi.filter(r => roleOf(S.byId.get(r.id))==="D");
+  const defModTeam = defModTeamBonus(pRow ? expFV(pRow).val : null, dRows.map(r => expFV(r).val));
+  return {xi, bench, complete: xi.length === need, defModTeam,
+          ev: xi.reduce((s,r) => s + scheierability(r), 0) + defModTeam - (xi.length === need ? 0 : 99)};
 }
 function gauss(){
   let u = 0, v = 0;
@@ -959,8 +904,16 @@ function bestLineupFrom(roster, mod){
   const xi=[...by("P").slice(0,1),...by("D").slice(0,mod.d),...by("C").slice(0,mod.c),...by("A").slice(0,mod.a)];
   const need=1+mod.d+mod.c+mod.a; const bench={};
   ROLES.forEach(role=>bench[role]=by(role).filter(r=>!xi.includes(r)));
-  // EV: Valore totale della formazione (quando i giocatori giocano)
-  return {xi,bench,complete:xi.length===need, ev:xi.reduce((s,r)=>s+scheierability(r),0)-(xi.length===need?0:99)};
+  // Modificatore di difesa: bonus/malus UNICO alla squadra (non per giocatore), stimato sul
+  // rating previsto di portiere + difensori schierati come proxy del "voto puro" (richiede difesa a 4+).
+  const pRow = xi.find(r => roleOf(S.byId.get(r.id))==="P");
+  const dRows = xi.filter(r => roleOf(S.byId.get(r.id))==="D");
+  const votoP = pRow ? expFV(pRow).val : null;
+  const votiD = dRows.map(r => expFV(r).val);
+  const defModTeam = defModTeamBonus(votoP, votiD);
+  // EV: Valore totale della formazione (quando i giocatori giocano) + modificatore di squadra
+  return {xi, bench, complete:xi.length===need, defModTeam,
+    ev: xi.reduce((s,r)=>s+scheierability(r),0) + defModTeam - (xi.length===need?0:99)};
 }
 
 /* ============================================================
@@ -970,13 +923,18 @@ function bestLineupFrom(roster, mod){
    ============================================================ */
 function bestLineupReal(playerIds, mod, giornata){
   const avail = playerIds
-    .map(id => ({id, fv: realFVLega(id, giornata), v: realVoto(id, giornata)}))
+    .map(id => ({id, fv: realFV(id, giornata), v: realVoto(id, giornata)}))
     .filter(r => r.fv != null && S.byId.get(r.id));
   const by = role => avail.filter(r => roleOf(S.byId.get(r.id))===role).sort((a,b) => b.fv - a.fv);
   const xi = [...by("P").slice(0,1), ...by("D").slice(0,mod.d), ...by("C").slice(0,mod.c), ...by("A").slice(0,mod.a)];
   const need = 1+mod.d+mod.c+mod.a;
   const complete = xi.length === need;
-  return {xi, complete, total: complete ? xi.reduce((s,r) => s+r.fv, 0) : -Infinity};
+  // Modificatore di difesa reale: media del VOTO PURO (v, non fantavoto) di portiere +
+  // migliori 3 difensori schierati — richiede modulo con almeno 4 difensori.
+  const pRow = xi.find(r => roleOf(S.byId.get(r.id))==="P");
+  const dRows = xi.filter(r => roleOf(S.byId.get(r.id))==="D");
+  const defModTeam = complete ? defModTeamBonus(pRow?.v, dRows.map(r => r.v)) : 0;
+  return {xi, complete, defModTeam, total: complete ? xi.reduce((s,r) => s+r.fv, 0) + defModTeam : -Infinity};
 }
 function bestTop11ForTeam(playerIds, giornata){
   const ranking = MODULES.map(m => ({mod:m, lu:bestLineupReal(playerIds, m, giornata)}))
@@ -1235,7 +1193,7 @@ function renderFormazione(){
   const captain = pickCaptain(sel.lu.xi);
   const vice = pickViceCaptain(sel.lu.xi, captain);
   const captainDelta = captain ? captainAdjustedValue(scheierability(captain)) - scheierability(captain) : 0;
-  const totaleConCapitano = mc.mean + captainDelta;
+  const totaleConCapitano = mc.mean + captainDelta + (sel.lu.defModTeam||0);
 
   el("main").innerHTML = `
     <div class="modscroll">${ranking.map(x =>
@@ -1250,6 +1208,10 @@ function renderFormazione(){
           <div class="v">${fmt(totaleConCapitano,1)}</div></div>
       </div>
       <div style="padding:8px">${pitchSVG(sel.lu, sel.mod, captain?.id)}</div>
+      ${S.leagueRules.defMod.enabled ? `<div class="sub" style="padding:0 14px 6px; text-align:center">
+        🛡️ Modificatore Difesa: ${sel.mod.d < 4
+          ? `<span style="color:var(--dim)">non attivo (serve almeno 4 difensori, questo modulo ne ha ${sel.mod.d})</span>`
+          : `<b style="color:var(--chalk)">${signedSpan(sel.lu.defModTeam||0,1)}</b> alla squadra`}</div>` : ""}
       ${captain ? `<div class="sub" style="padding:0 14px 10px; text-align:center">
         🎖 Capitano: <b style="color:var(--chalk)">${esc(S.byId.get(captain.id).nome)}</b>
         (${S.leagueRules.captain.type==="raddoppio"?"×2":S.leagueRules.captain.type==="fasce"?"a fasce":"+"+fmt(S.leagueRules.captain.fixedValue,1)}
@@ -1343,8 +1305,9 @@ function openMetodo(){
       altrimenti fallback a presenze storiche (PV). E[slot] = p·E[fv] + (1−p)·valore riserva per la Rosa.</p>
       <p><b>Regole Lega</b> — Bonus Capitano e Modificatore di Difesa sono <i>opzionali</i>,
       configurabili in Altro → Regole Lega. Il capitano è scelto automaticamente tra i titolari
-      (schierabilità più alta); il modificatore di difesa usa una stima euristica dei gol subiti
-      attesi (Poisson su forza propria/avversario), da raffinare con dati xGA reali ad agosto.</p>
+      (schierabilità più alta); il modificatore di difesa segue il meccanismo reale di
+      fantacalcio.it: richiede almeno 4 difensori schierati, e dà un bonus/malus unico alla
+      squadra in base alla media del voto puro di portiere + 3 migliori difensori.</p>
       <p><b>Monte Carlo</b> — ${N_SIM} giornate simulate con fantavoti gaussiani
       (σ misurate: P 1,55 · D 1,07 · C 1,33 · A 1,90): mediana, banda P10–P90 e
       probabilità di superare la soglia scelta. I portieri sono molto più volatili di
@@ -1839,11 +1802,20 @@ function removeFascia(idx){
 function setRaddoppiaBonus(v){ S.leagueRules.captain.raddoppiaBonus = v; saveLocal(); }
 function setRaddoppiaMalus(v){ S.leagueRules.captain.raddoppiaMalus = v; saveLocal(); }
 function setDefModEnabled(v){ S.leagueRules.defMod.enabled = v; saveLocal(); render(); }
-function setDefModThreshold(idx, v){
-  S.leagueRules.defMod.thresholds[idx].val = Number(v)||0; saveLocal();
+function setDefModFasciaField(idx, field, v){
+  S.leagueRules.defMod.fasce[idx][field] = Number(v)||0; saveLocal();
 }
-function resetDefModThresholds(){
-  S.leagueRules.defMod.thresholds = [{gol:0,val:1},{gol:1,val:0},{gol:2,val:-1},{gol:3,val:-2},{gol:4,val:-3},{gol:5,val:-4}];
+function addDefFascia(){
+  const f = S.leagueRules.defMod.fasce;
+  const last = f[f.length-1];
+  f.push({min: last ? last.max+0.01 : 6, max: last ? last.max+1 : 6.5, val:0});
+  saveLocal(); render();
+}
+function removeDefFascia(idx){
+  S.leagueRules.defMod.fasce.splice(idx,1); saveLocal(); render();
+}
+function resetDefModFasce(){
+  S.leagueRules.defMod.fasce = [{min:6,max:6.49,val:1},{min:6.5,max:6.99,val:3},{min:7,max:99,val:6}];
   saveLocal(); render();
 }
 function renderRegoleLega(){
@@ -1922,31 +1894,39 @@ function renderRegoleLega(){
     <div class="card" style="padding:14px; margin-top:12px">
       <div class="bighead" style="margin-bottom:${d.enabled?"10px":"0"}">
         <div><div class="l">MODIFICATORE DI DIFESA</div>
-          <div class="v" style="font-size:16px">Bonus/malus al reparto per gol subiti dalla squadra</div></div>
+          <div class="v" style="font-size:16px">Bonus/malus alla squadra sulla media voto di portiere e difensori</div></div>
         <label class="switch"><input type="checkbox" ${d.enabled?"checked":""}
           onchange="setDefModEnabled(this.checked)"><span></span></label>
       </div>
       ${d.enabled ? `
-      <p class="sub" style="margin:10px 0">Valori applicati a Portieri e Difensori, in base ai gol
-        subiti stimati dalla squadra nella prossima giornata (stima euristica, verrà raffinata
-        con dati reali ad agosto). Modifica le soglie se la tua lega usa valori diversi:</p>
+      <p class="sub" style="margin:10px 0">Si attiva solo schierando <b>almeno 4 difensori</b> (moduli a 3
+        esclusi). Si calcola la media del voto puro (senza bonus/malus) di portiere + i 3 migliori
+        difensori schierati. Il bonus è <b>unico per tutta la squadra</b>, non per singolo giocatore.
+        Preset "a 3 fasce" (il più diffuso) già impostato — modificalo se la tua lega usa altri valori:</p>
       <table style="width:100%; border-collapse:collapse">
         <thead><tr>
-          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Gol subiti</th>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Da</th>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">A</th>
           <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Bonus/Malus</th>
+          <th></th>
         </tr></thead>
         <tbody>
-        ${(d.thresholds||[]).map((t,i) => `
+        ${(d.fasce||[]).map((f,i) => `
           <tr>
-            <td style="padding:4px 4px">${i === d.thresholds.length-1 ? t.gol+"+" : t.gol}</td>
-            <td style="padding:4px 4px">
-              <input type="number" step="0.5" value="${t.val}" oninput="setDefModThreshold(${i}, this.value)"
-                style="width:80px; padding:8px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit">
-            </td>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.min}" oninput="setDefModFasciaField(${i},'min',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.max}" oninput="setDefModFasciaField(${i},'max',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.val}" oninput="setDefModFasciaField(${i},'val',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><span class="tog del" style="padding:5px 9px" onclick="removeDefFascia(${i})">✕</span></td>
           </tr>`).join("")}
         </tbody>
       </table>
-      <button class="btn" style="margin-top:10px; padding:9px 13px" onclick="resetDefModThresholds()">Ripristina standard</button>` : ""}
+      <div style="display:flex; gap:8px; margin-top:8px">
+        <button class="btn" style="padding:8px 12px" onclick="addDefFascia()">+ Aggiungi fascia</button>
+        <button class="btn" style="padding:8px 12px" onclick="resetDefModFasce()">Ripristina standard</button>
+      </div>` : ""}
     </div>`;
 }
 function renderTop11(){
@@ -1998,6 +1978,8 @@ function renderTop11(){
           <div class="v">${fmt(sel.total,1)}</div></div>
       </div>
       <div style="padding:8px">${pitchSVG(sel.lu, MODULES.find(m=>m.name===sel.mod), sel.captain?.id, r => r.fv)}</div>
+      ${S.leagueRules.defMod.enabled ? `<div class="sub" style="padding:0 14px 6px; text-align:center">
+        🛡️ Modificatore Difesa: <b style="color:var(--chalk)">${signedSpan(sel.lu.defModTeam||0,1)}</b> alla squadra</div>` : ""}
       ${sel.captain ? `<div class="sub" style="padding:0 14px 10px; text-align:center">
         🎖 Capitano: <b style="color:var(--chalk)">${esc(S.byId.get(sel.captain.id).nome)}</b>
         → +${fmt(sel.captainDelta,1)} al totale</div>` : ""}
