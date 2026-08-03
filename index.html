@@ -386,9 +386,29 @@ function pickViceCaptain(xi, captain){
   if(!rest.length) return null;
   return rest.reduce((best, r) => scheierability(r) > scheierability(best) ? r : best, rest[0]);
 }
-function captainAdjustedValue(rating){
+function fasceBonus(voto){
+  const fasce = [...(S.leagueRules.captain.fasce||[])].sort((a,b) => a.min-b.min);
+  const f = fasce.find(f => voto >= f.min && voto <= f.max);
+  return f ? f.val ?? f.bonus : 0;
+}
+function captainAdjustedValue(rating){                 // uso prospettico (Formazione): solo su rating previsto
   const c = S.leagueRules.captain;
-  return c.type === "raddoppio" ? rating*2 : rating + (Number(c.fixedValue)||0);
+  if(c.type === "raddoppio") return rating*2;
+  if(c.type === "fasce") return rating + fasceBonus(rating);   // stima: fascia letta sul rating previsto
+  return rating + (Number(c.fixedValue)||0);
+}
+function captainAdjustedValueReal(voto, fv){
+  // uso retrospettivo (Top 11): voto e fantavoto REALI, con raddoppio bonus/malus se attivo.
+  // APPROSSIMAZIONE dichiarata: non conosciamo il valore in punti di ogni singolo bonus/malus
+  // (solo il conteggio eventi), quindi trattiamo l'intero delta FV-V come "bonus" se positivo,
+  // "malus" se negativo, e lo raddoppiamo di conseguenza. Da verificare quando la lega è configurata.
+  const c = S.leagueRules.captain;
+  if(c.type === "raddoppio") return fv*2;
+  if(c.type === "fisso") return fv + (Number(c.fixedValue)||0);
+  // fasce
+  const delta = fv - voto;
+  const adjDelta = delta >= 0 ? (c.raddoppiaBonus ? delta*2 : delta) : (c.raddoppiaMalus ? delta*2 : delta);
+  return voto + fasceBonus(voto) + adjDelta;
 }
 
 /* ============================================================
@@ -399,6 +419,12 @@ function realFV(playerId, giornata){
   if(!p) return null;
   const g = p.giornate?.[String(giornata)];
   return g && g.fantavoto_consensus != null ? g.fantavoto_consensus : null;
+}
+function realVoto(playerId, giornata){
+  const p = S.votiStorico[playerId];
+  if(!p) return null;
+  const g = p.giornate?.[String(giornata)];
+  return g && g.voto_consensus != null ? g.voto_consensus : null;
 }
 function realRecentForm(playerId, n=5){                // ultime n giornate con voto reale, più recente prima
   const p = S.votiStorico[playerId];
@@ -513,7 +539,9 @@ const S = {                    // stato applicazione
   extraNames: {},              // id sintetico "x:nome" → {nome,squadra} per i fuori-listone
   asta: null,                  // {budget, slot:{P,D,C,A}, giocatori:[{id,nome,squadra,ruolo,qt,tit,quota,stato,prezzo}]}
   leagueRules: {                // regole di punteggio configurabili, non tutte le leghe sono uguali
-    captain: { enabled:false, type:"raddoppio", fixedValue:3, vice:false },
+    captain: { enabled:false, type:"raddoppio", fixedValue:3, vice:false,
+      fasce: [{min:6.5,max:6.99,bonus:0},{min:7,max:7.49,bonus:1},{min:7.5,max:7.99,bonus:2},{min:8,max:99,bonus:2}],
+      raddoppiaBonus:false, raddoppiaMalus:false },
     defMod: { enabled:false, thresholds:[
       {gol:0,val:1},{gol:1,val:0},{gol:2,val:-1},{gol:3,val:-2},{gol:4,val:-3},{gol:5,val:-4}
     ]}
@@ -930,7 +958,7 @@ function bestLineupFrom(roster, mod){
    ============================================================ */
 function bestLineupReal(playerIds, mod, giornata){
   const avail = playerIds
-    .map(id => ({id, fv: realFVLega(id, giornata)}))
+    .map(id => ({id, fv: realFVLega(id, giornata), v: realVoto(id, giornata)}))
     .filter(r => r.fv != null && S.byId.get(r.id));
   const by = role => avail.filter(r => roleOf(S.byId.get(r.id))===role).sort((a,b) => b.fv - a.fv);
   const xi = [...by("P").slice(0,1), ...by("D").slice(0,mod.d), ...by("C").slice(0,mod.c), ...by("A").slice(0,mod.a)];
@@ -951,7 +979,8 @@ function computeTop11Standings(giornata){
     let captain = null, captainDelta = 0;
     if(total != null && S.leagueRules?.captain?.enabled && best.lu.xi.length){
       captain = best.lu.xi.reduce((b,r) => r.fv > b.fv ? r : b, best.lu.xi[0]);
-      captainDelta = captainAdjustedValue(captain.fv) - captain.fv;
+      const adjusted = captainAdjustedValueReal(captain.v, captain.fv);
+      captainDelta = adjusted - captain.fv;
       total += captainDelta;
     }
     return {team, mod:best.mod.name, lu:best.lu, total, captain, captainDelta};
@@ -1211,7 +1240,7 @@ function renderFormazione(){
       <div style="padding:8px">${pitchSVG(sel.lu, sel.mod, captain?.id)}</div>
       ${captain ? `<div class="sub" style="padding:0 14px 10px; text-align:center">
         🎖 Capitano: <b style="color:var(--chalk)">${esc(S.byId.get(captain.id).nome)}</b>
-        (${S.leagueRules.captain.type==="raddoppio"?"×2":"+"+fmt(S.leagueRules.captain.fixedValue,1)}
+        (${S.leagueRules.captain.type==="raddoppio"?"×2":S.leagueRules.captain.type==="fasce"?"a fasce":"+"+fmt(S.leagueRules.captain.fixedValue,1)}
         → +${fmt(captainDelta,1)} al totale)${vice ? `<br>🥈 Vice: <b style="color:var(--chalk)">${esc(S.byId.get(vice.id).nome)}</b>
         <span style="color:var(--dim)">(subentra se il capitano non gioca)</span>` : ""}</div>` : ""}
     </div>
@@ -1774,7 +1803,8 @@ function renderListone(){
 function regoleLegaSummary(){
   const c = S.leagueRules.captain, d = S.leagueRules.defMod;
   const parts = [];
-  parts.push(c.enabled ? `Capitano ${c.type==="raddoppio"?"×2":"+"+fmt(c.fixedValue,1)}` : "Capitano off");
+  const tipoLabel = c.type==="raddoppio" ? "×2" : c.type==="fasce" ? "a fasce" : "+"+fmt(c.fixedValue,1);
+  parts.push(c.enabled ? `Capitano ${tipoLabel}` : "Capitano off");
   parts.push(d.enabled ? "Mod. Difesa on" : "Mod. Difesa off");
   return parts.join(" · ");
 }
@@ -1782,6 +1812,20 @@ function setCaptainEnabled(v){ S.leagueRules.captain.enabled = v; saveLocal(); r
 function setCaptainType(t){ S.leagueRules.captain.type = t; saveLocal(); render(); }
 function setCaptainFixed(v){ S.leagueRules.captain.fixedValue = Number(v)||0; saveLocal(); }
 function setCaptainVice(v){ S.leagueRules.captain.vice = v; saveLocal(); render(); }
+function setCaptainFasciaField(idx, field, v){
+  S.leagueRules.captain.fasce[idx][field] = Number(v)||0; saveLocal();
+}
+function addFascia(){
+  const f = S.leagueRules.captain.fasce;
+  const last = f[f.length-1];
+  f.push({min: last ? last.max+0.01 : 6, max: last ? last.max+1 : 6.5, bonus:0});
+  saveLocal(); render();
+}
+function removeFascia(idx){
+  S.leagueRules.captain.fasce.splice(idx,1); saveLocal(); render();
+}
+function setRaddoppiaBonus(v){ S.leagueRules.captain.raddoppiaBonus = v; saveLocal(); }
+function setRaddoppiaMalus(v){ S.leagueRules.captain.raddoppiaMalus = v; saveLocal(); }
 function setDefModEnabled(v){ S.leagueRules.defMod.enabled = v; saveLocal(); render(); }
 function setDefModThreshold(idx, v){
   S.leagueRules.defMod.thresholds[idx].val = Number(v)||0; saveLocal();
@@ -1804,9 +1848,10 @@ function renderRegoleLega(){
           onchange="setCaptainEnabled(this.checked)"><span></span></label>
       </div>
       ${c.enabled ? `
-      <div style="display:flex; gap:8px; margin-top:10px">
+      <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap">
         <div class="tog ${c.type==="raddoppio"?"on":""}" onclick="setCaptainType('raddoppio')" style="flex:1; text-align:center">Raddoppio (×2)</div>
         <div class="tog ${c.type==="fisso"?"on":""}" onclick="setCaptainType('fisso')" style="flex:1; text-align:center">Bonus fisso</div>
+        <div class="tog ${c.type==="fasce"?"on":""}" onclick="setCaptainType('fasce')" style="flex:1; text-align:center">Tabella a fasce</div>
       </div>
       ${c.type==="fisso" ? `
       <div style="margin-top:10px">
@@ -1814,6 +1859,44 @@ function renderRegoleLega(){
         <input type="number" step="0.5" value="${c.fixedValue}" oninput="setCaptainFixed(this.value)"
           style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit; margin-top:4px">
       </div>` : ""}
+      ${c.type==="fasce" ? `
+      <p class="sub" style="margin:10px 0">⚠️ Valori di esempio — sostituiscili con quelli veri
+        appena configuri la lega. Il capitano riceve il bonus della fascia in cui rientra il suo voto.</p>
+      <table style="width:100%; border-collapse:collapse">
+        <thead><tr>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Da</th>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">A</th>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Bonus</th>
+          <th></th>
+        </tr></thead>
+        <tbody>
+        ${c.fasce.map((f,i) => `
+          <tr>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.min}" oninput="setCaptainFasciaField(${i},'min',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.max}" oninput="setCaptainFasciaField(${i},'max',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.bonus}" oninput="setCaptainFasciaField(${i},'bonus',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><span class="tog del" style="padding:5px 9px" onclick="removeFascia(${i})">✕</span></td>
+          </tr>`).join("")}
+        </tbody>
+      </table>
+      <button class="btn" style="margin-top:8px; padding:8px 12px" onclick="addFascia()">+ Aggiungi fascia</button>
+      <div class="bighead" style="margin-top:14px">
+        <div><div class="l" style="font-size:12px">RADDOPPIA BONUS OTTENUTI</div></div>
+        <label class="switch"><input type="checkbox" ${c.raddoppiaBonus?"checked":""}
+          onchange="setRaddoppiaBonus(this.checked)"><span></span></label>
+      </div>
+      <div class="bighead" style="margin-top:8px">
+        <div><div class="l" style="font-size:12px">RADDOPPIA MALUS OTTENUTI</div></div>
+        <label class="switch"><input type="checkbox" ${c.raddoppiaMalus?"checked":""}
+          onchange="setRaddoppiaMalus(this.checked)"><span></span></label>
+      </div>
+      <p class="sub" style="margin:8px 0 0">⚠️ Approssimazione: non conosciamo il valore in punti di
+        ogni singolo bonus/malus (solo il conteggio eventi), quindi il calcolo raddoppia l'intero
+        scarto voto→fantavoto se positivo (bonus) o negativo (malus). Vale solo nel Top 11 (dati reali),
+        non in Formazione (previsione).</p>` : ""}
       <div class="bighead" style="margin-top:12px">
         <div><div class="l">VICE CAPITANO</div>
           <div class="v" style="font-size:14px">Sostituisce il capitano se non gioca</div></div>
