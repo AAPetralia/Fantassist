@@ -170,9 +170,17 @@ input[type=range]{width:100%; accent-color:var(--fluo); height:26px}
 .togglerow{display:flex; gap:8px; margin-top:6px; flex-wrap:wrap}
 .tog{padding:7px 12px; border-radius:9px; font:700 12px 'Saira'; cursor:pointer;
   background:var(--bg2); color:var(--dim); border:1px solid var(--line)}
-.tog.on{color:var(--bg); border-color:transparent}
+.tog.on{color:var(--bg); border-color:transparent; background:var(--fluo)}
 .tog.on.red{background:var(--red)} .tog.on.amber{background:var(--amber)}
 .tog.del{color:var(--red); border-color:var(--red); margin-left:auto}
+.switch{position:relative; display:inline-block; width:44px; height:26px; flex-shrink:0}
+.switch input{opacity:0; width:0; height:0}
+.switch span{position:absolute; cursor:pointer; inset:0; background:var(--line);
+  transition:.2s; border-radius:26px}
+.switch span:before{position:absolute; content:""; height:20px; width:20px; left:3px; bottom:3px;
+  background:var(--card); transition:.2s; border-radius:50%}
+.switch input:checked + span{background:var(--fluo)}
+.switch input:checked + span:before{transform:translateX(18px)}
 .search{width:100%; background:var(--bg2); border:1px solid var(--line); color:var(--chalk);
   border-radius:12px; padding:12px 14px; font:600 15px 'Saira'; margin:10px 0 6px}
 .search:focus{outline:2px solid var(--fluo)}
@@ -326,6 +334,124 @@ const HOME_W = {P:0.167, D:0.172, C:0.144, A:0.155};
 // NON ricalibrate: RIG_BONUS (campione n<10, troppo fragile) e BENCH_FV
 // (va ripensato in funzione delle regole di sostituzione della lega, non ritarato).
 const BENCH_FV = 4.0, RIG_BONUS = 0.3, N_SIM = 3000;
+
+/* ============================================================
+   MODIFICATORE DI DIFESA — stima euristica (provvisoria)
+   Non basata su xGA reale (arriverà con Understat ad agosto);
+   usa la forza relativa propria/avversario già disponibile
+   (stesse fonti di calAdj) per stimare i gol subiti attesi
+   via Poisson, poi il valore atteso del modificatore configurato.
+   ============================================================ */
+const DEF_MOD_LEAGUE_AVG = 1.35;   // gol subiti medi a partita, Serie A
+const DEF_MOD_STRENGTH_K = 0.55;   // sensibilità alla differenza di forza
+function factorial(n){ let f=1; for(let i=2;i<=n;i++) f*=i; return f; }
+function poissonPMF(lambda, k){ return Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k); }
+function expectedGoalsConceded(teamSlug){
+  const m = matchInfo(teamSlug);
+  if(!m) return null;                              // campionato fermo o squadra a riposo
+  const own = strength(teamSlug), opp = strength(m.opp);
+  const lambda = DEF_MOD_LEAGUE_AVG
+    * (1 - DEF_MOD_STRENGTH_K*(own-0.5))            // difesa propria forte → meno gol subiti
+    * (1 + DEF_MOD_STRENGTH_K*(opp-0.5));           // attacco avversario forte → più gol subiti
+  return Math.max(0.15, lambda);                    // pavimento di sicurezza
+}
+// bonus/malus atteso per il reparto difensivo, dato il modificatore configurato dall'utente
+function defModBonus(st, role){
+  if(!S.leagueRules?.defMod?.enabled) return 0;
+  if(role !== "D" && role !== "P") return 0;
+  const lambda = expectedGoalsConceded(st.squadra);
+  if(lambda == null) return 0;
+  const table = [...(S.leagueRules.defMod.thresholds||[])].sort((a,b)=>a.gol-b.gol);
+  if(!table.length) return 0;
+  let expected = 0, cumP = 0;
+  for(let i=0;i<table.length-1;i++){
+    const p = poissonPMF(lambda, table[i].gol);
+    expected += p * table[i].val; cumP += p;
+  }
+  const last = table[table.length-1];
+  expected += Math.max(0, 1-cumP) * last.val;        // ultima soglia = "e oltre"
+  return expected;
+}
+
+/* ============================================================
+   BONUS CAPITANO — configurabile, disattivabile
+   ============================================================ */
+function pickCaptain(xi){
+  if(!S.leagueRules?.captain?.enabled || !xi || !xi.length) return null;
+  return xi.reduce((best, r) => scheierability(r) > scheierability(best) ? r : best, xi[0]);
+}
+function captainAdjustedValue(rating){
+  const c = S.leagueRules.captain;
+  return c.type === "raddoppio" ? rating*2 : rating + (Number(c.fixedValue)||0);
+}
+
+/* ============================================================
+   VOTI REALI STORICI — letti da voti_storico.json (giornate già giocate)
+   ============================================================ */
+function realFV(playerId, giornata){
+  const p = S.votiStorico[playerId];
+  if(!p) return null;
+  const g = p.giornate?.[String(giornata)];
+  return g && g.fantavoto_consensus != null ? g.fantavoto_consensus : null;
+}
+function realRecentForm(playerId, n=5){                // ultime n giornate con voto reale, più recente prima
+  const p = S.votiStorico[playerId];
+  if(!p || !p.giornate) return [];
+  return Object.keys(p.giornate)
+    .map(Number).sort((a,b) => b-a)
+    .map(g => ({giornata:g, fv:p.giornate[String(g)].fantavoto_consensus}))
+    .filter(x => x.fv != null)
+    .slice(0, n);
+}
+function availableGiornate(){                          // elenco giornate con almeno un voto reale, più recente prima
+  const set = new Set();
+  Object.values(S.votiStorico||{}).forEach(p => Object.keys(p.giornate||{}).forEach(g => set.add(Number(g))));
+  return Array.from(set).sort((a,b) => b-a);
+}
+
+/* ---- Modificatore di Difesa applicato ai voti REALI (Top 11) ----
+   Il fantavoto scaricato dal sito è calcolato in Classic: malus -1 al portiere
+   per ogni gol subito, nessun effetto sui difensori. Verificato empiricamente
+   su 13/13 portieri (giornata 16): delta FV-V = -1 × gol_subiti esatto, 0/0
+   difensori con questo malus individuale. Per applicare IL NOSTRO modificatore
+   si toglie quel malus al portiere e si sostituisce, per portiere e difensori
+   della squadra, con il valore reale (gol subiti effettivi, non stimati) letto
+   dalle soglie configurate in Regole Lega. */
+function realGoalsConceded(teamSlug, giornata){
+  let found = null;
+  for(const p of Object.values(S.votiStorico||{})){
+    if(p.squadra !== teamSlug || p.ruolo !== "p") continue;
+    const g = p.giornate?.[String(giornata)];
+    const bm = g?.bonus_malus?.find(b => b.tipo === "Gol subiti");
+    if(bm) found = Math.max(found ?? 0, bm.valore);   // proxy: portiere con più minuti/eventi
+  }
+  return found;   // null se nessun portiere trovato con quel dato per la squadra/giornata
+}
+function realDefModPoints(teamSlug, giornata){
+  if(!S.leagueRules?.defMod?.enabled) return 0;
+  const goals = realGoalsConceded(teamSlug, giornata);
+  if(goals == null) return 0;
+  const table = [...(S.leagueRules.defMod.thresholds||[])].sort((a,b) => a.gol-b.gol);
+  if(!table.length) return 0;
+  for(const t of table) if(goals <= t.gol) return t.val;
+  return table[table.length-1].val;                  // oltre l'ultima soglia = "e oltre"
+}
+function realFVLega(playerId, giornata){               // fantavoto reale, riadattato alle regole lega
+  const fv = realFV(playerId, giornata);
+  if(fv == null) return null;
+  if(!S.leagueRules?.defMod?.enabled) return fv;
+  const st = S.byId.get(playerId);
+  const role = roleOf(st);
+  if(role !== "P" && role !== "D") return fv;
+  const defPts = realDefModPoints(st.squadra, giornata);
+  if(role === "P"){
+    const goals = realGoalsConceded(st.squadra, giornata);
+    const malusClassicGiaApplicato = goals != null ? -goals : 0;   // -1/gol, validato empiricamente
+    return fv - malusClassicGiaApplicato + defPts;                 // annulla Classic, applica il nostro
+  }
+  return fv + defPts;                                              // difensore: Classic non lo tocca, si somma soltanto
+}
+
 const MODULES = [
   {name:"3-4-3", d:3, c:4, a:3}, {name:"4-3-3", d:4, c:3, a:3},
   {name:"4-4-2", d:4, c:4, a:2}, {name:"3-5-2", d:3, c:5, a:2},
@@ -365,6 +491,9 @@ const S = {                    // stato applicazione
   rigoristi: {},               // slug → [slug giocatori]
   indisponibili: {},           // slug → [slug giocatori]
   understat: {},               // id(cod) → {shots_p90, xa_p90} (feed offensivo, quando presente)
+  votiStorico: {},             // id(cod) → {nome,squadra,ruolo,giornate:{"16":{voto_consensus,fantavoto_consensus,...}}}
+  top11Giornata: null,         // giornata selezionata nella scheda Top 11
+  top11SelTeam: null,          // fantasquadra selezionata nella classifica Top 11
   meta: null,
   roster: [],                  // vista attiva: rosa della lega selezionata (o standalone)
   leagueRosters: {},           // vista attiva: { fantasquadra: [cod...] } della lega selezionata
@@ -377,6 +506,12 @@ const S = {                    // stato applicazione
   listoneById: new Map(),      // id → voce del listone
   extraNames: {},              // id sintetico "x:nome" → {nome,squadra} per i fuori-listone
   asta: null,                  // {budget, slot:{P,D,C,A}, giocatori:[{id,nome,squadra,ruolo,qt,tit,quota,stato,prezzo}]}
+  leagueRules: {                // regole di punteggio configurabili, non tutte le leghe sono uguali
+    captain: { enabled:false, type:"raddoppio", fixedValue:3 },
+    defMod: { enabled:false, thresholds:[
+      {gol:0,val:1},{gol:1,val:0},{gol:2,val:-1},{gol:3,val:-2},{gol:4,val:-3},{gol:5,val:-4}
+    ]}
+  },
   tab: "rosa", threshold: 66, selMod: null, mcSeed: 0,
 };
 
@@ -393,7 +528,7 @@ function saveLocal(){
   if(S.currentLeague && S.leagues[S.currentLeague]) S.leagues[S.currentLeague].myTeam = S.myTeamName;
   localStorage.setItem("fantassist", JSON.stringify(
     {threshold:S.threshold, leagues:S.leagues, currentLeague:S.currentLeague, standalone:S.standalone,
-     listone:S.listone, extraNames:S.extraNames, asta:S.asta}));
+     listone:S.listone, extraNames:S.extraNames, asta:S.asta, leagueRules:S.leagueRules}));
 }
 function loadLocal(){
   try{
@@ -402,6 +537,7 @@ function loadLocal(){
     if(d.standalone) S.standalone = d.standalone;
     if(d.extraNames) S.extraNames = d.extraNames;
     if(d.asta) S.asta = d.asta;
+    if(d.leagueRules) S.leagueRules = d.leagueRules;
     if(d.listone && d.listone.giocatori){
       S.listone = d.listone;
       S.listone.giocatori.forEach(g => S.listoneById.set(g.id, g));
@@ -433,9 +569,9 @@ async function loadData(){
   const res = await Promise.allSettled([
     getJSON("players.json"), getJSON("classifica.json"), getJSON("calendario.json"),
     getJSON("rigoristi.json"), getJSON("indisponibili.json"), getJSON("meta.json"),
-    getJSON("understat.json"),
+    getJSON("understat.json"), getJSON("voti_storico.json"),
   ]);
-  const [pl, cl, cal, rig, ind, meta, us] = res.map(r => r.status==="fulfilled" ? r.value : null);
+  const [pl, cl, cal, rig, ind, meta, us, vs] = res.map(r => r.status==="fulfilled" ? r.value : null);
 
   if(pl){
     S.db = pl.giocatori.filter(p => p.id && p.nome);
@@ -456,6 +592,7 @@ async function loadData(){
   if(us && us.giocatori){                      // feed offensivo: { giocatori: { cod: {shots_p90, xa_p90} } }
     S.understat = us.giocatori;
   }
+  if(vs) S.votiStorico = vs;                    // storico voti reali per giornata: { player_id: {nome,squadra,ruolo,giornate:{...}} }
   S.meta = meta;
 
   const dt = pl ? new Date(pl.aggiornato) : null;
@@ -535,16 +672,7 @@ function perfBonus(st){                          // bonus da statistiche Underst
 
 function scheierability(r){                     // Indice di Schierabilità: "Se gioca, quanto varrà?"
   const st = S.byId.get(r.id);
-  const role = roleOf(st);
-  
-  // BASE: Tutti i fattori che predicono il voto IN CAMPO
-  const rating_base = shrunk(st);               // Rating core (Fantamedia shrunk)
-  const bonus_squadra = teamAdj(st);            // Forza della propria squadra (costante stagione)
-  const bonus_calendario = calAdj(st.squadra, role).adj;  // Avversario prossima giornata (role-specific)
-  const bonus_performance = perfBonus(st).val;  // Understat (role-specific)
-  const bonus_rigori = (r.rig ? RIG_BONUS : 0);  // Se rigorista
-  
-  const base = rating_base + bonus_squadra + bonus_calendario + bonus_performance + bonus_rigori;
+  const base = expFV(r).val;                    // shrunk + teamAdj + calAdj + perfBonus + rig + defMod
   
   // TITOLARITÀ: Certezza che il giocatore gioca
   // Prende dai dati REALI (probabili formazioni) o fallback a PV storica
@@ -563,9 +691,10 @@ function expFV(r){                               // r = elemento roster
   const cal = calAdj(st.squadra, role);
   const team = teamAdj(st);                      // contesto squadra (costante nella stagione)
   const perf = perfBonus(st);
+  const defMod = defModBonus(st, role);           // 0 se il modificatore non è attivo in lega
   const base = shrunk(st) + team;                // rating di giocatore = fantamedia ristretta + squadra
-  return { val: base + cal.adj + (r.rig ? RIG_BONUS : 0) + perf.val,
-           cal, base, team, rating: shrunk(st), st, perf };
+  return { val: base + cal.adj + (r.rig ? RIG_BONUS : 0) + perf.val + defMod,
+           cal, base, team, rating: shrunk(st), st, perf, defMod };
 }
 function slotEV(r){
   return (r.pTit/100) * expFV(r).val + (1 - r.pTit/100) * BENCH_FV;
@@ -787,6 +916,42 @@ function bestLineupFrom(roster, mod){
   // EV: Valore totale della formazione (quando i giocatori giocano)
   return {xi,bench,complete:xi.length===need, ev:xi.reduce((s,r)=>s+scheierability(r),0)-(xi.length===need?0:99)};
 }
+
+/* ============================================================
+   TOP 11 — miglior formazione REALMENTE giocata in una giornata già
+   conclusa, usando voti_storico.json (non previsioni). Chi non ha
+   votato quella giornata è escluso, non stimato.
+   ============================================================ */
+function bestLineupReal(playerIds, mod, giornata){
+  const avail = playerIds
+    .map(id => ({id, fv: realFVLega(id, giornata)}))
+    .filter(r => r.fv != null && S.byId.get(r.id));
+  const by = role => avail.filter(r => roleOf(S.byId.get(r.id))===role).sort((a,b) => b.fv - a.fv);
+  const xi = [...by("P").slice(0,1), ...by("D").slice(0,mod.d), ...by("C").slice(0,mod.c), ...by("A").slice(0,mod.a)];
+  const need = 1+mod.d+mod.c+mod.a;
+  const complete = xi.length === need;
+  return {xi, complete, total: complete ? xi.reduce((s,r) => s+r.fv, 0) : -Infinity};
+}
+function bestTop11ForTeam(playerIds, giornata){
+  const ranking = MODULES.map(m => ({mod:m, lu:bestLineupReal(playerIds, m, giornata)}))
+    .sort((a,b) => b.lu.total - a.lu.total);
+  return ranking[0];
+}
+function computeTop11Standings(giornata){
+  const rosters = S.leagueRosters || {};
+  return Object.entries(rosters).map(([team, ids]) => {
+    const best = bestTop11ForTeam(ids, giornata);
+    let total = best.lu.complete ? best.lu.total : null;
+    let captain = null, captainDelta = 0;
+    if(total != null && S.leagueRules?.captain?.enabled && best.lu.xi.length){
+      captain = best.lu.xi.reduce((b,r) => r.fv > b.fv ? r : b, best.lu.xi[0]);
+      captainDelta = captainAdjustedValue(captain.fv) - captain.fv;
+      total += captainDelta;
+    }
+    return {team, mod:best.mod.name, lu:best.lu, total, captain, captainDelta};
+  }).sort((a,b) => (b.total ?? -Infinity) - (a.total ?? -Infinity));
+}
+
 function bestOf(roster){
   const r=MODULES.map(m=>({mod:m,lu:bestLineupFrom(roster,m)})).filter(x=>x.lu.complete)
     .sort((a,b)=>b.lu.ev-a.lu.ev);
@@ -904,6 +1069,10 @@ function renderRosa(){
             <div>Δ calendario: <b>${e.cal.opp ? signedSpan(e.cal.adj) : "n/d"}</b></div>
             <div>Performance: <b>${e.perf && e.perf.has ? signedSpan(e.perf.val) : "n/d"}</b></div>
           </div>
+          ${(() => { const form = realRecentForm(r.id, 5);
+            return form.length ? `<div class="sub" style="margin:8px 0 0">Ultimi voti reali:
+              ${form.map(x => `<b style="color:var(--chalk)">${fmt(x.fv,1)}</b><span style="color:var(--dim)">(G${x.giornata})</span>`).join(" · ")}</div>` : "";
+          })()}
           <label>Titolarità: <b style="color:var(--chalk)">${r.pTit}%</b>
             <input type="range" min="0" max="100" step="5" value="${r.pTit}"
               oninput="patch(${r.id},'pTit',+this.value)"></label>
@@ -965,17 +1134,21 @@ function renderGiornata(){
 }
 
 /* ---------- TAB: FORMAZIONE ---------- */
-function pitchSVG(lu, mod){
+function pitchSVG(lu, mod, captainId, valueFn){
+  const getVal = valueFn || (r => expFV(r).val);
   const rows = [["A", mod.a, 66], ["C", mod.c, 164], ["D", mod.d, 262], ["P", 1, 348]];
   const byRole = {P:[],D:[],C:[],A:[]};
   lu.xi.forEach(r => byRole[roleOf(S.byId.get(r.id))].push(r));
   let g = "";
   for(const [role, n, y] of rows){
     byRole[role].slice(0, n).forEach((r, i) => {
-      const x = 340/(n+1)*(i+1), st = S.byId.get(r.id), e = expFV(r).val;
+      const x = 340/(n+1)*(i+1), st = S.byId.get(r.id), e = getVal(r);
+      const isCaptain = captainId && r.id === captainId;
       const maxc = n >= 5 ? 7 : n === 4 ? 8 : 11;      // fila affollata → nome più corto
       const nm = st.nome.length > maxc ? st.nome.slice(0, maxc-1)+"…" : st.nome;
-      g += `<circle cx="${x}" cy="${y}" r="17" fill="var(--card)" stroke="${ROLE_COLOR[role]}" stroke-width="2"/>
+      g += `<circle cx="${x}" cy="${y}" r="17" fill="var(--card)" stroke="${ROLE_COLOR[role]}" stroke-width="${isCaptain?3:2}"/>
+        ${isCaptain ? `<circle cx="${x+13}" cy="${y-13}" r="8" fill="var(--fluo)"/>
+        <text x="${x+13}" y="${y-9.5}" text-anchor="middle" font-size="10" font-weight="900" fill="var(--bg)">C</text>` : ""}
         <text x="${x}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="800" fill="${ROLE_COLOR[role]}">${fmt(e,1)}</text>
         <text x="${x}" y="${y+34}" text-anchor="middle" font-size="14" font-weight="700" fill="var(--chalk)">${esc(nm)}</text>`;
     });
@@ -1012,6 +1185,9 @@ function renderFormazione(){
   const sel = S.selMod ? ranking.find(x => x.mod.name === S.selMod) || ranking[0] : ranking[0];
   const mc = monteCarlo(sel.lu);
   const pAbove = mc.sorted.filter(v => v >= S.threshold).length / mc.sorted.length;
+  const captain = pickCaptain(sel.lu.xi);
+  const captainDelta = captain ? captainAdjustedValue(scheierability(captain)) - scheierability(captain) : 0;
+  const totaleConCapitano = mc.mean + captainDelta;
 
   el("main").innerHTML = `
     <div class="modscroll">${ranking.map(x =>
@@ -1023,9 +1199,13 @@ function renderFormazione(){
         <div><div class="l">${sel === ranking[0] ? "Modulo ottimo" : "Modulo scelto"}</div>
           <div class="v" style="color:var(--fluo)">${sel.mod.name}</div></div>
         <div style="text-align:right"><div class="l">totale atteso</div>
-          <div class="v">${fmt(mc.mean,1)}</div></div>
+          <div class="v">${fmt(totaleConCapitano,1)}</div></div>
       </div>
-      <div style="padding:8px">${pitchSVG(sel.lu, sel.mod)}</div>
+      <div style="padding:8px">${pitchSVG(sel.lu, sel.mod, captain?.id)}</div>
+      ${captain ? `<div class="sub" style="padding:0 14px 10px; text-align:center">
+        🎖 Capitano: <b style="color:var(--chalk)">${esc(S.byId.get(captain.id).nome)}</b>
+        (${S.leagueRules.captain.type==="raddoppio"?"×2":"+"+fmt(S.leagueRules.captain.fixedValue,1)}
+        → +${fmt(captainDelta,1)} al totale)</div>` : ""}
     </div>
     <div class="card">
       <div class="bighead"><div class="l">Simulazione · ${N_SIM} giornate</div>
@@ -1112,6 +1292,10 @@ function openMetodo(){
       <p><b>Titolarità</b> — Indice di Schierabilità = base × titolarità.
       Titolarità reale da probabili formazioni (SOS Fanta, Fantacalcio.it, Calciomagazine) quando disponibili (agosto);
       altrimenti fallback a presenze storiche (PV). E[slot] = p·E[fv] + (1−p)·valore riserva per la Rosa.</p>
+      <p><b>Regole Lega</b> — Bonus Capitano e Modificatore di Difesa sono <i>opzionali</i>,
+      configurabili in Altro → Regole Lega. Il capitano è scelto automaticamente tra i titolari
+      (schierabilità più alta); il modificatore di difesa usa una stima euristica dei gol subiti
+      attesi (Poisson su forza propria/avversario), da raffinare con dati xGA reali ad agosto.</p>
       <p><b>Monte Carlo</b> — ${N_SIM} giornate simulate con fantavoti gaussiani
       (σ misurate: P 1,55 · D 1,07 · C 1,33 · A 1,90): mediana, banda P10–P90 e
       probabilità di superare la soglia scelta. I portieri sono molto più volatili di
@@ -1272,7 +1456,7 @@ function renderMercato(){
 }
 
 /* ---------- routing ---------- */
-const SOTTO_ALTRO = ["sfida","mercato","fattorec","cellha","listone","asta"];
+const SOTTO_ALTRO = ["sfida","mercato","fattorec","cellha","listone","asta","regolelega","top11"];
 
 /* nome per il confronto: toglie l'iniziale puntata del nome (es. "Sucic P." → "sucic") */
 function nomeCore(nome){
@@ -1579,6 +1763,138 @@ function renderListone(){
     ${stato}`;
 }
 
+function regoleLegaSummary(){
+  const c = S.leagueRules.captain, d = S.leagueRules.defMod;
+  const parts = [];
+  parts.push(c.enabled ? `Capitano ${c.type==="raddoppio"?"×2":"+"+fmt(c.fixedValue,1)}` : "Capitano off");
+  parts.push(d.enabled ? "Mod. Difesa on" : "Mod. Difesa off");
+  return parts.join(" · ");
+}
+function setCaptainEnabled(v){ S.leagueRules.captain.enabled = v; saveLocal(); render(); }
+function setCaptainType(t){ S.leagueRules.captain.type = t; saveLocal(); render(); }
+function setCaptainFixed(v){ S.leagueRules.captain.fixedValue = Number(v)||0; saveLocal(); }
+function setDefModEnabled(v){ S.leagueRules.defMod.enabled = v; saveLocal(); render(); }
+function setDefModThreshold(idx, v){
+  S.leagueRules.defMod.thresholds[idx].val = Number(v)||0; saveLocal();
+}
+function resetDefModThresholds(){
+  S.leagueRules.defMod.thresholds = [{gol:0,val:1},{gol:1,val:0},{gol:2,val:-1},{gol:3,val:-2},{gol:4,val:-3},{gol:5,val:-4}];
+  saveLocal(); render();
+}
+function renderRegoleLega(){
+  const c = S.leagueRules.captain, d = S.leagueRules.defMod;
+  el("main").innerHTML = `<h1>Regole Lega</h1>
+    <p class="sub" style="margin:0 0 14px">Non tutte le leghe usano le stesse regole di punteggio —
+      configura qui quelle della tua, o lasciale disattivate per il calcolo standard (Classic).</p>
+
+    <div class="card" style="padding:14px">
+      <div class="bighead" style="margin-bottom:${c.enabled?"10px":"0"}">
+        <div><div class="l">BONUS CAPITANO</div>
+          <div class="v" style="font-size:16px">Raddoppio o bonus fisso al migliore in campo</div></div>
+        <label class="switch"><input type="checkbox" ${c.enabled?"checked":""}
+          onchange="setCaptainEnabled(this.checked)"><span></span></label>
+      </div>
+      ${c.enabled ? `
+      <div style="display:flex; gap:8px; margin-top:10px">
+        <div class="tog ${c.type==="raddoppio"?"on":""}" onclick="setCaptainType('raddoppio')" style="flex:1; text-align:center">Raddoppio (×2)</div>
+        <div class="tog ${c.type==="fisso"?"on":""}" onclick="setCaptainType('fisso')" style="flex:1; text-align:center">Bonus fisso</div>
+      </div>
+      ${c.type==="fisso" ? `
+      <div style="margin-top:10px">
+        <label class="l">Valore bonus fisso</label>
+        <input type="number" step="0.5" value="${c.fixedValue}" oninput="setCaptainFixed(this.value)"
+          style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit; margin-top:4px">
+      </div>` : ""}
+      <p class="sub" style="margin:10px 0 0">Il capitano è scelto automaticamente: il giocatore con
+        l'indice di schierabilità più alto nell'undici titolare.</p>` : ""}
+    </div>
+
+    <div class="card" style="padding:14px; margin-top:12px">
+      <div class="bighead" style="margin-bottom:${d.enabled?"10px":"0"}">
+        <div><div class="l">MODIFICATORE DI DIFESA</div>
+          <div class="v" style="font-size:16px">Bonus/malus al reparto per gol subiti dalla squadra</div></div>
+        <label class="switch"><input type="checkbox" ${d.enabled?"checked":""}
+          onchange="setDefModEnabled(this.checked)"><span></span></label>
+      </div>
+      ${d.enabled ? `
+      <p class="sub" style="margin:10px 0">Valori applicati a Portieri e Difensori, in base ai gol
+        subiti stimati dalla squadra nella prossima giornata (stima euristica, verrà raffinata
+        con dati reali ad agosto). Modifica le soglie se la tua lega usa valori diversi:</p>
+      <table style="width:100%; border-collapse:collapse">
+        <thead><tr>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Gol subiti</th>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Bonus/Malus</th>
+        </tr></thead>
+        <tbody>
+        ${d.thresholds.map((t,i) => `
+          <tr>
+            <td style="padding:4px 4px">${i === d.thresholds.length-1 ? t.gol+"+" : t.gol}</td>
+            <td style="padding:4px 4px">
+              <input type="number" step="0.5" value="${t.val}" oninput="setDefModThreshold(${i}, this.value)"
+                style="width:80px; padding:8px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit">
+            </td>
+          </tr>`).join("")}
+        </tbody>
+      </table>
+      <button class="btn" style="margin-top:10px; padding:9px 13px" onclick="resetDefModThresholds()">Ripristina standard</button>` : ""}
+    </div>`;
+}
+function renderTop11(){
+  const giornate = availableGiornate();
+  if(!giornate.length){
+    el("main").innerHTML = `<div class="empty">${ill("formazione")}Nessun voto reale ancora disponibile.<br>
+      Torna qui dopo la prima giornata giocata della stagione.</div>`;
+    return;
+  }
+  if(!S.currentLeague || !S.leagueRosters || !Object.keys(S.leagueRosters).length){
+    el("main").innerHTML = `<div class="empty">${ill("formazione")}Il Top 11 confronta le rose di una lega.<br>
+      Seleziona o importa una lega dalla Rosa per vederlo.</div>`;
+    return;
+  }
+  if(!S.top11Giornata || !giornate.includes(S.top11Giornata)) S.top11Giornata = giornate[0];
+  const g = S.top11Giornata;
+  const standings = computeTop11Standings(g);
+  if(!S.top11SelTeam || !standings.find(s => s.team === S.top11SelTeam)){
+    S.top11SelTeam = standings.find(s => s.total != null)?.team || standings[0]?.team || null;
+  }
+  const sel = standings.find(s => s.team === S.top11SelTeam);
+
+  el("main").innerHTML = `
+    <div class="modscroll">${giornate.map(gn =>
+      `<div class="modbtn ${gn===g?"on":""}" onclick="S.top11Giornata=${gn}; render()">
+        <div class="n">G${gn}</div></div>`).join("")}
+    </div>
+    <div class="card" style="padding:14px">
+      <div class="l" style="margin-bottom:8px">CLASSIFICA TOP 11 · GIORNATA ${g}</div>
+      ${standings.map((s,i) => `
+        <div onclick="S.top11SelTeam='${esc(s.team)}'; render()"
+          style="display:flex; align-items:center; gap:10px; padding:10px 6px; border-bottom:1px solid var(--line);
+          cursor:pointer; ${s.team===S.top11SelTeam?"background:var(--bg2); border-radius:8px":""}">
+          <div style="width:22px; text-align:center; font-weight:900; color:${i===0?"var(--amber)":"var(--dim)"}">${i+1}</div>
+          <div style="flex:1">
+            <div style="font-weight:700; color:var(--chalk)">${esc(s.team)}</div>
+            <div class="sub" style="margin:0">${s.total!=null ? s.mod : "formazione incompleta"}</div>
+          </div>
+          <div style="font-weight:900; font-size:17px; color:${s.total!=null?"var(--fluo)":"var(--dim)"}">
+            ${s.total!=null ? fmt(s.total,1) : "n/d"}</div>
+        </div>`).join("")}
+    </div>
+    ${sel && sel.total!=null ? `
+    <div class="card">
+      <div class="bighead">
+        <div><div class="l">Formazione reale</div>
+          <div class="v" style="color:var(--fluo)">${esc(sel.team)}</div></div>
+        <div style="text-align:right"><div class="l">totale reale</div>
+          <div class="v">${fmt(sel.total,1)}</div></div>
+      </div>
+      <div style="padding:8px">${pitchSVG(sel.lu, MODULES.find(m=>m.name===sel.mod), sel.captain?.id, r => r.fv)}</div>
+      ${sel.captain ? `<div class="sub" style="padding:0 14px 10px; text-align:center">
+        🎖 Capitano: <b style="color:var(--chalk)">${esc(S.byId.get(sel.captain.id).nome)}</b>
+        → +${fmt(sel.captainDelta,1)} al totale</div>` : ""}
+    </div>` : sel ? `<div class="empty">${ill("formazione")}${esc(sel.team)} non aveva abbastanza giocatori
+      con voto reale in giornata ${g} per completare nessun modulo.</div>` : ""}
+  `;
+}
 function renderAltro(){
   const voci = [
     { tab:"asta",     tit:"Appunti per l'asta", sub:(S.asta&&S.asta.giocatori.length?`${S.asta.giocatori.filter(g=>g.stato==='preso').length} presi · ${S.asta.giocatori.length} in lista`:"Prepara e gestisci l'asta"),
@@ -1593,6 +1909,10 @@ function renderAltro(){
       ic:`<svg viewBox="0 0 24 24" fill="none"><g transform="translate(2.70,18.75) scale(0.0196,-0.0196)" fill="currentColor"><path d="M120 0 5 688H187L247 184H258L315 688H494L379 0Z"/><path transform="translate(499,0)" d="M36 11V147Q129 140 173 140Q204 140 218 142Q232 144 238 151Q244 157 246 168Q248 179 248 199Q248 229 244 241Q240 254 228 260Q216 266 185 271L100 287Q58 295 40 344Q23 394 23 484Q23 572 49 618Q76 665 121 680Q167 696 236 696Q288 696 332 690Q376 684 401 678V541Q341 548 278 548Q249 548 235 546Q222 545 215 539Q208 533 205 522Q203 511 203 490Q203 466 205 455Q208 444 216 439Q224 434 243 430L316 416Q350 409 373 394Q397 379 412 341Q428 297 428 223Q428 122 402 72Q377 22 335 7Q293 -8 225 -8Q179 -8 126 -2Q73 3 36 11Z"/></g></svg>` },
     { tab:"fattorec", tit:"Fattore C",  sub:"Quanto la fortuna ha inciso sui tuoi risultati",
       ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.4" r="3.5" fill="currentColor" stroke="none"/><circle cx="16.6" cy="12" r="3.5" fill="currentColor" stroke="none"/><circle cx="12" cy="16.6" r="3.5" fill="currentColor" stroke="none"/><circle cx="7.4" cy="12" r="3.5" fill="currentColor" stroke="none"/><path d="M12.5 16 C13 19 14 20.5 16.5 21.5"/></svg>` },
+    { tab:"regolelega", tit:"Regole Lega", sub:(regoleLegaSummary()),
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4z"/><path d="M4 12h10"/><path d="M4 16h10"/><path d="M4 20h6"/><circle cx="18" cy="16" r="3"/><path d="M18 13v-1M18 20v-1M21 16h1M15 16h1"/></svg>` },
+    { tab:"top11", tit:"Top 11", sub:"Classifica di lega sulla migliore formazione reale a giornata conclusa",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M6 4h12v5a6 6 0 0 1-12 0V4z"/><path d="M6 6H3a3 3 0 0 0 3 4"/><path d="M18 6h3a3 3 0 0 1-3 4"/></svg>` },
   ];
   el("main").innerHTML = `<h1>Altro</h1>
     <div class="menu">` + voci.map(v=>`
@@ -1608,7 +1928,7 @@ function render(){
   document.querySelectorAll("nav button").forEach(b =>
     b.classList.toggle("on", b.dataset.tab === attivo));
   ({rosa:renderRosa, giornata:renderGiornata, formazione:renderFormazione, altro:renderAltro,
-    fattorec:renderFattoreC, sfida:renderSfida, mercato:renderMercato, cellha:renderCellHa, listone:renderListone, asta:renderAsta})[S.tab]();
+    fattorec:renderFattoreC, sfida:renderSfida, mercato:renderMercato, cellha:renderCellHa, listone:renderListone, asta:renderAsta, regolelega:renderRegoleLega, top11:renderTop11})[S.tab]();
   if(SOTTO_ALTRO.includes(S.tab)){
     const m=el("main");
     const back=document.createElement("div");
