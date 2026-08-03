@@ -471,6 +471,8 @@ const S = {                    // stato applicazione
   meta: null,
   roster: [],                  // vista attiva: rosa della lega selezionata (o standalone)
   leagueRosters: {},           // vista attiva: { fantasquadra: [cod...] } della lega selezionata
+  leagueCalendar: {},          // vista attiva: { "1": {squadra: avversario, ...}, "2": {...} } della lega selezionata
+  sfidaGiornata: 1,            // giornata di lega selezionata nella scheda Sfida
   myTeamName: null,            // vista attiva: la mia fantasquadra nella lega selezionata
   leagues: {},                 // { nomeLega: { rosters:{team:[cod]}, myTeam, roster:[] } }
   currentLeague: null,         // nome della lega selezionata
@@ -495,8 +497,10 @@ const S = {                    // stato applicazione
    Usa la STESSA referenza dell'array, così le modifiche si propagano da sole. */
 function syncActive(){
   const L = S.currentLeague && S.leagues[S.currentLeague];
-  if(L){ S.roster = L.roster; S.leagueRosters = L.rosters; S.myTeamName = L.myTeam; }
-  else { S.roster = S.standalone; S.leagueRosters = {}; S.myTeamName = null; }
+  if(L){ S.roster = L.roster; S.leagueRosters = L.rosters; S.myTeamName = L.myTeam;
+    if(!L.calendar) L.calendar = {};
+    S.leagueCalendar = L.calendar; }
+  else { S.roster = S.standalone; S.leagueRosters = {}; S.myTeamName = null; S.leagueCalendar = {}; }
 }
 
 /* ---------- persistenza ---------- */
@@ -873,6 +877,58 @@ function onLeagueFile(input){
   reader.readAsArrayBuffer(file);
   input.value="";
 }
+/* ============================================================
+   CALENDARIO DI LEGA — round-robin generato automaticamente
+   (metodo del cerchio, andata+ritorno), editabile manualmente
+   perché il vero sorteggio della lega può differire.
+   ============================================================ */
+function generateRoundRobin(teams){
+  const list = [...teams];
+  const bye = "(riposo)";
+  if(list.length % 2 === 1) list.push(bye);
+  const n = list.length, roundsAndata = n - 1;
+  const cal = {};
+  let arr = [...list];
+  for(let r = 0; r < roundsAndata; r++){
+    const giornata = r + 1;
+    cal[giornata] = {};
+    for(let i = 0; i < n/2; i++){
+      const a = arr[i], b = arr[n-1-i];
+      if(a !== bye && b !== bye){ cal[giornata][a] = b; cal[giornata][b] = a; }
+    }
+    arr = [arr[0], ...arr.slice(-1), ...arr.slice(1, -1)];   // ruota tutti tranne il primo
+  }
+  for(let r = 0; r < roundsAndata; r++){                     // ritorno: stessi accoppiamenti
+    cal[roundsAndata + r + 1] = {...cal[r + 1]};
+  }
+  return cal;
+}
+function regenCalendario(){
+  const teams = Object.keys(S.leagueRosters);
+  if(teams.length < 2) return;
+  const L = S.leagues[S.currentLeague];
+  L.calendar = generateRoundRobin(teams);
+  S.leagueCalendar = L.calendar;
+  saveLocal(); render();
+}
+function setCalendarioMatch(giornata, team, opponent){
+  const L = S.leagues[S.currentLeague];
+  if(!L.calendar[giornata]) L.calendar[giornata] = {};
+  const old = L.calendar[giornata][team];
+  if(old) delete L.calendar[giornata][old === opponent ? team : old]; // ripulisce il vecchio avversario reciproco
+  L.calendar[giornata][team] = opponent;
+  L.calendar[giornata][opponent] = team;
+  S.leagueCalendar = L.calendar;
+  saveLocal(); render();
+}
+function numGiornateCalendario(){
+  const g = Object.keys(S.leagueCalendar||{}).map(Number);
+  return g.length ? Math.max(...g) : 0;
+}
+function oppOfCalendario(team, giornata){
+  return S.leagueCalendar?.[giornata]?.[team] || null;
+}
+
 function switchLeague(name){
   S.currentLeague=name; S.oppName=null; S._importReport=null; syncActive(); saveLocal(); render();
 }
@@ -1335,6 +1391,13 @@ function miniPitch(best, color){
   }
   return h+`</div>`;
 }
+function changeSfidaGiornata(delta){
+  const max = Math.max(1, numGiornateCalendario());
+  S.sfidaGiornata = Math.min(max, Math.max(1, (S.sfidaGiornata||1) + delta));
+  const calOpp = oppOfCalendario(S.myTeamName, S.sfidaGiornata);
+  if(calOpp) S.oppName = calOpp;               // il calendario ha priorità quando cambi giornata
+  saveLocal(); render();
+}
 function renderSfida(){
   const teams=Object.keys(S.leagueRosters);
   if(!teams.length){
@@ -1348,8 +1411,10 @@ function renderSfida(){
     return;
   }
   const others=teams.filter(t=>t!==S.myTeamName);
-  const opp=(S.oppName&&others.includes(S.oppName))?S.oppName:others[0];
+  const calOpp = oppOfCalendario(S.myTeamName, S.sfidaGiornata);
+  const opp=(S.oppName&&others.includes(S.oppName))?S.oppName:(calOpp && others.includes(calOpp) ? calOpp : others[0]);
   S.oppName=opp;
+  const haCalendario = numGiornateCalendario() > 0;
 
   const myBest=bestOf(S.roster);
   const oppBest=bestOf(oppRosterOf(opp));
@@ -1374,9 +1439,17 @@ function renderSfida(){
   }
   const pick=`<select class="oppsel" onchange="S.oppName=this.value; render()">
     ${others.map(t=>`<option ${t===opp?"selected":""}>${esc(t)}</option>`).join("")}</select>`;
+  const giornataStep = haCalendario ? `<div style="display:flex; align-items:center; gap:8px; padding:0 3px 8px">
+      <button class="btn" style="padding:6px 12px" onclick="changeSfidaGiornata(-1)">−</button>
+      <div style="flex:1; text-align:center; font-weight:700; color:var(--chalk)">Giornata ${S.sfidaGiornata}</div>
+      <button class="btn" style="padding:6px 12px" onclick="changeSfidaGiornata(1)">+</button>
+    </div>` : `<div class="sub" style="padding:0 3px 8px">Nessun calendario di lega —
+      <span style="color:var(--fluo); cursor:pointer" onclick="S.tab='calendariolega'; render()">generane uno</span>
+      per scegliere l'avversario in automatico giornata per giornata.</div>`;
 
   el("main").innerHTML=`
     <div class="rolehead" style="color:var(--dim)">${esc(S.currentLeague||"")} · Avversario di giornata</div>
+    ${giornataStep}
     <div style="padding:0 3px 6px">${pick}</div>
     ${head}
     <div class="cmpgrid">
@@ -1468,7 +1541,7 @@ function renderMercato(){
 }
 
 /* ---------- routing ---------- */
-const SOTTO_ALTRO = ["sfida","mercato","fattorec","cellha","listone","asta","regolelega","top11"];
+const SOTTO_ALTRO = ["sfida","mercato","fattorec","cellha","listone","asta","regolelega","top11","calendariolega"];
 
 /* nome per il confronto: toglie l'iniziale puntata del nome (es. "Sucic P." → "sucic") */
 function nomeCore(nome){
@@ -1987,6 +2060,52 @@ function renderTop11(){
       con voto reale in giornata ${g} per completare nessun modulo.</div>` : ""}
   `;
 }
+function renderCalendarioLega(){
+  const teams = Object.keys(S.leagueRosters||{});
+  if(teams.length < 2){
+    el("main").innerHTML = `<div class="empty">${ill("formazione")}Serve una lega con almeno 2 squadre importate.<br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa → Importa</button></div>`;
+    return;
+  }
+  const nGiornate = numGiornateCalendario();
+  if(!nGiornate){
+    el("main").innerHTML = `<div class="empty">${ill("formazione")}Nessun calendario ancora generato per <b>${esc(S.currentLeague)}</b>.<br><br>
+      <button class="btn primary" onclick="regenCalendario()">Genera calendario automatico</button><br>
+      <p class="sub" style="margin-top:10px">Round-robin andata+ritorno tra le ${teams.length} squadre.
+      Potrai correggere le partite a mano se il vero sorteggio della lega è diverso.</p></div>`;
+    return;
+  }
+  let html = `<h1>Calendario Lega</h1>
+    <p class="sub" style="margin:0 0 14px">${esc(S.currentLeague)} · ${nGiornate} giornate.
+    Modifica le tendine se il sorteggio reale della tua lega è diverso da quello generato.</p>
+    <button class="btn" style="margin-bottom:14px" onclick="if(confirm('Rigenerare da zero? Le modifiche manuali andranno perse.')) regenCalendario()">↻ Rigenera automatico</button>`;
+
+  for(let g = 1; g <= nGiornate; g++){
+    const partite = S.leagueCalendar[g] || {};
+    const viste = new Set();
+    html += `<div class="card" style="padding:12px 14px; margin-bottom:8px">
+      <div class="l" style="margin-bottom:8px">GIORNATA ${g}</div>`;
+    for(const team of teams){
+      if(viste.has(team)) continue;
+      const opp = partite[team];
+      if(!opp) continue;
+      viste.add(team); viste.add(opp);
+      const altre = teams.filter(t => t !== team);
+      html += `<div style="display:flex; align-items:center; gap:8px; padding:6px 0">
+        <div style="flex:1; font-weight:700; color:var(--chalk); ${team===S.myTeamName?"color:var(--fluo)":""}">${esc(team)}</div>
+        <div style="color:var(--dim); font-size:12px">vs</div>
+        <select style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"
+          onchange="setCalendarioMatch(${g}, '${team.replace(/'/g,"\\'")}', this.value)">
+          ${altre.map(t => `<option value="${esc(t)}" ${t===opp?"selected":""}>${esc(t)}</option>`).join("")}
+        </select>
+      </div>`;
+    }
+    const riposa = teams.filter(t => !viste.has(t));
+    if(riposa.length) html += `<div class="sub" style="margin-top:4px">Riposa: ${riposa.map(esc).join(", ")}</div>`;
+    html += `</div>`;
+  }
+  el("main").innerHTML = html;
+}
 function renderAltro(){
   const voci = [
     { tab:"asta",     tit:"Appunti per l'asta", sub:(S.asta&&S.asta.giocatori.length?`${S.asta.giocatori.filter(g=>g.stato==='preso').length} presi · ${S.asta.giocatori.length} in lista`:"Prepara e gestisci l'asta"),
@@ -2005,6 +2124,8 @@ function renderAltro(){
       ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4z"/><path d="M4 12h10"/><path d="M4 16h10"/><path d="M4 20h6"/><circle cx="18" cy="16" r="3"/><path d="M18 13v-1M18 20v-1M21 16h1M15 16h1"/></svg>` },
     { tab:"top11", tit:"Top 11", sub:"Classifica di lega sulla migliore formazione reale a giornata conclusa",
       ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M6 4h12v5a6 6 0 0 1-12 0V4z"/><path d="M6 6H3a3 3 0 0 0 3 4"/><path d="M18 6h3a3 3 0 0 1-3 4"/></svg>` },
+    { tab:"calendariolega", tit:"Calendario Lega", sub:"Chi affronti ogni giornata, per la Sfida automatica",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 9h18"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01"/></svg>` },
   ];
   el("main").innerHTML = `<h1>Altro</h1>
     <div class="menu">` + voci.map(v=>`
@@ -2020,7 +2141,7 @@ function render(){
   document.querySelectorAll("nav button").forEach(b =>
     b.classList.toggle("on", b.dataset.tab === attivo));
   ({rosa:renderRosa, giornata:renderGiornata, formazione:renderFormazione, altro:renderAltro,
-    fattorec:renderFattoreC, sfida:renderSfida, mercato:renderMercato, cellha:renderCellHa, listone:renderListone, asta:renderAsta, regolelega:renderRegoleLega, top11:renderTop11})[S.tab]();
+    fattorec:renderFattoreC, sfida:renderSfida, mercato:renderMercato, cellha:renderCellHa, listone:renderListone, asta:renderAsta, regolelega:renderRegoleLega, top11:renderTop11, calendariolega:renderCalendarioLega})[S.tab]();
   if(SOTTO_ALTRO.includes(S.tab)){
     const m=el("main");
     const back=document.createElement("div");
