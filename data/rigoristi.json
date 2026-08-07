@@ -1,0 +1,105 @@
+{
+ "aggiornato": "2026-08-07T15:12:06.941389+00:00",
+ "rigoristi": {
+  "atalanta": [
+   "scamacca",
+   "krstovic",
+   "samardzic"
+  ],
+  "bologna": [
+   "orsolini",
+   "bernardeschi",
+   "dovbyk"
+  ],
+  "cagliari": [
+   "mina",
+   "fazzini",
+   "borrelli"
+  ],
+  "como": [
+   "da-cunha",
+   "douvikas",
+   "paz-n"
+  ],
+  "fiorentina": [
+   "gudmundsson-a",
+   "kean",
+   "mandragora"
+  ],
+  "frosinone": [
+   "cal&#xF2;",
+   "raimondo",
+   "ghedjemis"
+  ],
+  "genoa": [
+   "colombo",
+   "ostigard",
+   "vitinha-o"
+  ],
+  "inter": [
+   "calhanoglu",
+   "zielinski",
+   "martinez-l"
+  ],
+  "juventus": [
+   "kolo-muani",
+   "yildiz",
+   "locatelli"
+  ],
+  "lazio": [
+   "zaccagni",
+   "taylor-k",
+   "cataldi"
+  ],
+  "lecce": [
+   "geubbels",
+   "stulic",
+   "berisha-m"
+  ],
+  "milan": [
+   "nkunku",
+   "ramos-g",
+   "pulisic"
+  ],
+  "monza": [
+   "pessina",
+   "cutrone",
+   "petagna"
+  ],
+  "napoli": [
+   "lukaku",
+   "de-bruyne",
+   "hojlund"
+  ],
+  "parma": [
+   "pellegrino-m",
+   "valeri",
+   "nicolussi-caviglia"
+  ],
+  "roma": [
+   "malen",
+   "dybala",
+   "castro-s"
+  ],
+  "sassuolo": [
+   "berardi",
+   "pinamonti",
+   "laurient&#xE8;"
+  ],
+  "torino": [
+   "vlasic",
+   "kulenovic",
+   "simeone"
+  ],
+  "udinese": [
+   "davis-k",
+   "solet",
+   "zaniolo"
+  ],
+  "venezia": [
+   "adams-a",
+   "rrahmani-al",
+   "adorante"
+  ]
+ }
+}
