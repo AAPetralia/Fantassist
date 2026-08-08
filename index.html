@@ -693,6 +693,9 @@ function rosterByRole(role){
   return S.roster.filter(r => roleOf(S.byId.get(r.id)) === role);
 }
 function bestLineup(mod){
+  // FORMAZIONE = motore puro: solo schierabilità (performance + titolarità),
+  // nessuna regola di lega (capitano/modificatore). Quelle vivono in Top 11/Sfida,
+  // dove ha senso che dipendano da come gioca la tua lega specifica.
   const avail = S.roster.filter(r => !r.sq && !r.inf);
   const by = role => avail.filter(r => roleOf(S.byId.get(r.id)) === role)
     .sort((a,b) => scheierability(b) - scheierability(a));
@@ -701,13 +704,8 @@ function bestLineup(mod){
   const need = 1 + mod.d + mod.c + mod.a;
   const bench = {};
   ROLES.forEach(role => bench[role] = by(role).filter(r => !xi.includes(r)));
-  // Modificatore di difesa: bonus/malus UNICO alla squadra (richiede almeno 4 difensori schierati),
-  // stimato sul rating previsto di portiere e difensori come proxy del voto puro.
-  const pRow = xi.find(r => roleOf(S.byId.get(r.id))==="P");
-  const dRows = xi.filter(r => roleOf(S.byId.get(r.id))==="D");
-  const defModTeam = defModTeamBonus(pRow ? expFV(pRow).val : null, dRows.map(r => expFV(r).val));
-  return {xi, bench, complete: xi.length === need, defModTeam,
-          ev: xi.reduce((s,r) => s + scheierability(r), 0) + defModTeam - (xi.length === need ? 0 : 99)};
+  return {xi, bench, complete: xi.length === need,
+          ev: xi.reduce((s,r) => s + scheierability(r), 0) - (xi.length === need ? 0 : 99)};
 }
 function gauss(){
   let u = 0, v = 0;
@@ -1247,10 +1245,6 @@ function renderFormazione(){
   const sel = S.selMod ? ranking.find(x => x.mod.name === S.selMod) || ranking[0] : ranking[0];
   const mc = monteCarlo(sel.lu);
   const pAbove = mc.sorted.filter(v => v >= S.threshold).length / mc.sorted.length;
-  const captain = pickCaptain(sel.lu.xi);
-  const vice = pickViceCaptain(sel.lu.xi, captain);
-  const captainDelta = captain ? captainAdjustedValue(scheierability(captain)) - scheierability(captain) : 0;
-  const totaleConCapitano = mc.mean + captainDelta + (sel.lu.defModTeam||0);
 
   el("main").innerHTML = `
     <div class="modscroll">${ranking.map(x =>
@@ -1262,18 +1256,9 @@ function renderFormazione(){
         <div><div class="l">${sel === ranking[0] ? "Modulo ottimo" : "Modulo scelto"}</div>
           <div class="v" style="color:var(--fluo)">${sel.mod.name}</div></div>
         <div style="text-align:right"><div class="l">totale atteso</div>
-          <div class="v">${fmt(totaleConCapitano,1)}</div></div>
+          <div class="v">${fmt(mc.mean,1)}</div></div>
       </div>
-      <div style="padding:8px">${pitchSVG(sel.lu, sel.mod, captain?.id)}</div>
-      ${S.leagueRules.defMod.enabled ? `<div class="sub" style="padding:0 14px 6px; text-align:center">
-        🛡️ Modificatore Difesa: ${sel.mod.d < 4
-          ? `<span style="color:var(--dim)">non attivo (serve almeno 4 difensori, questo modulo ne ha ${sel.mod.d})</span>`
-          : `<b style="color:var(--chalk)">${signedSpan(sel.lu.defModTeam||0,1)}</b> alla squadra`}</div>` : ""}
-      ${captain ? `<div class="sub" style="padding:0 14px 10px; text-align:center">
-        🎖 Capitano: <b style="color:var(--chalk)">${esc(S.byId.get(captain.id).nome)}</b>
-        (${S.leagueRules.captain.type==="raddoppio"?"×2":S.leagueRules.captain.type==="fasce"?"a fasce":"+"+fmt(S.leagueRules.captain.fixedValue,1)}
-        → +${fmt(captainDelta,1)} al totale)${vice ? `<br>🥈 Vice: <b style="color:var(--chalk)">${esc(S.byId.get(vice.id).nome)}</b>
-        <span style="color:var(--dim)">(subentra se il capitano non gioca)</span>` : ""}</div>` : ""}
+      <div style="padding:8px">${pitchSVG(sel.lu, sel.mod)}</div>
     </div>
     <div class="card">
       <div class="bighead"><div class="l">Simulazione · ${N_SIM} giornate</div>
@@ -1361,10 +1346,11 @@ function openMetodo(){
       Titolarità reale da probabili formazioni (SOS Fanta, Fantacalcio.it, Calciomagazine) quando disponibili (agosto);
       altrimenti fallback a presenze storiche (PV). E[slot] = p·E[fv] + (1−p)·valore riserva per la Rosa.</p>
       <p><b>Regole Lega</b> — Bonus Capitano e Modificatore di Difesa sono <i>opzionali</i>,
-      configurabili in Altro → Regole Lega. Il capitano è scelto automaticamente tra i titolari
-      (schierabilità più alta); il modificatore di difesa segue il meccanismo reale di
-      fantacalcio.it: richiede almeno 4 difensori schierati, e dà un bonus/malus unico alla
-      squadra in base alla media del voto puro di portiere + 3 migliori difensori.</p>
+      configurabili in Altro → Regole Lega, e si applicano al <b>Top 11</b> (dati reali a giornata
+      conclusa) — non alla Formazione, che resta un consiglio universale basato solo su schierabilità.
+      Il modificatore di difesa segue il meccanismo reale di fantacalcio.it: richiede almeno 4
+      difensori schierati, e dà un bonus/malus unico alla squadra in base alla media del voto
+      puro di portiere + 3 migliori difensori.</p>
       <p><b>Monte Carlo</b> — ${N_SIM} giornate simulate con fantavoti gaussiani
       (σ misurate: P 1,55 · D 1,07 · C 1,33 · A 1,90): mediana, banda P10–P90 e
       probabilità di superare la soglia scelta. I portieri sono molto più volatili di
@@ -1929,7 +1915,9 @@ function renderRegoleLega(){
   const c = S.leagueRules.captain, d = S.leagueRules.defMod;
   el("main").innerHTML = `<h1>Regole Lega</h1>
     <p class="sub" style="margin:0 0 14px">Non tutte le leghe usano le stesse regole di punteggio —
-      configura qui quelle della tua, o lasciale disattivate per il calcolo standard (Classic).</p>
+      configura qui quelle della tua. Si applicano al <b style="color:var(--chalk)">Top 11</b>
+      (dati reali a giornata conclusa), non alla Formazione: quella resta un consiglio universale
+      basato solo su performance e titolarità, valido a prescindere dalle regole della tua lega.</p>
 
     <div class="card" style="padding:14px">
       <div class="bighead" style="margin-bottom:${c.enabled?"10px":"0"}">
@@ -2154,7 +2142,7 @@ function renderAltro(){
       ic:`<svg viewBox="0 0 24 24" fill="none"><g transform="translate(2.70,18.75) scale(0.0196,-0.0196)" fill="currentColor"><path d="M120 0 5 688H187L247 184H258L315 688H494L379 0Z"/><path transform="translate(499,0)" d="M36 11V147Q129 140 173 140Q204 140 218 142Q232 144 238 151Q244 157 246 168Q248 179 248 199Q248 229 244 241Q240 254 228 260Q216 266 185 271L100 287Q58 295 40 344Q23 394 23 484Q23 572 49 618Q76 665 121 680Q167 696 236 696Q288 696 332 690Q376 684 401 678V541Q341 548 278 548Q249 548 235 546Q222 545 215 539Q208 533 205 522Q203 511 203 490Q203 466 205 455Q208 444 216 439Q224 434 243 430L316 416Q350 409 373 394Q397 379 412 341Q428 297 428 223Q428 122 402 72Q377 22 335 7Q293 -8 225 -8Q179 -8 126 -2Q73 3 36 11Z"/></g></svg>` },
     { tab:"fattorec", tit:"Fattore C",  sub:"Quanto la fortuna ha inciso sui tuoi risultati",
       ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.4" r="3.5" fill="currentColor" stroke="none"/><circle cx="16.6" cy="12" r="3.5" fill="currentColor" stroke="none"/><circle cx="12" cy="16.6" r="3.5" fill="currentColor" stroke="none"/><circle cx="7.4" cy="12" r="3.5" fill="currentColor" stroke="none"/><path d="M12.5 16 C13 19 14 20.5 16.5 21.5"/></svg>` },
-    { tab:"regolelega", tit:"Regole Lega", sub:(regoleLegaSummary()),
+    { tab:"regolelega", tit:"Regole Lega", sub:("Per il Top 11 — " + regoleLegaSummary()),
       ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4z"/><path d="M4 12h10"/><path d="M4 16h10"/><path d="M4 20h6"/><circle cx="18" cy="16" r="3"/><path d="M18 13v-1M18 20v-1M21 16h1M15 16h1"/></svg>` },
     { tab:"top11", tit:"Top 11", sub:"Classifica di lega sulla migliore formazione reale a giornata conclusa",
       ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M6 4h12v5a6 6 0 0 1-12 0V4z"/><path d="M6 6H3a3 3 0 0 0 3 4"/><path d="M18 6h3a3 3 0 0 1-3 4"/></svg>` },
