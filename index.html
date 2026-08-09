@@ -1179,7 +1179,7 @@ function renderRosa(){
           <div class="pmain">
             <div class="pname">${esc(st.nome)}<span class="pteam">${esc(st.squadra)}</span>${
               r.rig?'<span class="chip rig">R</span>':""}${r.sq?'<span class="chip out">SQ</span>':""}${
-              r.inf?'<span class="chip out">INF</span>':""}</div>
+              r.inf?'<span class="chip out">IND</span>':""}</div>
             <div class="bar"><i style="width:${Math.min(100, combinato/9*100)}%; background:${ROLE_COLOR[role]}"></i></div>
           </div>
           <div class="pnum"><div class="v" style="color:${ROLE_COLOR[role]}">${fmt(combinato)}</div><div class="l">E[slot] · tit ${r.pTit}%</div></div>
@@ -1201,7 +1201,7 @@ function renderRosa(){
               oninput="patch(${r.id},'pTit',+this.value)"></label>
           <div class="togglerow">
             <button class="tog ${r.sq?"on red":""}" onclick="patch(${r.id},'sq',${!r.sq})">Squalificato</button>
-            <button class="tog ${r.inf?"on red":""}" onclick="patch(${r.id},'inf',${!r.inf})">Infortunato</button>
+            <button class="tog ${r.inf?"on red":""}" onclick="patch(${r.id},'inf',${!r.inf})">Indisponibile</button>
             <button class="tog ${r.rig?"on amber":""}" onclick="patch(${r.id},'rig',${!r.rig})">Rigorista</button>
             <button class="tog del" onclick="removePlayer(${r.id})">Rimuovi</button>
           </div>
