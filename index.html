@@ -568,6 +568,7 @@ async function loadData(){
     S.db = pl.giocatori.filter(p => p.id && p.nome);
     S.db.forEach(p => S.byId.set(p.id, p));
   }
+  syncExtraNamesIntoById();  // giocatori non riconosciuti (ID sintetico "x:..."): stub sicuro, mai undefined
   if(cl){
     // mappa nome classifica → slug squadra dei giocatori
     const slugs = [...new Set(S.db.map(p => p.squadra))];
@@ -638,7 +639,7 @@ function shrunk(st){
 function teamAdj(st){
   return GAMMA_TEAM[roleOf(st)] * (strength(st.squadra) - 0.5);
 }
-function roleOf(st){ return st.ruolo || "C"; }
+function roleOf(st){ return st ? (st.ruolo || "C") : "?"; }
 function perfBonus(st){                          // bonus da statistiche Understat role-specific
   const role = roleOf(st), w = PERF_W.ruoli[role], u = S.understat[st.id];
   if (!w || !u) return { val: 0, has: false };   // nessun feed (es. campionato fermo) → 0
@@ -824,6 +825,18 @@ function parseLeagueWorkbook(buf){
   const out={}; for(const k in teams){ if(teams[k].length>=15) out[k]=teams[k]; }
   return {league, teams:out};
 }
+function syncExtraNamesIntoById(){
+  // Giocatori non riconosciuti durante un import (ID sintetico "x:nome") non sono mai
+  // in S.db/players.json. Senza uno stub qui, roleOf(S.byId.get(id)) va in errore
+  // (st undefined) e blocca il render a metà — bug reale riscontrato in produzione.
+  if(!S.extraNames) return;
+  for(const sid in S.extraNames){
+    if(S.byId.has(sid)) continue;
+    const ex = S.extraNames[sid];
+    S.byId.set(sid, {id:sid, nome:ex.nome, squadra:ex.squadra||"", ruolo:"?",
+      pv:0, mv:null, fm:0, gol:0, golSubiti:0, assist:0});
+  }
+}
 function matchLeagueRoster(players, idx){
   const cods=[], missed=[];
   for(const p of players){
@@ -864,6 +877,7 @@ function onLeagueFile(input){
         const {cods,missed}=matchLeagueRoster(players,idx);
         rosters[name]=cods; report[name]={n:players.length, matched:cods.length, missed:missed.length, missedNames:missed};
       }
+      syncExtraNamesIntoById();   // stub subito, non solo al prossimo reload della pagina
       // nome lega dal file, o generato se assente/duplicato
       let lname=league || ("Lega " + (Object.keys(S.leagues).length+1));
       if(S.leagues[lname] && league) lname=league;            // stesso nome → aggiorna quella lega
