@@ -491,7 +491,7 @@ const S = {                    // stato applicazione
       {min:6, max:6.49, val:1}, {min:6.5, max:6.99, val:3}, {min:7, max:99, val:6}
     ]}
   },
-  tab: "rosa", threshold: 66, selMod: null, mcSeed: 0,
+  tab: "rosa", threshold: 66, thresholdSetByUser: false, selMod: null, mcSeed: 0,
 };
 
 /* Allinea le "viste attive" (roster/leagueRosters/myTeamName) alla lega corrente.
@@ -508,13 +508,13 @@ function syncActive(){
 function saveLocal(){
   if(S.currentLeague && S.leagues[S.currentLeague]) S.leagues[S.currentLeague].myTeam = S.myTeamName;
   localStorage.setItem("fantassist", JSON.stringify(
-    {threshold:S.threshold, leagues:S.leagues, currentLeague:S.currentLeague, standalone:S.standalone,
+    {threshold:S.threshold, thresholdSetByUser:S.thresholdSetByUser, leagues:S.leagues, currentLeague:S.currentLeague, standalone:S.standalone,
      listone:S.listone, extraNames:S.extraNames, asta:S.asta, leagueRules:S.leagueRules}));
 }
 function loadLocal(){
   try{
     const d = JSON.parse(localStorage.getItem("fantassist") || "{}");
-    if(d.threshold) S.threshold = d.threshold;
+    if(d.threshold && d.thresholdSetByUser){ S.threshold = d.threshold; S.thresholdSetByUser = true; }
     if(d.standalone) S.standalone = d.standalone;
     if(d.extraNames) S.extraNames = d.extraNames;
     if(d.asta) S.asta = d.asta;
@@ -1024,6 +1024,26 @@ function bestTop11ForTeam(playerIds, giornata){
     .sort((a,b) => b.lu.total - a.lu.total);
   return ranking[0];
 }
+function pureTop11Total(playerIds, giornata){
+  // Somma dei migliori 11 voti reali, SENZA capitano né modificatore di difesa —
+  // stesso identico calcolo di bestTop11ForTeam ma senza le Regole Lega, per
+  // restare confrontabile con la Formazione (universale, non legata a una lega).
+  const best = bestTop11ForTeam(playerIds, giornata);
+  return best.lu.complete ? best.lu.xi.reduce((s,r) => s+r.fv, 0) : null;
+}
+function sogliaStatistica(){
+  const giornate = availableGiornate();
+  if(!giornate.length || !S.leagueRosters) return 66;   // fallback: campionato fermo, nessun dato reale
+  const totali = [];
+  for(const g of giornate){
+    for(const ids of Object.values(S.leagueRosters)){
+      const t = pureTop11Total(ids, g);
+      if(t != null) totali.push(t);
+    }
+  }
+  if(!totali.length) return 66;
+  return Math.round(totali.reduce((s,v)=>s+v,0) / totali.length);
+}
 function conteggioTop11(playerId, teamName){
   if(!teamName || !S.leagueRosters[teamName]) return null;   // fuori da un contesto lega: non calcolabile
   const ids = S.leagueRosters[teamName];
@@ -1274,6 +1294,7 @@ function histSVG(mc){
   return `<svg viewBox="0 0 340 90" style="width:100%; padding:0 14px; box-sizing:border-box">${bars}</svg>`;
 }
 function renderFormazione(){
+  if(!S.thresholdSetByUser) S.threshold = sogliaStatistica();   // si aggiorna da sola finché l'utente non la tocca
   const missing = ROLES.filter(role => !rosterByRole(role).length);
   if(missing.length){
     el("main").innerHTML = `<div class="empty">${ill("formazione")}Per calcolare la formazione servono giocatori
@@ -1314,7 +1335,10 @@ function renderFormazione(){
         <div class="row"><span>P(totale ≥ <b style="color:var(--chalk)">${S.threshold}</b>)</span>
           <span class="p" style="color:${pAbove>=.5?"var(--fluo)":"var(--amber)"}">${fmt(pAbove*100,0)}%</span></div>
         <input type="range" min="55" max="85" value="${S.threshold}"
-          oninput="S.threshold=+this.value; saveLocal(); render()">
+          oninput="S.threshold=+this.value; S.thresholdSetByUser=true; saveLocal(); render()">
+        <div class="sub" style="margin-top:4px">${S.thresholdSetByUser
+          ? "Soglia impostata da te."
+          : "Soglia calcolata dalla media dei migliori 11 voti reali della tua lega (senza capitano/modificatore) — si aggiorna da sola man mano che si gioca. Muovi la barretta per fissarla."}</div>
       </div>
     </div>
     ${!S.fixtures.length ? `<div class="note">Campionato fermo: Δ calendario neutro per tutti.</div>` : ""}`;
