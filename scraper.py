@@ -22,9 +22,7 @@ import pandas as pd
 BASE = "https://www.fantacalcio.it"
 
 CLASSIFICA_URL = f"{BASE}/serie-a/classifica"
-CALENDARIO_URL = f"{BASE}/serie-a/calendario"
 RIGORISTI_URL = f"{BASE}/rigoristi-serie-a"
-INDISPONIBILI_URL = f"{BASE}/indisponibili-serie-a"
 
 HEADERS = {
     "User-Agent": (
@@ -38,6 +36,7 @@ DATA_DIR = Path(__file__).parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
 
+# ── UTILITÀ ───────────────────────────────────────────────────────
 def fetch(url: str) -> requests.Response:
     r = requests.get(url, headers=HEADERS, timeout=40)
     r.raise_for_status()
@@ -111,6 +110,7 @@ def job_statistiche() -> None:
         m = re.search(r"/serie-a/squadre/([^/]+)/([^/]+)/(\d+)", a.get("href", ""))
         cells = [norm(td.get_text()) for td in tr.select("td")]
 
+        # ruolo: 1) attributo data-value  2) classe role-x  3) title/aria-label
         role = None
         el = tr.select_one("[data-value]")
         if el and norm(el.get("data-value", "")).lower() in ("p", "d", "c", "a"):
@@ -170,6 +170,7 @@ def job_statistiche() -> None:
 def job_classifica() -> None:
     html = fetch(CLASSIFICA_URL).text
     tables = pd.read_html(io.StringIO(html))
+    # scegliamo la tabella che contiene sia 'Squadra' sia i punti
     table = None
     for t in tables:
         cols = [norm(c).lower() for c in t.columns.astype(str)]
@@ -186,6 +187,7 @@ def job_classifica() -> None:
     standings = []
     for _, r in table.iterrows():
         squadra = norm(r[col_sq])
+        # la cella spesso ripete il nome (logo+testo): teniamo l'ultimo token utile
         squadra = re.sub(r"^(\d+\s*)", "", squadra)
         try:
             punti = int(r[col_pt])
@@ -202,41 +204,21 @@ def job_classifica() -> None:
     print(f"    {len(standings)} squadre")
 
 
-# ── 3. CALENDARIO / PROSSIMA GIORNATA ─────────────────────────────
-def job_calendario() -> None:
-    html = fetch(CALENDARIO_URL).text
-    slugs = re.findall(r"/serie-a/squadre/([a-z0-9\-]+)", html)
-    seen_pairs, fixtures = set(), []
-    for i in range(0, len(slugs) - 1, 2):
-        home, away = slugs[i], slugs[i + 1]
-        if home == away:
-            continue
-        key = (home, away)
-        if key in seen_pairs:
-            continue
-        seen_pairs.add(key)
-        fixtures.append({"casa": home, "trasferta": away})
-        if len(fixtures) == 10:
-            break
-
-    if len(fixtures) < 8:
-        raise ValueError(f"Calendario: trovate {len(fixtures)} partite (normale a campionato fermo)")
-    save_json("calendario.json", {
-        "aggiornato": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "partite": fixtures,
-    })
-    print(f"    {len(fixtures)} partite")
+# ── 3. CALENDARIO — SUPERATO da probabili_formazioni_scraper.py ───
+# Quella fonte dà anche data/ora/stadio reali (qui mancavano), in un
+# solo fetch condiviso con titolarità e indisponibili. Vedi quello script.
 
 
 # ── 4. RIGORISTI ──────────────────────────────────────────────────
 def job_rigoristi() -> None:
     html = fetch(RIGORISTI_URL).text
+    # i nomi giocatore compaiono come link /serie-a/squadre/<team>/<player>/<id>
     matches = re.findall(r"/serie-a/squadre/([^/]+)/([^/]+)/\d+", html)
     per_team = {}
     for team, player in matches:
         per_team.setdefault(team, [])
         if player not in per_team[team] and len(per_team[team]) < 3:
-            per_team[team].append(player)
+            per_team[team].append(player)  # primi ~3 = gerarchia rigoristi
 
     if len(per_team) < 15:
         raise ValueError("Rigoristi: meno di 15 squadre trovate (normale a campionato fermo)")
@@ -247,31 +229,20 @@ def job_rigoristi() -> None:
     print(f"    {len(per_team)} squadre")
 
 
-# ── 5. INDISPONIBILI (infortunati + squalificati) ─────────────────
-def job_indisponibili() -> None:
-    html = fetch(INDISPONIBILI_URL).text
-    matches = re.findall(r"/serie-a/squadre/([^/]+)/([^/]+)/\d+", html)
-    out = {}
-    for team, player in matches:
-        out.setdefault(team, [])
-        if player not in out[team]:
-            out[team].append(player)
-
-    save_json("indisponibili.json", {
-        "aggiornato": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "indisponibili": out,
-    })
-    print(f"    {sum(len(v) for v in out.values())} giocatori in {len(out)} squadre")
+# ── 5. INDISPONIBILI — SUPERATO da probabili_formazioni_scraper.py ─
+# Quella fonte distingue squalificati/diffidati/infortunati/in dubbio
+# (qui erano tutti mescolati in un'unica lista) e include il dettaglio
+# dell'infortunio con rientro atteso. Vedi quello script.
 
 
 # ── MAIN ──────────────────────────────────────────────────────────
 JOBS = [
     ("Statistiche giocatori", job_statistiche),
     ("Classifica", job_classifica),
-    ("Calendario", job_calendario),
     ("Rigoristi", job_rigoristi),
-    ("Indisponibili", job_indisponibili),
 ]
+# Calendario/Indisponibili/Titolarità: vedi probabili_formazioni_scraper.py,
+# lanciato come step separato nel workflow (stessa fonte, un solo fetch).
 
 
 def main() -> int:
@@ -281,7 +252,7 @@ def main() -> int:
         try:
             fn()
             esiti[nome] = "ok"
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 — vogliamo continuare con le altre fonti
             esiti[nome] = f"ERRORE: {e}"
             print(f"  ✘ {e}", file=sys.stderr)
 
@@ -289,6 +260,7 @@ def main() -> int:
         "aggiornato": dt.datetime.now(dt.timezone.utc).isoformat(),
         "esiti": esiti,
     })
+    # exit code 0 anche con errori parziali: i JSON validi vanno comunque committati
     print("\nRiepilogo:", json.dumps(esiti, ensure_ascii=False, indent=1))
     return 0
 

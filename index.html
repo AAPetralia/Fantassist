@@ -581,7 +581,7 @@ async function loadData(){
   }
   if(cal) S.fixtures = cal.partite || [];
   if(rig) S.rigoristi = rig.rigoristi || {};
-  if(ind) S.indisponibili = ind.indisponibili || {};
+  if(ind) S.indisponibili = ind.squadre || {};   // { team: {squalificati:[{nome,id}], diffidati:[...], infortunati:[{nome,id,dettaglio}], dubbio:[...]} }
   if(us && us.giocatori){                      // feed offensivo: { giocatori: { cod: {shots_p90, xa_p90} } }
     S.understat = us.giocatori;
   }
@@ -1100,9 +1100,12 @@ function signedSpan(x, d=2){
 /* ---------- TAB: ROSA ---------- */
 let searchQ = "", openId = null;
 function autoFlags(st){
-  const team = st.squadra, ps = playerSlugOf(st);
+  const team = st.squadra;
+  const cat = S.indisponibili[team];                    // {squalificati:[{nome,id}], infortunati:[{nome,id,dettaglio}], ...}
+  const inCat = nomeCat => !!(cat && (cat[nomeCat]||[]).some(x => String(x.id) === String(st.id)));
+  const ps = playerSlugOf(st);
   const inList = arr => (arr||[]).some(s => normName(s).replace(/\./g,"") === ps);
-  return {sq:false, inf: inList(S.indisponibili[team]),
+  return {sq: inCat("squalificati"), inf: inCat("infortunati"),
           rig: inList((S.rigoristi[team]||[]).slice(0,1))};
 }
 function addPlayer(id){
