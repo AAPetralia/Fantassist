@@ -71,6 +71,26 @@ def parse_titolarita(html):
     return giocatori
 
 
+MATCH_BLOCK_START = re.compile(r'<li data-match-id="(\d+)" data-teams-id="(\d+)\|(\d+)" class="match">')
+TEAM_HOME_PATTERN = re.compile(r'class="team-home\s*"[\s\S]{0,400}?href="https://www\.fantacalcio\.it/serie-a/squadre/([a-z\-]+)"')
+TEAM_AWAY_PATTERN = re.compile(r'class="team-away\s*"[\s\S]{0,400}?href="https://www\.fantacalcio\.it/serie-a/squadre/([a-z\-]+)"')
+START_DATE_PATTERN = re.compile(r'<meta itemprop="startDate" content="([^"]+)"')
+STADIUM_PATTERN = re.compile(r'<span class="stadium"[^>]*>([^<]*)</span>')
+
+
+def split_match_blocks(html):
+    """Ogni partita è un <li data-match-id="..."> — confine molto più solido
+    del testo 'ripulito' usato nella prima versione (validata per errore su
+    formattazione del mio strumento di lettura pagine, non sull'HTML vero)."""
+    starts = list(MATCH_BLOCK_START.finditer(html))
+    blocks = []
+    for i, m in enumerate(starts):
+        start = m.start()
+        end = starts[i + 1].start() if i + 1 < len(starts) else len(html)
+        blocks.append({"match_id": m.group(1), "text": html[start:end]})
+    return blocks
+
+
 def estrai_lista_indisponibili(nome_sezione, blocco, con_dettaglio=False):
     """Estrae una lista (squalificati/diffidati/infortunati/in dubbio) da un blocco-partita."""
     m = re.search(rf'#### {nome_sezione}\n(.*?)(?=\n#### |\Z)', blocco, re.DOTALL)
@@ -92,26 +112,29 @@ def estrai_lista_indisponibili(nome_sezione, blocco, con_dettaglio=False):
 
 
 def parse_calendario_e_indisponibili(html):
-    blocchi = re.split(r'\n- 1\n\n', html)  # NB: il separatore reale può differire dall'HTML grezzo,
-                                              # verificare al primo run vero (vedi nota in fondo al file)
+    blocchi = split_match_blocks(html)   # ora su <li data-match-id="..."> reale, non testo "ripulito"
     partite = []
     indisponibili = {}
 
-    for blocco in blocchi:
-        m_cal = re.search(r'/serie-a/calendario/\d+/[\d-]+/([a-z-]+)-([a-z-]+)/(\d+)', blocco)
-        if not m_cal:
-            continue
-        casa, trasferta, match_id = m_cal.group(1), m_cal.group(2), m_cal.group(3)
+    for b in blocchi:
+        blocco, match_id = b["text"], b["match_id"]
 
-        m_data = re.search(r'(\w+) (\d{1,2}) (\w+), (\d{1,2}:\d{2})\n\s*([^\n#]+)', blocco)
+        m_casa = TEAM_HOME_PATTERN.search(blocco)
+        m_trasferta = TEAM_AWAY_PATTERN.search(blocco)
+        if not m_casa or not m_trasferta:
+            continue
+        casa, trasferta = m_casa.group(1), m_trasferta.group(1)
+
+        # Data/ora/stadio: "1970-01-01" è il placeholder del sito quando non ancora
+        # pubblicati (osservato su dati reali, giornata 1 a 2 settimane dal via) —
+        # li trattiamo come non disponibili invece di salvare un valore falso.
         data_iso, ora, stadio = None, None, None
-        if m_data:
-            giorno, mese_nome, ora_str, stadio_str = m_data.group(2), m_data.group(3), m_data.group(4), m_data.group(5).strip()
-            mese = MESI.get(mese_nome.lower())
-            if mese:
-                anno = 2026 if mese >= 7 else 2027   # stagione a cavallo di due anni solari
-                data_iso = f"{anno}-{mese:02d}-{int(giorno):02d}"
-            ora, stadio = ora_str, stadio_str
+        m_start = START_DATE_PATTERN.search(blocco)
+        if m_start and m_start.group(1) != "1970-01-01":
+            data_iso = m_start.group(1)
+        m_stadio = STADIUM_PATTERN.search(blocco)
+        if m_stadio and m_stadio.group(1).strip() not in ("", "-"):
+            stadio = m_stadio.group(1).strip()
 
         partite.append({"casa": casa, "trasferta": trasferta, "data": data_iso, "ora": ora,
                          "stadio": stadio, "match_id": match_id})
@@ -124,11 +147,10 @@ def parse_calendario_e_indisponibili(html):
         for lista, chiave in [(sq, "squalificati"), (diff, "diffidati"),
                                (inf, "infortunati"), (dub, "dubbio")]:
             for item in lista:
-                m_url = re.search(rf'/serie-a/squadre/([a-z-]+)/[a-zà-ù.\-]+/{item["id"]}\)', blocco)
+                m_url = re.search(rf'/serie-a/squadre/([a-z-]+)/[a-zà-ù.\-]+/{item["id"]}', blocco)
                 squadra = m_url.group(1) if m_url else (casa if item["id"] else "?")
                 indisponibili.setdefault(squadra, {"squalificati": [], "diffidati": [],
                                                      "infortunati": [], "dubbio": []})
-                # evita duplicati (stesso giocatore citato più volte in blocchi diversi)
                 if not any(x["id"] == item["id"] for x in indisponibili[squadra][chiave]):
                     indisponibili[squadra][chiave].append(item)
 
@@ -149,19 +171,30 @@ def main():
 
     # --- DIAGNOSTICA TEMPORANEA: la struttura HTML grezza vista da requests.get() ---
     # è diversa da quella "ripulita" usata finora per validare il parser (fatto su
-    # testo pre-elaborato, non HTML vero). Stampiamo un pezzo reale nel log di Actions
+    # testo pre-elaborato, non HTML vero). Stampiamo pezzi reali nel log di Actions
     # per ricostruire il parser sulla struttura reale, invece di ipotizzarla di nuovo.
-    idx_prima_partita = html.find("/serie-a/calendario/")
-    if idx_prima_partita >= 0:
+    # Calendario: GIÀ CORRETTO su questa struttura (vedi split_match_blocks).
+    # Titolarità (percentuali) e Squalificati/Infortunati: ANCORA da vedere in HTML vero.
+    idx_percento = html.find("%</")
+    if idx_percento < 0:
+        idx_percento = html.find("%<")
+    if idx_percento >= 0:
         print("\n" + "="*70)
-        print("DIAGNOSTICA — 4000 caratteri di HTML grezzo reale attorno alla prima partita:")
+        print("DIAGNOSTICA TITOLARITÀ — HTML reale attorno alla prima percentuale:")
         print("="*70)
-        print(html[max(0, idx_prima_partita-500): idx_prima_partita+3500])
+        print(html[max(0, idx_percento-1500): idx_percento+500])
         print("="*70 + "\n")
     else:
-        print("\n⚠️  DIAGNOSTICA: pattern '/serie-a/calendario/' non trovato nell'HTML grezzo.")
-        print("Primi 2000 caratteri della pagina per capire cosa è arrivato davvero:")
-        print(html[:2000])
+        print("\n⚠️  DIAGNOSTICA: nessuna '%' trovata nell'HTML — la titolarità potrebbe")
+        print("essere caricata via JS (come i voti), non nell'HTML statico.")
+
+    idx_squal = html.find("qualificat")
+    if idx_squal >= 0:
+        print("\n" + "="*70)
+        print("DIAGNOSTICA INDISPONIBILI — HTML reale attorno a 'Squalificati':")
+        print("="*70)
+        print(html[max(0, idx_squal-200): idx_squal+2500])
+        print("="*70 + "\n")
 
     # --- Titolarità (invariato) ---
     giocatori = parse_titolarita(html)
