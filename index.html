@@ -633,7 +633,14 @@ function calAdjAvg(teamSlug){                    // media sui ruoli, per la vist
 /* Rating del giocatore: shrinkage bayesiano verso il prior di ruolo, con K per ruolo. */
 function shrunk(st){
   const role = roleOf(st), pg = st.pv || 0, fm = st.fm ?? PRIOR[role], K = K_SHRINK[role];
-  return (pg*fm + K*PRIOR[role]) / (pg + K);
+  // Prior "personale": la fantamedia storica (se c'è) smussata verso il prior di ruolo,
+  // pesata da quante presenze storiche il giocatore ha (K identico, stesso principio dello
+  // shrinkage stagionale). Senza storico resta il prior di ruolo puro, come prima.
+  const storico = S.storicoPresenze && S.storicoPresenze[st.id];
+  const priorPersonale = (storico && storico.fm != null)
+    ? (storico.pv*storico.fm + K*PRIOR[role]) / (storico.pv + K)
+    : PRIOR[role];
+  return (pg*fm + K*priorPersonale) / (pg + K);
 }
 /* Forza della PROPRIA squadra. È un attributo del giocatore (varia 0,005 dentro la stagione),
    non un fattore di giornata: entra nel rating, non nel Δ calendario.
