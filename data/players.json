@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-08-07T15:12:04.413912+00:00",
+ "aggiornato": "2026-08-09T13:59:41.243428+00:00",
  "fonte": "tabella HTML statistiche-serie-a",
  "giocatori": [
   {
@@ -328,7 +328,7 @@
   {
    "id": 4896,
    "nome": "Maldini",
-   "squadra": "atalanta",
+   "squadra": "cagliari",
    "ruolo": "A",
    "pv": 0,
    "mv": null,
@@ -8507,6 +8507,23 @@
    "nome": "Tourè E.",
    "squadra": "parma",
    "ruolo": "A",
+   "pv": 0,
+   "mv": null,
+   "fm": 0,
+   "gol": 0,
+   "golSubiti": 0,
+   "rigoriSegnati": null,
+   "rigoriCalciati": null,
+   "rigoriParati": null,
+   "assist": null,
+   "ammonizioni": null,
+   "espulsioni": null
+  },
+  {
+   "id": 530,
+   "nome": "Pellegrini Lo.",
+   "squadra": "roma",
+   "ruolo": "C",
    "pv": 0,
    "mv": null,
    "fm": 0,

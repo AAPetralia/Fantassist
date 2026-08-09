@@ -1,10 +1,8 @@
 {
- "aggiornato": "2026-08-07T15:12:07.169336+00:00",
+ "aggiornato": "2026-08-09T13:59:42.984662+00:00",
  "esiti": {
   "Statistiche giocatori": "ok",
   "Classifica": "ok",
-  "Calendario": "ERRORE: Calendario: trovate 0 partite (normale a campionato fermo)",
-  "Rigoristi": "ok",
-  "Indisponibili": "ok"
+  "Rigoristi": "ok"
  }
 }
