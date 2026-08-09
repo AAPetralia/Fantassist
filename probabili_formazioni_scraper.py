@@ -147,6 +147,22 @@ def main():
     GIORNATA = rileva_giornata(html)
     print(f"Giornata rilevata: {GIORNATA}")
 
+    # --- DIAGNOSTICA TEMPORANEA: la struttura HTML grezza vista da requests.get() ---
+    # è diversa da quella "ripulita" usata finora per validare il parser (fatto su
+    # testo pre-elaborato, non HTML vero). Stampiamo un pezzo reale nel log di Actions
+    # per ricostruire il parser sulla struttura reale, invece di ipotizzarla di nuovo.
+    idx_prima_partita = html.find("/serie-a/calendario/")
+    if idx_prima_partita >= 0:
+        print("\n" + "="*70)
+        print("DIAGNOSTICA — 4000 caratteri di HTML grezzo reale attorno alla prima partita:")
+        print("="*70)
+        print(html[max(0, idx_prima_partita-500): idx_prima_partita+3500])
+        print("="*70 + "\n")
+    else:
+        print("\n⚠️  DIAGNOSTICA: pattern '/serie-a/calendario/' non trovato nell'HTML grezzo.")
+        print("Primi 2000 caratteri della pagina per capire cosa è arrivato davvero:")
+        print(html[:2000])
+
     # --- Titolarità (invariato) ---
     giocatori = parse_titolarita(html)
     print(f"Titolarità: {len(giocatori)} giocatori estratti")
