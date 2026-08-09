@@ -32,6 +32,12 @@ jobs:
       - name: Esegui scraper fantacalcio.it (statistiche stagionali)
         run: python scraper.py
 
+      - name: Probabili formazioni (titolarità + calendario + indisponibili, un solo fetch)
+        run: python probabili_formazioni_scraper.py
+
+      - name: Consensus titolarità (oggi solo fantacalcio.it, pronto per altre fonti)
+        run: python titolarita_consensus.py
+
       # UNDERSTAT TEMPORANEAMENTE DISABILITATO (fuori stagione)
       # - name: Esegui scraper Understat
       #   run: python understat_pull.py
