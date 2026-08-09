@@ -466,6 +466,7 @@ const S = {                    // stato applicazione
   indisponibili: {},           // slug → [slug giocatori]
   understat: {},               // id(cod) → {shots_p90, xa_p90} (feed offensivo, quando presente)
   votiStorico: {},             // id(cod) → {nome,squadra,ruolo,giornate:{"16":{voto_consensus,fantavoto_consensus,...}}}
+  storicoPresenze: {},         // id(cod) → {pv, rateo} stagione precedente conclusa, per l'Indice di Titolarità (TS)
   top11Giornata: null,         // giornata selezionata nella scheda Top 11
   top11SelTeam: null,          // fantasquadra selezionata nella classifica Top 11
   meta: null,
@@ -560,9 +561,9 @@ async function loadData(){
   const res = await Promise.allSettled([
     getJSON("players.json"), getJSON("classifica.json"), getJSON("calendario.json"),
     getJSON("rigoristi.json"), getJSON("indisponibili.json"), getJSON("meta.json"),
-    getJSON("understat.json"), getJSON("voti_storico.json"),
+    getJSON("understat.json"), getJSON("voti_storico.json"), getJSON("storico_presenze.json"),
   ]);
-  const [pl, cl, cal, rig, ind, meta, us, vs] = res.map(r => r.status==="fulfilled" ? r.value : null);
+  const [pl, cl, cal, rig, ind, meta, us, vs, sp] = res.map(r => r.status==="fulfilled" ? r.value : null);
 
   if(pl){
     S.db = pl.giocatori.filter(p => p.id && p.nome);
@@ -585,6 +586,7 @@ async function loadData(){
     S.understat = us.giocatori;
   }
   if(vs) S.votiStorico = vs;                    // storico voti reali per giornata: { player_id: {nome,squadra,ruolo,giornate:{...}} }
+  if(sp && sp.giocatori) S.storicoPresenze = sp.giocatori;  // { player_id: {nome,squadra,pv,rateo} } stagione precedente
   S.meta = meta;
 
   const dt = pl ? new Date(pl.aggiornato) : null;
@@ -665,16 +667,7 @@ function perfBonus(st){                          // bonus da statistiche Underst
 function scheierability(r){                     // Indice di Schierabilità: "Se gioca, quanto varrà?"
   const st = S.byId.get(r.id);
   const base = expFV(r).val;                    // shrunk + teamAdj + calAdj + perfBonus + rig + defMod
-  
-  // TITOLARITÀ: Certezza che il giocatore gioca
-  // Prende dai dati REALI (probabili formazioni) o fallback a PV storica
-  let titolarita = Math.min(1, (st.pv || 0) / MKT_REG);  // Default: PV storica
-  if(S.titolarita_reale && S.titolarita_reale[st.id]){
-    titolarita = S.titolarita_reale[st.id].confidence;  // Quando disponibile (agosto)
-  }
-  
-  // RISULTATO: Base × probabilità che gioca
-  return base * titolarita;
+  return base * indiceTitolarita(st);            // stesso IT usato ovunque nell'app
 }
 
 function expFV(r){                               // r = elemento roster
@@ -974,7 +967,8 @@ function loadMyTeam(name){
   L.myTeam=name;
   L.roster=cods.map(id=>{
     const st=S.byId.get(id), f=st?autoFlags(st):{sq:false,inf:false,rig:false};
-    return {id, pTit:75, rig:f.rig, sq:f.sq, inf:f.inf};
+    const defaultTit = st ? Math.round(indiceTitolarita(st)*100) : 75;
+    return {id, pTit:defaultTit, rig:f.rig, sq:f.sq, inf:f.inf};
   });
   syncActive(); S._importReport=null; saveLocal(); S.tab="rosa"; render();
 }
@@ -1023,6 +1017,16 @@ function bestTop11ForTeam(playerIds, giornata){
     .sort((a,b) => b.lu.total - a.lu.total);
   return ranking[0];
 }
+function conteggioTop11(playerId, teamName){
+  if(!teamName || !S.leagueRosters[teamName]) return null;   // fuori da un contesto lega: non calcolabile
+  const ids = S.leagueRosters[teamName];
+  let count = 0;
+  for(const g of availableGiornate()){
+    const best = bestTop11ForTeam(ids, g);
+    if(best.lu.complete && best.lu.xi.some(r => r.id === playerId)) count++;
+  }
+  return count;
+}
 function computeTop11Standings(giornata){
   const rosters = S.leagueRosters || {};
   return Object.entries(rosters).map(([team, ids]) => {
@@ -1047,7 +1051,8 @@ function bestOf(roster){
 function oppRosterOf(name){
   return (S.leagueRosters[name]||[]).map(id=>{
     const st=S.byId.get(id), f=st?autoFlags(st):{sq:false,inf:false,rig:false};
-    return {id, pTit:75, rig:f.rig, sq:f.sq, inf:f.inf};
+    const defaultTit = st ? Math.round(indiceTitolarita(st)*100) : 75;
+    return {id, pTit:defaultTit, rig:f.rig, sq:f.sq, inf:f.inf};
   });
 }
 function winProb(a, b, k=4000){       // P(a batte b) da due distribuzioni simulate
@@ -1079,7 +1084,7 @@ function addPlayer(id){
   if(S.roster.some(r => r.id === id)) return;
   if(rosterByRole(role).length >= ROLE_MAX[role]) return;
   const f = autoFlags(st);
-  S.roster.push({id, pTit:75, rig:f.rig, sq:f.sq, inf:f.inf});
+  S.roster.push({id, pTit:Math.round(indiceTitolarita(st)*100), rig:f.rig, sq:f.sq, inf:f.inf});
   saveLocal(); render();
 }
 function setRoster(arr){       // aggiorna la vista attiva E il contenitore di appoggio (lega o standalone)
@@ -1287,6 +1292,23 @@ function renderFormazione(){
       </div>
       <div style="padding:8px">${pitchSVG(sel.lu, sel.mod)}</div>
     </div>
+    <div class="card" style="padding:10px 6px">
+      <div class="l" style="padding:0 8px; margin-bottom:6px">LINEUP · I NOSTRI CALCOLI</div>
+      ${sel.lu.xi.map(r => {
+        const st = S.byId.get(r.id);
+        const e = expFV(r);
+        const bonus = e.cal.adj + e.perf.val;         // deviazione da shrunk+squadra: calendario + performance
+        const n11 = conteggioTop11(r.id, S.myTeamName);
+        return `<div class="mkline">
+          <span class="mrole" style="color:${ROLE_COLOR[roleOf(st)]}">${roleOf(st)}</span>
+          <span class="mname">${esc(st.nome)}</span>
+          <span class="mkstat">${fmt(scheierability(r),2)}<span class="mksub">schierab.</span></span>
+          <span class="mkstat">${fmt(indiceTitolarita(st)*100,0)}%<span class="mksub">titolarità</span></span>
+          <span class="mkdelta ${bonus>=0?"pos":"neg"}">${bonus>=0?"+":""}${fmt(bonus,2)}</span>
+          ${n11!=null ? `<span class="mktag" style="color:var(--dim); border-color:var(--line)">${n11}× Top11</span>` : ""}
+        </div>`;
+      }).join("")}
+    </div>
     <div class="card">
       <div class="bighead"><div class="l">Simulazione · ${N_SIM} giornate</div>
         <button class="btn" onclick="S.mcSeed++; render()">↻ Rilancia</button></div>
@@ -1475,8 +1497,40 @@ function renderSfida(){
 }
 
 /* ---------- TAB: SPUNTI DI MERCATO ---------- */
-const MKT_REG = 25;                       // presenze ~ titolare fisso in una stagione
-function availab(st){ return Math.min(1, (st.pv||0)/MKT_REG); }
+/* ============================================================
+   INDICE DI TITOLARITÀ (IT) — unica fonte di verità, usata sia da
+   Rosa (default di pTit) sia da Formazione/Sfida (scheierability).
+
+   IT = w·TS + (1-w)·consensus_fonti_reali   (quando le fonti reali sono disponibili)
+   IT = TS                                    (altrimenti, es. fuori giornata)
+
+   TS (storico): transizione graduale da rateo presenze stagione SCORSA
+   a rateo presenze stagione CORRENTE, man mano che si accumulano giornate
+   reali — esattamente come da specifica.
+   ============================================================ */
+const IT_PESO_STORICO = 0.12;    // w: peso di TS quando le fonti reali sono disponibili
+const IT_STORICO_NEUTRO = 0.7;   // fallback: né storico né stagione corrente hanno segnale
+function giornateAttualiGiocate(){
+  const g = availableGiornate();
+  return g.length ? g[0] : 0;
+}
+function tsOf(st){
+  const giocate = giornateAttualiGiocate();
+  const storico = S.storicoPresenze && S.storicoPresenze[st.id];
+  const rateoStorico = storico ? storico.rateo : IT_STORICO_NEUTRO;
+  if(giocate === 0) return rateoStorico;                       // stagione non ancora iniziata
+  const rateoCorrente = Math.min(1, (st.pv||0) / giocate);
+  const w = Math.min(1, giocate/38);                            // avanzando la stagione, pesa più il presente
+  return w*rateoCorrente + (1-w)*rateoStorico;
+}
+function indiceTitolarita(st){
+  const ts = tsOf(st);
+  const fonte = S.titolarita_reale && S.titolarita_reale[st.id];
+  if(!fonte || fonte.confidence == null) return ts;             // nessuna fonte reale (es. fuori giornata)
+  return IT_PESO_STORICO*ts + (1-IT_PESO_STORICO)*fonte.confidence;
+}
+const MKT_REG = 25;                       // presenze ~ titolare fisso in una stagione (legacy, vedi indiceTitolarita)
+function availab(st){ return indiceTitolarita(st); }
 function marketScore(st){                  // qualità × titolarità: chi non gioca non viene consigliato
   return (shrunk(st) + teamAdj(st)) * (0.15 + 0.85*availab(st));
 }
