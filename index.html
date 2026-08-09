@@ -802,6 +802,19 @@ function buildNameIndex(){
     if(!idx.has(k)) idx.set(k,[]);
     idx.get(k).push(p);
   }
+  // Complemento dal listone ufficiale: un giocatore nuovo/marginale che lo scraper
+  // statistiche non ha ancora tracciato (0 presenze) ma il listone quotazioni sì,
+  // non deve far fallire il matching di una rosa lega.
+  if(S.listone){
+    for(const p of S.listone.giocatori){
+      const k=normName(p.nome);
+      if(idx.has(k)) continue;   // già coperto da S.db (dati più ricchi) → non duplicare
+      const stub={id:p.id, nome:p.nome, squadra:p.squadra, ruolo:p.ruolo,
+                  pv:0, mv:null, fm:0, gol:0, golSubiti:0, assist:0, qt:p.qt, fvm:p.fvm};
+      if(!S.byId.has(p.id)) S.byId.set(p.id, stub);
+      idx.set(k,[stub]);
+    }
+  }
   return idx;
 }
 function parseLeagueWorkbook(buf){
