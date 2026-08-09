@@ -1,0 +1,2322 @@
+{
+  "stagione": "2025-26",
+  "aggiornato": "2026-08-09",
+  "giocatori": {
+    "4431": {
+      "nome": "Carnesecchi",
+      "squadra": "Atalanta",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "2170": {
+      "nome": "Milinkovic-Savic V.",
+      "squadra": "Napoli",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "5841": {
+      "nome": "Svilar",
+      "squadra": "Roma",
+      "pv": 38,
+      "rateo": 1
+    },
+    "6966": {
+      "nome": "Butez",
+      "squadra": "Como",
+      "pv": 38,
+      "rateo": 1
+    },
+    "4312": {
+      "nome": "Maignan",
+      "squadra": "Milan",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "5876": {
+      "nome": "Di Gregorio",
+      "squadra": "Juventus",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "2134": {
+      "nome": "Falcone",
+      "squadra": "Lecce",
+      "pv": 38,
+      "rateo": 1
+    },
+    "6462": {
+      "nome": "Okoye",
+      "squadra": "Udinese",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "4360": {
+      "nome": "Caprile",
+      "squadra": "Cagliari",
+      "pv": 38,
+      "rateo": 1
+    },
+    "2521": {
+      "nome": "De Gea",
+      "squadra": "Fiorentina",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "133": {
+      "nome": "Skorupski",
+      "squadra": "Bologna",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "2814": {
+      "nome": "Provedel",
+      "squadra": "Lazio",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "6641": {
+      "nome": "Suzuki",
+      "squadra": "Parma",
+      "pv": 20,
+      "rateo": 0.526
+    },
+    "4236": {
+      "nome": "Muric",
+      "squadra": "Sassuolo",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "7332": {
+      "nome": "Bijlow",
+      "squadra": "Genoa",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "6662": {
+      "nome": "Corvi",
+      "squadra": "Parma",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "5320": {
+      "nome": "Paleari",
+      "squadra": "Torino",
+      "pv": 29,
+      "rateo": 0.763
+    },
+    "218": {
+      "nome": "Perin",
+      "squadra": "Juventus",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "572": {
+      "nome": "Meret",
+      "squadra": "Napoli",
+      "pv": 11,
+      "rateo": 0.289
+    },
+    "4867": {
+      "nome": "Turati",
+      "squadra": "Sassuolo",
+      "pv": 6,
+      "rateo": 0.158
+    },
+    "7172": {
+      "nome": "Pessina Mas.",
+      "squadra": "Bologna",
+      "pv": 4,
+      "rateo": 0.105
+    },
+    "5116": {
+      "nome": "Martinez Jo.",
+      "squadra": "Inter",
+      "pv": 5,
+      "rateo": 0.132
+    },
+    "7337": {
+      "nome": "Motta",
+      "squadra": "Lazio",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "6403": {
+      "nome": "Christensen O.",
+      "squadra": "Fiorentina",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "2297": {
+      "nome": "Rossi F.",
+      "squadra": "Atalanta",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "4": {
+      "nome": "Sportiello",
+      "squadra": "Atalanta",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "4929": {
+      "nome": "Ciocci",
+      "squadra": "Cagliari",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "2809": {
+      "nome": "Vigorito",
+      "squadra": "Como",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "219": {
+      "nome": "Sommariva",
+      "squadra": "Genoa",
+      "pv": 2,
+      "rateo": 0.053
+    },
+    "1926": {
+      "nome": "Di Gennaro",
+      "squadra": "Inter",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "1930": {
+      "nome": "Pinsoglio",
+      "squadra": "Juventus",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "6482": {
+      "nome": "Mandas",
+      "squadra": "Lazio",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "2401": {
+      "nome": "Fruchtl",
+      "squadra": "Lecce",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "6523": {
+      "nome": "Samooja",
+      "squadra": "Lecce",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "2815": {
+      "nome": "Terracciano",
+      "squadra": "Milan",
+      "pv": 2,
+      "rateo": 0.053
+    },
+    "6813": {
+      "nome": "Torriani",
+      "squadra": "Milan",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "2845": {
+      "nome": "Contini",
+      "squadra": "Napoli",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "610": {
+      "nome": "Gollini",
+      "squadra": "Roma",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "4518": {
+      "nome": "Russo A.",
+      "squadra": "Sassuolo",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "543": {
+      "nome": "Padelli",
+      "squadra": "Udinese",
+      "pv": 2,
+      "rateo": 0.053
+    },
+    "158": {
+      "nome": "Lezzerini",
+      "squadra": "Fiorentina",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "7301": {
+      "nome": "Tornqvist",
+      "squadra": "Como",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "6650": {
+      "nome": "Sherri",
+      "squadra": "Cagliari",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "7363": {
+      "nome": "Siviero",
+      "squadra": "Torino",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "254": {
+      "nome": "Dimarco",
+      "squadra": "Inter",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "2788": {
+      "nome": "Bremer",
+      "squadra": "Juventus",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "5022": {
+      "nome": "Pavlovic",
+      "squadra": "Milan",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "6893": {
+      "nome": "Kempf",
+      "squadra": "Como",
+      "pv": 29,
+      "rateo": 0.763
+    },
+    "1852": {
+      "nome": "Spinazzola",
+      "squadra": "Napoli",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "5526": {
+      "nome": "Scalvini",
+      "squadra": "Atalanta",
+      "pv": 24,
+      "rateo": 0.632
+    },
+    "6217": {
+      "nome": "Bisseck",
+      "squadra": "Inter",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "2296": {
+      "nome": "Mancini",
+      "squadra": "Roma",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "5750": {
+      "nome": "Ostigard",
+      "squadra": "Genoa",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "4976": {
+      "nome": "Kalulu",
+      "squadra": "Juventus",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "4657": {
+      "nome": "Celik",
+      "squadra": "Roma",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "7181": {
+      "nome": "Wesley",
+      "squadra": "Roma",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "6956": {
+      "nome": "Solet",
+      "squadra": "Udinese",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "2120": {
+      "nome": "Bastoni",
+      "squadra": "Inter",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "4807": {
+      "nome": "Hermoso",
+      "squadra": "Roma",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "6986": {
+      "nome": "Rensch",
+      "squadra": "Roma",
+      "pv": 19,
+      "rateo": 0.5
+    },
+    "4159": {
+      "nome": "Akanji",
+      "squadra": "Inter",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "554": {
+      "nome": "Zappacosta",
+      "squadra": "Atalanta",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "4317": {
+      "nome": "N'Dicka",
+      "squadra": "Roma",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "5514": {
+      "nome": "Vasquez",
+      "squadra": "Genoa",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "6766": {
+      "nome": "Kelly L.",
+      "squadra": "Juventus",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "4409": {
+      "nome": "Rrahmani",
+      "squadra": "Napoli",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "5862": {
+      "nome": "Valeri",
+      "squadra": "Parma",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "6485": {
+      "nome": "Kristensen T.",
+      "squadra": "Udinese",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "7211": {
+      "nome": "Athekame",
+      "squadra": "Milan",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "5678": {
+      "nome": "Holm",
+      "squadra": "Juventus",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "4734": {
+      "nome": "Miranda J.",
+      "squadra": "Bologna",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "4994": {
+      "nome": "Vojvoda",
+      "squadra": "Como",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "6867": {
+      "nome": "Valle",
+      "squadra": "Como",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "5885": {
+      "nome": "Dodò",
+      "squadra": "Fiorentina",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "2593": {
+      "nome": "Martin",
+      "squadra": "Genoa",
+      "pv": 29,
+      "rateo": 0.763
+    },
+    "5877": {
+      "nome": "Carlos Augusto",
+      "squadra": "Inter",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "6989": {
+      "nome": "Tiago Gabriel",
+      "squadra": "Lecce",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "4502": {
+      "nome": "Gallo",
+      "squadra": "Lecce",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "6496": {
+      "nome": "Bartesaghi",
+      "squadra": "Milan",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "6202": {
+      "nome": "Beukema",
+      "squadra": "Napoli",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "2816": {
+      "nome": "Di Lorenzo",
+      "squadra": "Napoli",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "6664": {
+      "nome": "Delprato",
+      "squadra": "Parma",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "4263": {
+      "nome": "Kabasele",
+      "squadra": "Udinese",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "6869": {
+      "nome": "Ramon",
+      "squadra": "Como",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "5427": {
+      "nome": "Gutierrez",
+      "squadra": "Napoli",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "4210": {
+      "nome": "Mina",
+      "squadra": "Cagliari",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "5520": {
+      "nome": "Cambiaso",
+      "squadra": "Juventus",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "6642": {
+      "nome": "Coco",
+      "squadra": "Torino",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "7219": {
+      "nome": "Bernasconi",
+      "squadra": "Atalanta",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "4433": {
+      "nome": "Zortea",
+      "squadra": "Bologna",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "4177": {
+      "nome": "Pavard",
+      "squadra": "Inter",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "5833": {
+      "nome": "Gila",
+      "squadra": "Lazio",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "460": {
+      "nome": "Romagnoli",
+      "squadra": "Lazio",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "2188": {
+      "nome": "Marusic",
+      "squadra": "Lazio",
+      "pv": 33,
+      "rateo": 0.868
+    },
+    "4751": {
+      "nome": "Tomori",
+      "squadra": "Milan",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "2724": {
+      "nome": "Buongiorno",
+      "squadra": "Napoli",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "6663": {
+      "nome": "Circati",
+      "squadra": "Parma",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "6631": {
+      "nome": "Ghilardi",
+      "squadra": "Roma",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "6672": {
+      "nome": "Idzes",
+      "squadra": "Sassuolo",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "787": {
+      "nome": "Djimsiti",
+      "squadra": "Atalanta",
+      "pv": 33,
+      "rateo": 0.868
+    },
+    "2640": {
+      "nome": "Kolasinac",
+      "squadra": "Atalanta",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "6042": {
+      "nome": "Lucumì",
+      "squadra": "Bologna",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "5701": {
+      "nome": "Obert",
+      "squadra": "Cagliari",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "6660": {
+      "nome": "Marcandalli",
+      "squadra": "Genoa",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "6814": {
+      "nome": "Norton-Cuffy",
+      "squadra": "Genoa",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "7012": {
+      "nome": "Provstgaard",
+      "squadra": "Lazio",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "4772": {
+      "nome": "Angelino",
+      "squadra": "Roma",
+      "pv": 6,
+      "rateo": 0.158
+    },
+    "6426": {
+      "nome": "Pedersen",
+      "squadra": "Torino",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "6046": {
+      "nome": "Hien",
+      "squadra": "Atalanta",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "5578": {
+      "nome": "Kossounou",
+      "squadra": "Atalanta",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "4887": {
+      "nome": "Bellanova",
+      "squadra": "Atalanta",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "4461": {
+      "nome": "Zappa",
+      "squadra": "Cagliari",
+      "pv": 25,
+      "rateo": 0.658
+    },
+    "7014": {
+      "nome": "Smolcic I.",
+      "squadra": "Como",
+      "pv": 25,
+      "rateo": 0.658
+    },
+    "4378": {
+      "nome": "Ranieri L.",
+      "squadra": "Fiorentina",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "5449": {
+      "nome": "Parisi",
+      "squadra": "Fiorentina",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "5739": {
+      "nome": "De Winter",
+      "squadra": "Milan",
+      "pv": 24,
+      "rateo": 0.632
+    },
+    "6039": {
+      "nome": "Cabal",
+      "squadra": "Juventus",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "7175": {
+      "nome": "Joao Mario",
+      "squadra": "Bologna",
+      "pv": 14,
+      "rateo": 0.368
+    },
+    "5620": {
+      "nome": "Tavares N.",
+      "squadra": "Lazio",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "5527": {
+      "nome": "Zanoli",
+      "squadra": "Udinese",
+      "pv": 19,
+      "rateo": 0.5
+    },
+    "5010": {
+      "nome": "Ismajli",
+      "squadra": "Torino",
+      "pv": 24,
+      "rateo": 0.632
+    },
+    "5555": {
+      "nome": "Kamara H.",
+      "squadra": "Udinese",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "7240": {
+      "nome": "Siebert",
+      "squadra": "Lecce",
+      "pv": 19,
+      "rateo": 0.5
+    },
+    "7125": {
+      "nome": "Idrissi R.",
+      "squadra": "Cagliari",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "6896": {
+      "nome": "Van Der Brempt",
+      "squadra": "Como",
+      "pv": 14,
+      "rateo": 0.368
+    },
+    "7131": {
+      "nome": "Floriani Mussolini",
+      "squadra": "Cremonese",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "5603": {
+      "nome": "Pongracic",
+      "squadra": "Fiorentina",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "5831": {
+      "nome": "Gatti",
+      "squadra": "Juventus",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "2728": {
+      "nome": "Pellegrini Lu.",
+      "squadra": "Lazio",
+      "pv": 24,
+      "rateo": 0.632
+    },
+    "6990": {
+      "nome": "Veiga D.",
+      "squadra": "Lecce",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "4401": {
+      "nome": "Gabbia",
+      "squadra": "Milan",
+      "pv": 29,
+      "rateo": 0.763
+    },
+    "6531": {
+      "nome": "Jimenez A.",
+      "squadra": "Milan",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "5840": {
+      "nome": "Olivera",
+      "squadra": "Napoli",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "5307": {
+      "nome": "Valenti",
+      "squadra": "Parma",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "4374": {
+      "nome": "Walukiewicz",
+      "squadra": "Sassuolo",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "5820": {
+      "nome": "Bertola",
+      "squadra": "Udinese",
+      "pv": 25,
+      "rateo": 0.658
+    },
+    "5994": {
+      "nome": "Ebosse",
+      "squadra": "Torino",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "7235": {
+      "nome": "Troilo",
+      "squadra": "Parma",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "7274": {
+      "nome": "Zè Pedro",
+      "squadra": "Cagliari",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "6916": {
+      "nome": "Ahanor",
+      "squadra": "Atalanta",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "7068": {
+      "nome": "Vitik",
+      "squadra": "Bologna",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "6495": {
+      "nome": "Comuzzo",
+      "squadra": "Fiorentina",
+      "pv": 24,
+      "rateo": 0.632
+    },
+    "5481": {
+      "nome": "Mazzocchi",
+      "squadra": "Napoli",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "5851": {
+      "nome": "Doig",
+      "squadra": "Sassuolo",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "7212": {
+      "nome": "Heggem",
+      "squadra": "Bologna",
+      "pv": 25,
+      "rateo": 0.658
+    },
+    "7255": {
+      "nome": "Britschgi",
+      "squadra": "Parma",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "7268": {
+      "nome": "Rodriguez Ju.",
+      "squadra": "Cagliari",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "487": {
+      "nome": "De Silvestri",
+      "squadra": "Bologna",
+      "pv": 10,
+      "rateo": 0.263
+    },
+    "6245": {
+      "nome": "Vogliacco",
+      "squadra": "Genoa",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "791": {
+      "nome": "Sabelli",
+      "squadra": "Genoa",
+      "pv": 13,
+      "rateo": 0.342
+    },
+    "327": {
+      "nome": "Patric",
+      "squadra": "Lazio",
+      "pv": 10,
+      "rateo": 0.263
+    },
+    "2263": {
+      "nome": "Lazzari",
+      "squadra": "Lazio",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "6809": {
+      "nome": "Marianucci",
+      "squadra": "Torino",
+      "pv": 11,
+      "rateo": 0.289
+    },
+    "7253": {
+      "nome": "Bella-Kotchap",
+      "squadra": "Verona",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "6149": {
+      "nome": "Carboni F.",
+      "squadra": "Parma",
+      "pv": 2,
+      "rateo": 0.053
+    },
+    "6977": {
+      "nome": "Otoa",
+      "squadra": "Genoa",
+      "pv": 10,
+      "rateo": 0.263
+    },
+    "294": {
+      "nome": "Rugani",
+      "squadra": "Fiorentina",
+      "pv": 8,
+      "rateo": 0.211
+    },
+    "6632": {
+      "nome": "Gaspar K.",
+      "squadra": "Lecce",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "6883": {
+      "nome": "Jean",
+      "squadra": "Lecce",
+      "pv": 5,
+      "rateo": 0.132
+    },
+    "5273": {
+      "nome": "Estupinan",
+      "squadra": "Milan",
+      "pv": 14,
+      "rateo": 0.368
+    },
+    "6821": {
+      "nome": "Hainaut",
+      "squadra": "Parma",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "6189": {
+      "nome": "Missori",
+      "squadra": "Sassuolo",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "252": {
+      "nome": "Biraghi",
+      "squadra": "Torino",
+      "pv": 11,
+      "rateo": 0.289
+    },
+    "6925": {
+      "nome": "Palma",
+      "squadra": "Udinese",
+      "pv": 4,
+      "rateo": 0.105
+    },
+    "7202": {
+      "nome": "Ndiaye",
+      "squadra": "Parma",
+      "pv": 11,
+      "rateo": 0.289
+    },
+    "7260": {
+      "nome": "Ziolkowski",
+      "squadra": "Roma",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "7312": {
+      "nome": "Arizala",
+      "squadra": "Udinese",
+      "pv": 5,
+      "rateo": 0.132
+    },
+    "7326": {
+      "nome": "Helland",
+      "squadra": "Bologna",
+      "pv": 6,
+      "rateo": 0.158
+    },
+    "7356": {
+      "nome": "Mlacic",
+      "squadra": "Udinese",
+      "pv": 3,
+      "rateo": 0.079
+    },
+    "5498": {
+      "nome": "Casale",
+      "squadra": "Bologna",
+      "pv": 10,
+      "rateo": 0.263
+    },
+    "418": {
+      "nome": "Goldaniga",
+      "squadra": "Como",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "7164": {
+      "nome": "Perez M.",
+      "squadra": "Lecce",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "7182": {
+      "nome": "Ndaba",
+      "squadra": "Lecce",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "7156": {
+      "nome": "Pieragnolo",
+      "squadra": "Sassuolo",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "6985": {
+      "nome": "Candè",
+      "squadra": "Sassuolo",
+      "pv": 8,
+      "rateo": 0.211
+    },
+    "7238": {
+      "nome": "Kouadio",
+      "squadra": "Fiorentina",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "7346": {
+      "nome": "Raterink",
+      "squadra": "Cagliari",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "6875": {
+      "nome": "Paz N.",
+      "squadra": "Como",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "4777": {
+      "nome": "McTominay",
+      "squadra": "Napoli",
+      "pv": 33,
+      "rateo": 0.868
+    },
+    "7126": {
+      "nome": "Baturina",
+      "squadra": "Como",
+      "pv": 25,
+      "rateo": 0.658
+    },
+    "2194": {
+      "nome": "Calhanoglu",
+      "squadra": "Inter",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "2423": {
+      "nome": "Pulisic",
+      "squadra": "Milan",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "2379": {
+      "nome": "Rabiot",
+      "squadra": "Milan",
+      "pv": 29,
+      "rateo": 0.763
+    },
+    "2517": {
+      "nome": "De Bruyne",
+      "squadra": "Napoli",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "5559": {
+      "nome": "Da Cunha",
+      "squadra": "Como",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "152": {
+      "nome": "Zielinski",
+      "squadra": "Inter",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "6908": {
+      "nome": "Atta",
+      "squadra": "Udinese",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "2167": {
+      "nome": "Orsolini",
+      "squadra": "Bologna",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "2766": {
+      "nome": "Zaniolo",
+      "squadra": "Udinese",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "1870": {
+      "nome": "Barella",
+      "squadra": "Inter",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "4973": {
+      "nome": "McKennie",
+      "squadra": "Juventus",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "6884": {
+      "nome": "Conceicao",
+      "squadra": "Juventus",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "2606": {
+      "nome": "Modric",
+      "squadra": "Milan",
+      "pv": 33,
+      "rateo": 0.868
+    },
+    "1933": {
+      "nome": "Mandragora",
+      "squadra": "Fiorentina",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "6717": {
+      "nome": "Konè I.",
+      "squadra": "Sassuolo",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "5687": {
+      "nome": "Vlasic",
+      "squadra": "Torino",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "6151": {
+      "nome": "Perrone",
+      "squadra": "Como",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "4970": {
+      "nome": "Messias",
+      "squadra": "Genoa",
+      "pv": 19,
+      "rateo": 0.5
+    },
+    "6398": {
+      "nome": "Isaksen",
+      "squadra": "Lazio",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "4892": {
+      "nome": "Saelemaekers",
+      "squadra": "Milan",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "4220": {
+      "nome": "Zambo Anguissa",
+      "squadra": "Napoli",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "6666": {
+      "nome": "Bernabè",
+      "squadra": "Parma",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "5844": {
+      "nome": "Thorstvedt",
+      "squadra": "Sassuolo",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "6844": {
+      "nome": "Rowe",
+      "squadra": "Bologna",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "5422": {
+      "nome": "Zalewski",
+      "squadra": "Atalanta",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "2529": {
+      "nome": "Mkhitaryan",
+      "squadra": "Inter",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "5562": {
+      "nome": "Thuram K.",
+      "squadra": "Juventus",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "6190": {
+      "nome": "Pisilli",
+      "squadra": "Roma",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "6684": {
+      "nome": "Ekkelenkamp",
+      "squadra": "Udinese",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "7314": {
+      "nome": "Taylor K.",
+      "squadra": "Lazio",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "5792": {
+      "nome": "Ederson D.S.",
+      "squadra": "Atalanta",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "184": {
+      "nome": "Bernardeschi",
+      "squadra": "Bologna",
+      "pv": 24,
+      "rateo": 0.632
+    },
+    "2765": {
+      "nome": "Odgaard",
+      "squadra": "Bologna",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "4364": {
+      "nome": "Gaetano",
+      "squadra": "Cagliari",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "5036": {
+      "nome": "Caqueret",
+      "squadra": "Como",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "5800": {
+      "nome": "Gudmundsson A.",
+      "squadra": "Fiorentina",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "632": {
+      "nome": "Zaccagni",
+      "squadra": "Lazio",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "5504": {
+      "nome": "Coulibaly L.",
+      "squadra": "Lecce",
+      "pv": 33,
+      "rateo": 0.868
+    },
+    "536": {
+      "nome": "Politano",
+      "squadra": "Napoli",
+      "pv": 33,
+      "rateo": 0.868
+    },
+    "779": {
+      "nome": "Cristante",
+      "squadra": "Roma",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "5589": {
+      "nome": "Konè M.",
+      "squadra": "Roma",
+      "pv": 29,
+      "rateo": 0.763
+    },
+    "5735": {
+      "nome": "Volpato",
+      "squadra": "Sassuolo",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "5888": {
+      "nome": "Casadei",
+      "squadra": "Torino",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "2077": {
+      "nome": "Pasalic",
+      "squadra": "Atalanta",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "827": {
+      "nome": "Locatelli",
+      "squadra": "Juventus",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "7351": {
+      "nome": "Santos A.",
+      "squadra": "Napoli",
+      "pv": 13,
+      "rateo": 0.342
+    },
+    "4465": {
+      "nome": "Fagioli",
+      "squadra": "Fiorentina",
+      "pv": 33,
+      "rateo": 0.868
+    },
+    "7070": {
+      "nome": "Sucic P.",
+      "squadra": "Inter",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "333": {
+      "nome": "Cataldi",
+      "squadra": "Lazio",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "5674": {
+      "nome": "Basic",
+      "squadra": "Lazio",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "5453": {
+      "nome": "Ricci S.",
+      "squadra": "Milan",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "6898": {
+      "nome": "Keita M.",
+      "squadra": "Parma",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "4947": {
+      "nome": "Brescianini",
+      "squadra": "Fiorentina",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "4896": {
+      "nome": "Maldini",
+      "squadra": "Lazio",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "6252": {
+      "nome": "Folorunsho",
+      "squadra": "Cagliari",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "4686": {
+      "nome": "Fofana Y.",
+      "squadra": "Milan",
+      "pv": 33,
+      "rateo": 0.868
+    },
+    "4199": {
+      "nome": "Loftus-Cheek",
+      "squadra": "Milan",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "4287": {
+      "nome": "Lobotka",
+      "squadra": "Napoli",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "6831": {
+      "nome": "Neres",
+      "squadra": "Napoli",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "22": {
+      "nome": "De Roon",
+      "squadra": "Atalanta",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "5119": {
+      "nome": "Samardzic",
+      "squadra": "Atalanta",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "6054": {
+      "nome": "Moro N.",
+      "squadra": "Bologna",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "6294": {
+      "nome": "Ndour",
+      "squadra": "Fiorentina",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "5791": {
+      "nome": "Frendrup",
+      "squadra": "Genoa",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "5823": {
+      "nome": "Baldanzi",
+      "squadra": "Genoa",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "6680": {
+      "nome": "Karlstrom",
+      "squadra": "Udinese",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "5761": {
+      "nome": "Zhegrova",
+      "squadra": "Juventus",
+      "pv": 12,
+      "rateo": 0.316
+    },
+    "7318": {
+      "nome": "Gandelman",
+      "squadra": "Lecce",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "5298": {
+      "nome": "Pobega",
+      "squadra": "Bologna",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "4870": {
+      "nome": "Adopo",
+      "squadra": "Cagliari",
+      "pv": 38,
+      "rateo": 1
+    },
+    "6020": {
+      "nome": "Ellertsson",
+      "squadra": "Genoa",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "5301": {
+      "nome": "Luis Henrique",
+      "squadra": "Inter",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "6271": {
+      "nome": "El Aynaoui",
+      "squadra": "Roma",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "6815": {
+      "nome": "Fadera",
+      "squadra": "Sassuolo",
+      "pv": 24,
+      "rateo": 0.632
+    },
+    "7223": {
+      "nome": "Vergara",
+      "squadra": "Napoli",
+      "pv": 8,
+      "rateo": 0.211
+    },
+    "2528": {
+      "nome": "Matic",
+      "squadra": "Sassuolo",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "4349": {
+      "nome": "Nicolussi Caviglia",
+      "squadra": "Parma",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "6424": {
+      "nome": "Prati",
+      "squadra": "Torino",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "6640": {
+      "nome": "Felici",
+      "squadra": "Cagliari",
+      "pv": 11,
+      "rateo": 0.289
+    },
+    "5813": {
+      "nome": "Miretti",
+      "squadra": "Juventus",
+      "pv": 15,
+      "rateo": 0.395
+    },
+    "6015": {
+      "nome": "Berisha M.",
+      "squadra": "Lecce",
+      "pv": 12,
+      "rateo": 0.316
+    },
+    "6549": {
+      "nome": "Pierotti",
+      "squadra": "Lecce",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "5131": {
+      "nome": "Gilmour",
+      "squadra": "Napoli",
+      "pv": 13,
+      "rateo": 0.342
+    },
+    "6170": {
+      "nome": "Gineitis",
+      "squadra": "Torino",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "7198": {
+      "nome": "Piotrowski",
+      "squadra": "Udinese",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "7208": {
+      "nome": "Miller L.",
+      "squadra": "Udinese",
+      "pv": 19,
+      "rateo": 0.5
+    },
+    "7209": {
+      "nome": "Sorensen O.",
+      "squadra": "Parma",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "6005": {
+      "nome": "Ilkhan",
+      "squadra": "Torino",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "6274": {
+      "nome": "Diouf",
+      "squadra": "Inter",
+      "pv": 10,
+      "rateo": 0.263
+    },
+    "6024": {
+      "nome": "Sulemana I.",
+      "squadra": "Cagliari",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "6206": {
+      "nome": "Fabbian",
+      "squadra": "Fiorentina",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "1871": {
+      "nome": "Deiola",
+      "squadra": "Cagliari",
+      "pv": 20,
+      "rateo": 0.526
+    },
+    "6629": {
+      "nome": "Dele-Bashiru",
+      "squadra": "Lazio",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "5998": {
+      "nome": "Zerbin",
+      "squadra": "Cremonese",
+      "pv": 29,
+      "rateo": 0.763
+    },
+    "7138": {
+      "nome": "Ordonez C.",
+      "squadra": "Parma",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "6246": {
+      "nome": "Lipani",
+      "squadra": "Sassuolo",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "5858": {
+      "nome": "Ferguson",
+      "squadra": "Bologna",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "6917": {
+      "nome": "Masini",
+      "squadra": "Genoa",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "5457": {
+      "nome": "Maleh",
+      "squadra": "Cremonese",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "5295": {
+      "nome": "Musah",
+      "squadra": "Atalanta",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "6593": {
+      "nome": "Akinsanmiro",
+      "squadra": "Pisa",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "7322": {
+      "nome": "Ngom",
+      "squadra": "Lecce",
+      "pv": 13,
+      "rateo": 0.342
+    },
+    "7341": {
+      "nome": "Amorim",
+      "squadra": "Genoa",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "2848": {
+      "nome": "Frattesi",
+      "squadra": "Inter",
+      "pv": 14,
+      "rateo": 0.368
+    },
+    "5685": {
+      "nome": "Koopmeiners",
+      "squadra": "Juventus",
+      "pv": 29,
+      "rateo": 0.763
+    },
+    "4856": {
+      "nome": "Chukwueze",
+      "squadra": "Milan",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "5319": {
+      "nome": "Sohm",
+      "squadra": "Bologna",
+      "pv": 24,
+      "rateo": 0.632
+    },
+    "7203": {
+      "nome": "Jashari",
+      "squadra": "Milan",
+      "pv": 12,
+      "rateo": 0.316
+    },
+    "6218": {
+      "nome": "Oristanio",
+      "squadra": "Parma",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "6225": {
+      "nome": "El Azzouzi",
+      "squadra": "Bologna",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "6010": {
+      "nome": "Fazzini",
+      "squadra": "Fiorentina",
+      "pv": 12,
+      "rateo": 0.316
+    },
+    "4911": {
+      "nome": "Douglas Luiz",
+      "squadra": "Juventus",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "6191": {
+      "nome": "Belahyane",
+      "squadra": "Lazio",
+      "pv": 11,
+      "rateo": 0.289
+    },
+    "6410": {
+      "nome": "Kaba",
+      "squadra": "Lecce",
+      "pv": 11,
+      "rateo": 0.289
+    },
+    "6984": {
+      "nome": "Ondrejka",
+      "squadra": "Parma",
+      "pv": 15,
+      "rateo": 0.395
+    },
+    "7157": {
+      "nome": "Iannoni",
+      "squadra": "Sassuolo",
+      "pv": 5,
+      "rateo": 0.132
+    },
+    "6212": {
+      "nome": "Zarraga",
+      "squadra": "Udinese",
+      "pv": 10,
+      "rateo": 0.263
+    },
+    "6980": {
+      "nome": "Venturino",
+      "squadra": "Roma",
+      "pv": 7,
+      "rateo": 0.184
+    },
+    "4459": {
+      "nome": "Rovella",
+      "squadra": "Lazio",
+      "pv": 11,
+      "rateo": 0.289
+    },
+    "5872": {
+      "nome": "Helgason",
+      "squadra": "Lecce",
+      "pv": 4,
+      "rateo": 0.105
+    },
+    "6219": {
+      "nome": "Boloca",
+      "squadra": "Sassuolo",
+      "pv": 2,
+      "rateo": 0.053
+    },
+    "6889": {
+      "nome": "Anjorin",
+      "squadra": "Torino",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "6506": {
+      "nome": "Fini",
+      "squadra": "Genoa",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "7248": {
+      "nome": "Gorter",
+      "squadra": "Lecce",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "7036": {
+      "nome": "Bakola",
+      "squadra": "Sassuolo",
+      "pv": 3,
+      "rateo": 0.079
+    },
+    "7165": {
+      "nome": "Liteta",
+      "squadra": "Cagliari",
+      "pv": 4,
+      "rateo": 0.105
+    },
+    "6678": {
+      "nome": "Liberali",
+      "squadra": "Milan",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "5007": {
+      "nome": "Ilic",
+      "squadra": "Torino",
+      "pv": 8,
+      "rateo": 0.211
+    },
+    "6677": {
+      "nome": "Adzic",
+      "squadra": "Juventus",
+      "pv": 4,
+      "rateo": 0.105
+    },
+    "7276": {
+      "nome": "Cremaschi",
+      "squadra": "Parma",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "7319": {
+      "nome": "Fofana Sa.",
+      "squadra": "Lecce",
+      "pv": 2,
+      "rateo": 0.053
+    },
+    "7345": {
+      "nome": "Przyborek",
+      "squadra": "Lazio",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "7357": {
+      "nome": "Lahdo",
+      "squadra": "Como",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "2764": {
+      "nome": "Martinez L.",
+      "squadra": "Inter",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "4871": {
+      "nome": "Thuram",
+      "squadra": "Inter",
+      "pv": 29,
+      "rateo": 0.763
+    },
+    "6052": {
+      "nome": "Hojlund",
+      "squadra": "Napoli",
+      "pv": 33,
+      "rateo": 0.868
+    },
+    "7017": {
+      "nome": "Douvikas",
+      "squadra": "Como",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "6434": {
+      "nome": "Yildiz",
+      "squadra": "Juventus",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "531": {
+      "nome": "Berardi",
+      "squadra": "Sassuolo",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "5585": {
+      "nome": "Malen",
+      "squadra": "Roma",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "6435": {
+      "nome": "Krstovic",
+      "squadra": "Atalanta",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "5637": {
+      "nome": "Davis K.",
+      "squadra": "Udinese",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "2137": {
+      "nome": "Scamacca",
+      "squadra": "Atalanta",
+      "pv": 22,
+      "rateo": 0.579
+    },
+    "7071": {
+      "nome": "Esposito F.P.",
+      "squadra": "Inter",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "2061": {
+      "nome": "Simeone",
+      "squadra": "Torino",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "4463": {
+      "nome": "Esposito Se.",
+      "squadra": "Cagliari",
+      "pv": 36,
+      "rateo": 0.947
+    },
+    "6060": {
+      "nome": "Laurientè",
+      "squadra": "Sassuolo",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "6669": {
+      "nome": "Bonny",
+      "squadra": "Inter",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "4510": {
+      "nome": "Leao",
+      "squadra": "Milan",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "5734": {
+      "nome": "Soulè",
+      "squadra": "Roma",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "7023": {
+      "nome": "Pellegrino M.",
+      "squadra": "Parma",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "4728": {
+      "nome": "Nkunku",
+      "squadra": "Milan",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "6572": {
+      "nome": "Castro S.",
+      "squadra": "Bologna",
+      "pv": 35,
+      "rateo": 0.921
+    },
+    "5995": {
+      "nome": "De Ketelaere",
+      "squadra": "Atalanta",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "2097": {
+      "nome": "Kean",
+      "squadra": "Fiorentina",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "2038": {
+      "nome": "Pinamonti",
+      "squadra": "Sassuolo",
+      "pv": 34,
+      "rateo": 0.895
+    },
+    "6646": {
+      "nome": "Adams C.",
+      "squadra": "Torino",
+      "pv": 32,
+      "rateo": 0.842
+    },
+    "7129": {
+      "nome": "Rodriguez Je.",
+      "squadra": "Como",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "4371": {
+      "nome": "Raspadori",
+      "squadra": "Atalanta",
+      "pv": 13,
+      "rateo": 0.342
+    },
+    "2531": {
+      "nome": "Lukaku",
+      "squadra": "Napoli",
+      "pv": 1,
+      "rateo": 0.026
+    },
+    "4923": {
+      "nome": "Colombo",
+      "squadra": "Genoa",
+      "pv": 37,
+      "rateo": 0.974
+    },
+    "6556": {
+      "nome": "Noslin",
+      "squadra": "Lazio",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "6164": {
+      "nome": "Vitinha O.",
+      "squadra": "Genoa",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "5544": {
+      "nome": "David",
+      "squadra": "Juventus",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "7120": {
+      "nome": "Lang",
+      "squadra": "Napoli",
+      "pv": 14,
+      "rateo": 0.368
+    },
+    "309": {
+      "nome": "Dybala",
+      "squadra": "Roma",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "7162": {
+      "nome": "Giovane",
+      "squadra": "Napoli",
+      "pv": 31,
+      "rateo": 0.816
+    },
+    "4436": {
+      "nome": "Cambiaghi",
+      "squadra": "Bologna",
+      "pv": 24,
+      "rateo": 0.632
+    },
+    "6967": {
+      "nome": "Diao",
+      "squadra": "Como",
+      "pv": 16,
+      "rateo": 0.421
+    },
+    "7008": {
+      "nome": "Gimenez",
+      "squadra": "Milan",
+      "pv": 15,
+      "rateo": 0.395
+    },
+    "6243": {
+      "nome": "Borrelli",
+      "squadra": "Cagliari",
+      "pv": 26,
+      "rateo": 0.684
+    },
+    "5500": {
+      "nome": "Cancellieri",
+      "squadra": "Lazio",
+      "pv": 28,
+      "rateo": 0.737
+    },
+    "2832": {
+      "nome": "Boga",
+      "squadra": "Juventus",
+      "pv": 13,
+      "rateo": 0.342
+    },
+    "6822": {
+      "nome": "Ekhator",
+      "squadra": "Genoa",
+      "pv": 25,
+      "rateo": 0.658
+    },
+    "6675": {
+      "nome": "Dovbyk",
+      "squadra": "Roma",
+      "pv": 13,
+      "rateo": 0.342
+    },
+    "7347": {
+      "nome": "Bowie",
+      "squadra": "Verona",
+      "pv": 14,
+      "rateo": 0.368
+    },
+    "5918": {
+      "nome": "Sulemana K.",
+      "squadra": "Atalanta",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "4359": {
+      "nome": "Piccoli",
+      "squadra": "Fiorentina",
+      "pv": 27,
+      "rateo": 0.711
+    },
+    "7313": {
+      "nome": "Ratkov",
+      "squadra": "Lazio",
+      "pv": 7,
+      "rateo": 0.184
+    },
+    "608": {
+      "nome": "Zapata D.",
+      "squadra": "Torino",
+      "pv": 23,
+      "rateo": 0.605
+    },
+    "7252": {
+      "nome": "Stulic",
+      "squadra": "Lecce",
+      "pv": 30,
+      "rateo": 0.789
+    },
+    "6981": {
+      "nome": "Vaz",
+      "squadra": "Roma",
+      "pv": 7,
+      "rateo": 0.184
+    },
+    "7001": {
+      "nome": "N'Dri",
+      "squadra": "Lecce",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "7249": {
+      "nome": "Buksa",
+      "squadra": "Udinese",
+      "pv": 21,
+      "rateo": 0.553
+    },
+    "6643": {
+      "nome": "Dallinga",
+      "squadra": "Bologna",
+      "pv": 19,
+      "rateo": 0.5
+    },
+    "7127": {
+      "nome": "Addai",
+      "squadra": "Como",
+      "pv": 12,
+      "rateo": 0.316
+    },
+    "2155": {
+      "nome": "Cutrone",
+      "squadra": "Parma",
+      "pv": 14,
+      "rateo": 0.368
+    },
+    "5672": {
+      "nome": "Dia",
+      "squadra": "Lazio",
+      "pv": 25,
+      "rateo": 0.658
+    },
+    "6827": {
+      "nome": "Njie",
+      "squadra": "Torino",
+      "pv": 10,
+      "rateo": 0.263
+    },
+    "7342": {
+      "nome": "Elphege",
+      "squadra": "Parma",
+      "pv": 8,
+      "rateo": 0.211
+    },
+    "7128": {
+      "nome": "Kuhn",
+      "squadra": "Como",
+      "pv": 14,
+      "rateo": 0.368
+    },
+    "6215": {
+      "nome": "Lucca",
+      "squadra": "Napoli",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "7272": {
+      "nome": "Gueye",
+      "squadra": "Udinese",
+      "pv": 13,
+      "rateo": 0.342
+    },
+    "7374": {
+      "nome": "Mendy P.",
+      "squadra": "Cagliari",
+      "pv": 8,
+      "rateo": 0.211
+    },
+    "7349": {
+      "nome": "Kulenovic",
+      "squadra": "Torino",
+      "pv": 7,
+      "rateo": 0.184
+    },
+    "6895": {
+      "nome": "Dominguez B.",
+      "squadra": "Bologna",
+      "pv": 12,
+      "rateo": 0.316
+    },
+    "6207": {
+      "nome": "Almqvist",
+      "squadra": "Parma",
+      "pv": 9,
+      "rateo": 0.237
+    },
+    "6519": {
+      "nome": "Camarda",
+      "squadra": "Lecce",
+      "pv": 18,
+      "rateo": 0.474
+    },
+    "7161": {
+      "nome": "Bayo V.",
+      "squadra": "Udinese",
+      "pv": 12,
+      "rateo": 0.316
+    },
+    "313": {
+      "nome": "Morata",
+      "squadra": "Como",
+      "pv": 17,
+      "rateo": 0.447
+    },
+    "7338": {
+      "nome": "Albarracin",
+      "squadra": "Cagliari",
+      "pv": 2,
+      "rateo": 0.053
+    },
+    "7027": {
+      "nome": "Azon",
+      "squadra": "Como",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "7158": {
+      "nome": "Moro L.",
+      "squadra": "Sassuolo",
+      "pv": 6,
+      "rateo": 0.158
+    },
+    "7183": {
+      "nome": "Aboukhlal",
+      "squadra": "Torino",
+      "pv": 11,
+      "rateo": 0.289
+    },
+    "7213": {
+      "nome": "Frigan",
+      "squadra": "Parma",
+      "pv": 0,
+      "rateo": 0.0
+    },
+    "7317": {
+      "nome": "Trepy",
+      "squadra": "Cagliari",
+      "pv": 3,
+      "rateo": 0.079
+    }
+  }
+}
