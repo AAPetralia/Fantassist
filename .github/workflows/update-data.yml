@@ -40,6 +40,9 @@ jobs:
       - name: Probabili formazioni (titolarità + calendario + indisponibili)
         run: python probabili_formazioni_scraper.py
 
+      - name: Indisponibili da SOS Fanta (sostituisce quelli di fantacalcio.it, fonte più affidabile)
+        run: python sosfanta_indisponibili_scraper.py
+
       - name: Consensus titolarità (oggi solo fantacalcio.it, pronto per altre fonti)
         run: python titolarita_consensus.py
 
