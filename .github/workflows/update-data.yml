@@ -32,7 +32,12 @@ jobs:
       - name: Esegui scraper fantacalcio.it (statistiche stagionali)
         run: python scraper.py
 
-      - name: Probabili formazioni (titolarità + calendario + indisponibili, un solo fetch)
+      - name: Installa Playwright (titolarità/indisponibili sono caricati via JS)
+        run: |
+          pip install playwright
+          python -m playwright install chromium --with-deps
+
+      - name: Probabili formazioni (titolarità + calendario + indisponibili)
         run: python probabili_formazioni_scraper.py
 
       - name: Consensus titolarità (oggi solo fantacalcio.it, pronto per altre fonti)
