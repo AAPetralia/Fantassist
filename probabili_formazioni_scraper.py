@@ -52,20 +52,73 @@ def rileva_giornata(html):
     return int(sys.argv[1]) if len(sys.argv) > 1 else None
 
 
-def fetch_html():
+import asyncio
+from playwright.async_api import async_playwright
+
+
+def fetch_html_statico():
+    """Per il calendario: quella parte è renderizzata server-side, requests basta."""
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
     resp = requests.get(URL, headers=headers, timeout=25)
     resp.raise_for_status()
     return resp.text
 
 
-def parse_titolarita(html):
+async def fetch_rendered():
+    """Titolarità e indisponibili sono caricati via JS: serve un browser vero."""
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
+        await page.goto(URL, wait_until="networkidle", timeout=60000)
+        await page.wait_for_timeout(2000)   # margine per hydration completa
+
+        titolarita = await page.evaluate("""
+            () => {
+                const risultati = [];
+                document.querySelectorAll('a[href*="/serie-a/squadre/"]').forEach(a => {
+                    const href = a.getAttribute('href') || '';
+                    const m = href.match(/\\/serie-a\\/squadre\\/([^\\/]+)\\/[^\\/]+\\/(\\d+)/);
+                    if (!m) return;
+                    const nome = a.textContent.trim();
+                    if (!nome) return;
+                    let node = a, percentuale = null;
+                    for (let i = 0; i < 5 && node; i++) {
+                        const pm = (node.textContent || '').match(/(\\d{1,3})\\s*%/);
+                        if (pm) { percentuale = parseInt(pm[1]); break; }
+                        node = node.parentElement;
+                    }
+                    risultati.push({nome, squadra: m[1], id: m[2], percentuale});
+                });
+                return risultati;
+            }
+        """)
+
+        # Diagnostica indisponibili: cattura fino a 3000 caratteri di HTML renderizzato
+        # attorno alla PRIMA occorrenza di "Squalificati" che sia DENTRO al contenuto
+        # della pagina (non nel menu di navigazione in alto).
+        diag_indisponibili = await page.evaluate("""
+            () => {
+                const main = document.querySelector('main') || document.body;
+                const html = main.innerHTML;
+                const idx = html.indexOf('qualificat');
+                return idx >= 0 ? html.substring(Math.max(0, idx-200), idx+3000) : null;
+            }
+        """)
+
+        rendered_html = await page.content()
+        await browser.close()
+        return titolarita, diag_indisponibili, rendered_html
+
+
+def parse_titolarita(risultati_dom):
     giocatori = {}
-    for m in PATTERN_TITOLARITA.finditer(html):
-        nome, squadra, pid, perc = m.groups()
+    for r in risultati_dom:
+        if r["percentuale"] is None:
+            continue
+        pid = r["id"]
         giocatori[pid] = {
-            "nome": nome.strip(), "squadra": squadra.strip(),
-            "percentuale": int(perc), "confidence": round(int(perc) / 100, 2),
+            "nome": r["nome"], "squadra": r["squadra"],
+            "percentuale": r["percentuale"], "confidence": round(r["percentuale"] / 100, 2),
             "match_score": 1.0,
         }
     return giocatori
@@ -157,47 +210,37 @@ def parse_calendario_e_indisponibili(html):
     return partite, indisponibili
 
 
-def main():
-    print(f"Scaricando {URL}...")
+async def main_async():
+    print(f"Scaricando {URL} (statico, per calendario)...")
     try:
-        html = fetch_html()
+        html_statico = fetch_html_statico()
     except Exception as e:
-        print(f"Errore download: {e}")
+        print(f"Errore download statico: {e}")
         return 1
-    print(f"Scaricato ({len(html)} caratteri)")
+    print(f"Scaricato ({len(html_statico)} caratteri)")
 
-    GIORNATA = rileva_giornata(html)
+    GIORNATA = rileva_giornata(html_statico)
     print(f"Giornata rilevata: {GIORNATA}")
 
-    # --- DIAGNOSTICA TEMPORANEA: la struttura HTML grezza vista da requests.get() ---
-    # è diversa da quella "ripulita" usata finora per validare il parser (fatto su
-    # testo pre-elaborato, non HTML vero). Stampiamo pezzi reali nel log di Actions
-    # per ricostruire il parser sulla struttura reale, invece di ipotizzarla di nuovo.
-    # Calendario: GIÀ CORRETTO su questa struttura (vedi split_match_blocks).
-    # Titolarità (percentuali) e Squalificati/Infortunati: ANCORA da vedere in HTML vero.
-    idx_percento = html.find("%</")
-    if idx_percento < 0:
-        idx_percento = html.find("%<")
-    if idx_percento >= 0:
-        print("\n" + "="*70)
-        print("DIAGNOSTICA TITOLARITÀ — HTML reale attorno alla prima percentuale:")
-        print("="*70)
-        print(html[max(0, idx_percento-1500): idx_percento+500])
-        print("="*70 + "\n")
-    else:
-        print("\n⚠️  DIAGNOSTICA: nessuna '%' trovata nell'HTML — la titolarità potrebbe")
-        print("essere caricata via JS (come i voti), non nell'HTML statico.")
+    # --- Calendario (statico, requests basta — validato in produzione) ---
+    partite, indisponibili_fallback = parse_calendario_e_indisponibili(html_statico)
+    print(f"\nCalendario: {len(partite)} partite estratte")
+    for p in partite:
+        print(f"   {p['casa']} - {p['trasferta']}  |  {p['data']} {p['ora']}  |  {p['stadio']}")
+    with open(OUT_CALENDARIO, "w", encoding="utf-8") as f:
+        json.dump({"giornata": GIORNATA, "aggiornato": datetime.now(timezone.utc).isoformat(),
+                    "partite": partite}, f, ensure_ascii=False, indent=2)
+    print(f"Salvato {OUT_CALENDARIO}")
 
-    idx_squal = html.find("qualificat")
-    if idx_squal >= 0:
-        print("\n" + "="*70)
-        print("DIAGNOSTICA INDISPONIBILI — HTML reale attorno a 'Squalificati':")
-        print("="*70)
-        print(html[max(0, idx_squal-200): idx_squal+2500])
-        print("="*70 + "\n")
+    # --- Titolarità + Indisponibili (via browser, JS-caricati) ---
+    print(f"\nScaricando {URL} (Playwright, per titolarità/indisponibili)...")
+    try:
+        risultati_dom, diag_indisponibili, html_renderizzato = await fetch_rendered()
+    except Exception as e:
+        print(f"Errore download Playwright: {e}")
+        return 1
 
-    # --- Titolarità (invariato) ---
-    giocatori = parse_titolarita(html)
+    giocatori = parse_titolarita(risultati_dom)
     print(f"Titolarità: {len(giocatori)} giocatori estratti")
     with open(OUT_TITOLARITA, "w", encoding="utf-8") as f:
         json.dump({"fonte": "fantacalcio.it", "giornata": GIORNATA,
@@ -205,31 +248,33 @@ def main():
                     "giocatori": giocatori}, f, ensure_ascii=False, indent=2)
     print(f"Salvato {OUT_TITOLARITA}")
 
-    # --- Calendario + Indisponibili (nuovo) ---
-    partite, indisponibili = parse_calendario_e_indisponibili(html)
-    print(f"\nCalendario: {len(partite)} partite estratte")
-    for p in partite:
-        print(f"   {p['casa']} - {p['trasferta']}  |  {p['data']} {p['ora']}  |  {p['stadio']}")
+    if diag_indisponibili:
+        print("\n" + "="*70)
+        print("DIAGNOSTICA INDISPONIBILI — HTML renderizzato reale attorno a 'Squalificati':")
+        print("="*70)
+        print(diag_indisponibili)
+        print("="*70 + "\n")
+    else:
+        print("\n⚠️  DIAGNOSTICA: 'Squalificati' non trovato nemmeno nel DOM renderizzato.")
 
-    with open(OUT_CALENDARIO, "w", encoding="utf-8") as f:
-        json.dump({"giornata": GIORNATA, "aggiornato": datetime.now(timezone.utc).isoformat(),
-                    "partite": partite}, f, ensure_ascii=False, indent=2)
-    print(f"Salvato {OUT_CALENDARIO}")
-
-    print(f"\nIndisponibili: {len(indisponibili)} squadre con almeno un'assenza")
+    # Indisponibili: riusa il parser esistente sull'HTML renderizzato (probabilmente
+    # va corretto col prossimo giro guardando la diagnostica sopra — non blocca il resto).
+    _, indisponibili = parse_calendario_e_indisponibili(html_renderizzato)
+    print(f"Indisponibili: {len(indisponibili)} squadre con almeno un'assenza")
     with open(OUT_INDISPONIBILI, "w", encoding="utf-8") as f:
         json.dump({"giornata": GIORNATA, "aggiornato": datetime.now(timezone.utc).isoformat(),
                     "squadre": indisponibili}, f, ensure_ascii=False, indent=2)
     print(f"Salvato {OUT_INDISPONIBILI}")
 
     if not partite:
-        print("\n⚠️  ATTENZIONE: nessuna partita estratta. Il separatore dei blocchi ('\\n- 1\\n\\n')")
-        print("   è stato validato su testo già ripulito (via fetch), non sull'HTML grezzo reale.")
-        print("   Se questo accade al primo run vero, va rivisto il separatore dei blocchi-partita")
-        print("   guardando l'HTML effettivo scaricato da requests.get().")
+        print("\n⚠️  ATTENZIONE: nessuna partita estratta dal calendario.")
         return 1
 
     return 0
+
+
+def main():
+    return asyncio.run(main_async())
 
 
 if __name__ == "__main__":
