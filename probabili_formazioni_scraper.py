@@ -93,33 +93,9 @@ async def fetch_rendered():
             }
         """)
 
-        # Diagnostica indisponibili: cattura fino a 3000 caratteri di HTML renderizzato
-        # attorno alla PRIMA occorrenza di "Squalificati" che sia DENTRO al contenuto
-        # della pagina (non nel menu di navigazione in alto).
-        diag_indisponibili = await page.evaluate("""
-            () => {
-                const main = document.querySelector('main') || document.body;
-                const html = main.innerHTML;
-                // Squalificati/Diffidati già risolti — ora serve vedere 'injureds'
-                // (infortunati) CON dati reali per capire la struttura del dettaglio
-                // (motivo + rientro atteso). Raccogliamo più occorrenze: la prima
-                // partita potrebbe non avere infortunati (sezione vuota).
-                const idxPrimaPartita = html.indexOf('data-match-id');
-                let pos = idxPrimaPartita >= 0 ? idxPrimaPartita : 0;
-                let pezzi = [];
-                for (let i = 0; i < 4; i++) {
-                    const idx = html.indexOf('class="injureds"', pos);
-                    if (idx < 0) break;
-                    pezzi.push(html.substring(idx, idx + 1500));
-                    pos = idx + 1500;
-                }
-                return pezzi.length ? pezzi.join('\\n\\n---PROSSIMA PARTITA---\\n\\n') : null;
-            }
-        """)
-
         rendered_html = await page.content()
         await browser.close()
-        return titolarita, diag_indisponibili, rendered_html
+        return titolarita, rendered_html
 
 
 def parse_titolarita(risultati_dom):
@@ -158,7 +134,8 @@ def split_match_blocks(html):
 
 PLAYER_LINK_PATTERN = re.compile(
     r'<a class="player-name player-link"\s+href="https://www\.fantacalcio\.it/serie-a/squadre/'
-    r'([a-z\-]+)/[^/"]+/(\d+)"[^>]*>\s*<span>([^<]+)</span>'
+    r'([a-z\-]+)/[^/"]+/(\d+)"[^>]*>\s*<span>([^<]+)</span>\s*</a>'
+    r'(?:\s*<p class="description">\s*([^<]+?)\s*</p>)?'   # dettaglio (solo infortunati), opzionale
 )
 # Nomi reali delle sezioni scoperti nell'HTML renderizzato (non più intestazioni italiane markdown):
 SEZIONI_INDISPONIBILI = {
@@ -170,19 +147,21 @@ SEZIONI_INDISPONIBILI = {
 
 
 def estrai_lista_indisponibili(nome_sezione, blocco, con_dettaglio=False):
-    """Estrae una lista (squalificati/diffidati/infortunati/in dubbio) da un blocco-partita,
-    cercando la <section class="..."> corrispondente (struttura reale, non testo markdown)."""
+    """Estrae una lista (squalificati/diffidati/infortunati) da un blocco-partita,
+    cercando la <section class="..."> corrispondente (struttura reale, non testo markdown).
+    NOTA: 'in dubbio' non è confermato in questa struttura per-partita — sezione
+    apparentemente separata (widget a parte), da verificare quando servirà davvero."""
     section_class = SEZIONI_INDISPONIBILI.get(nome_sezione, nome_sezione)
     m = re.search(rf'<section class="{section_class}">(.*?)</section>', blocco, re.DOTALL)
     if not m:
         return []
     corpo = m.group(1)
     items = []
-    for squadra, pid, nome in PLAYER_LINK_PATTERN.findall(corpo):
-        items.append({"nome": nome.strip(), "id": pid, "squadra": squadra})
-        # dettaglio (motivo infortunio, rientro atteso): struttura non ancora vista in HTML
-        # reale per gli infortunati — se con_dettaglio è True, verrà aggiunto qui appena
-        # confermata (vedi diagnostica successiva).
+    for squadra, pid, nome, dettaglio in PLAYER_LINK_PATTERN.findall(corpo):
+        item = {"nome": nome.strip(), "id": pid, "squadra": squadra}
+        if con_dettaglio and dettaglio and dettaglio.strip():
+            item["dettaglio"] = dettaglio.strip()
+        items.append(item)
     return items
 
 
@@ -214,10 +193,10 @@ def parse_calendario_e_indisponibili(html):
         partite.append({"casa": casa, "trasferta": trasferta, "data": data_iso, "ora": ora,
                          "stadio": stadio, "match_id": match_id})
 
-        sq = estrai_lista_indisponibili("Squalificati", blocco)
-        diff = estrai_lista_indisponibili("Diffidati", blocco)
-        inf = estrai_lista_indisponibili("Infortunati", blocco, con_dettaglio=True)
-        dub = estrai_lista_indisponibili("In dubbio", blocco, con_dettaglio=True)
+        sq = estrai_lista_indisponibili("squalificati", blocco)
+        diff = estrai_lista_indisponibili("diffidati", blocco)
+        inf = estrai_lista_indisponibili("infortunati", blocco, con_dettaglio=True)
+        dub = estrai_lista_indisponibili("dubbio", blocco, con_dettaglio=True)
 
         for lista, chiave in [(sq, "squalificati"), (diff, "diffidati"),
                                (inf, "infortunati"), (dub, "dubbio")]:
@@ -256,7 +235,7 @@ async def main_async():
     # --- Titolarità + Indisponibili (via browser, JS-caricati) ---
     print(f"\nScaricando {URL} (Playwright, per titolarità/indisponibili)...")
     try:
-        risultati_dom, diag_indisponibili, html_renderizzato = await fetch_rendered()
+        risultati_dom, html_renderizzato = await fetch_rendered()
     except Exception as e:
         print(f"Errore download Playwright: {e}")
         return 1
@@ -269,14 +248,6 @@ async def main_async():
                     "giocatori": giocatori}, f, ensure_ascii=False, indent=2)
     print(f"Salvato {OUT_TITOLARITA}")
 
-    if diag_indisponibili:
-        print("\n" + "="*70)
-        print("DIAGNOSTICA INDISPONIBILI — HTML renderizzato reale attorno a 'Squalificati':")
-        print("="*70)
-        print(diag_indisponibili)
-        print("="*70 + "\n")
-    else:
-        print("\n⚠️  DIAGNOSTICA: 'Squalificati' non trovato nemmeno nel DOM renderizzato.")
 
     # Indisponibili: riusa il parser esistente sull'HTML renderizzato (probabilmente
     # va corretto col prossimo giro guardando la diagnostica sopra — non blocca il resto).
