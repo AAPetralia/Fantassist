@@ -1,5 +1,18 @@
 {
   "giornata": 1,
-  "aggiornato": "2026-08-10T08:11:45.861554+00:00",
-  "squadre": {}
+  "aggiornato": "2026-08-10T08:23:12.820393+00:00",
+  "squadre": {
+    "inter": {
+      "squalificati": [
+        {
+          "nome": "Mkhitaryan",
+          "id": "2529",
+          "squadra": "inter"
+        }
+      ],
+      "diffidati": [],
+      "infortunati": [],
+      "dubbio": []
+    }
+  }
 }
