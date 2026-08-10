@@ -467,6 +467,7 @@ const S = {                    // stato applicazione
   understat: {},               // id(cod) → {shots_p90, xa_p90} (feed offensivo, quando presente)
   votiStorico: {},             // id(cod) → {nome,squadra,ruolo,giornate:{"16":{voto_consensus,fantavoto_consensus,...}}}
   storicoPresenze: {},         // id(cod) → {pv, rateo} stagione precedente conclusa, per l'Indice di Titolarità (TS)
+  titolarita_reale: {},        // id(cod) → {confidence,...} consensus probabili formazioni (fonte reale per l'IT)
   top11Giornata: null,         // giornata selezionata nella scheda Top 11
   top11SelTeam: null,          // fantasquadra selezionata nella classifica Top 11
   meta: null,
@@ -562,8 +563,9 @@ async function loadData(){
     getJSON("players.json"), getJSON("classifica.json"), getJSON("calendario.json"),
     getJSON("rigoristi.json"), getJSON("indisponibili.json"), getJSON("meta.json"),
     getJSON("understat.json"), getJSON("voti_storico.json"), getJSON("storico_presenze.json"),
+    getJSON("titolarita_reale.json"),
   ]);
-  const [pl, cl, cal, rig, ind, meta, us, vs, sp] = res.map(r => r.status==="fulfilled" ? r.value : null);
+  const [pl, cl, cal, rig, ind, meta, us, vs, sp, tr] = res.map(r => r.status==="fulfilled" ? r.value : null);
 
   if(pl){
     S.db = pl.giocatori.filter(p => p.id && p.nome);
@@ -587,6 +589,7 @@ async function loadData(){
   }
   if(vs) S.votiStorico = vs;                    // storico voti reali per giornata: { player_id: {nome,squadra,ruolo,giornate:{...}} }
   if(sp && sp.giocatori) S.storicoPresenze = sp.giocatori;  // { player_id: {nome,squadra,pv,rateo} } stagione precedente
+  if(tr && tr.giocatori) S.titolarita_reale = tr.giocatori;  // { player_id: {nome,squadra,confidence,...} } consensus probabili formazioni
   S.meta = meta;
 
   const dt = pl ? new Date(pl.aggiornato) : null;
