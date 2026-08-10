@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-10T12:30:37.902704+00:00",
+  "aggiornato": "2026-08-10T20:11:13.930342+00:00",
   "fonti_usate": [
     "fantacalcio.it"
   ],
@@ -2690,15 +2690,6 @@
       "nome": "Kossounou",
       "squadra": "atalanta",
       "confidence": 0.4,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "787": {
-      "nome": "Djimsiti",
-      "squadra": "atalanta",
-      "confidence": 0.15,
       "fonti": [
         "fantacalcio.it"
       ],
