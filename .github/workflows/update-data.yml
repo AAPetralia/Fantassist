@@ -4,8 +4,8 @@ on:
   schedule:
     # Lunedì 05:00 UTC (dopo la giornata) e venerdì 12:00 UTC (prima della giornata,
     # per classifica, rigoristi e indisponibili aggiornati)
-    - cron: "0 5 * * 1"
-    - cron: "0 12 * * 5"
+    - cron: "0 6 * * *"    # ogni giorno, 6:00 UTC
+    - cron: "0 18 * * *"   # ogni giorno, 18:00 UTC (notizie formazioni tardo pomeriggio)
   workflow_dispatch:   # avvio manuale dal tab Actions
     inputs:
       giornata:
