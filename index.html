@@ -979,6 +979,22 @@ function loadMyTeam(name){
   });
   syncActive(); S._importReport=null; saveLocal(); S.tab="rosa"; render();
 }
+function risincronizzaRosa(){
+  // autoFlags/pTit vengono calcolati solo quando un giocatore ENTRA in rosa —
+  // se i dati (indisponibili.json, titolarita_reale.json) si aggiornano dopo,
+  // chi era già in rosa resta con i valori vecchi. Questa funzione riallinea
+  // tutti i giocatori ai dati più recenti: SOVRASCRIVE eventuali correzioni
+  // manuali già fatte (titolarità toccata a mano, flag alzati/abbassati a mano),
+  // per questo è un'azione esplicita, non automatica.
+  if(!S.roster || !S.roster.length) return;
+  S.roster = S.roster.map(r => {
+    const st = S.byId.get(r.id);
+    if(!st) return r;   // giocatore sintetico/non riconosciuto: lascia stare
+    const f = autoFlags(st);
+    return {...r, pTit: Math.round(indiceTitolarita(st)*100), rig:f.rig, sq:f.sq, inf:f.inf};
+  });
+  saveLocal(); render();
+}
 // miglior formazione per una rosa qualunque (lista di elementi {id,pTit,rig,sq,inf})
 function bestLineupFrom(roster, mod){
   const avail=roster.filter(r=>!r.sq&&!r.inf);
@@ -1157,6 +1173,11 @@ function renderRosa(){
         return `<button class="teampick" onclick="loadMyTeam('${t.replace(/'/g,"\\'")}')">
           <span>${esc(t)}</span><span class="tp-n">${r?`${r.matched}/${r.n}${r.missed?` · ${r.missed} n/d`:""}`:`${n} giocatori`}</span></button>`;}).join("")}
     </div>`;
+  }
+  if(S.myTeamName && S.roster && S.roster.length){
+    importHtml += `<button class="btn" style="width:100%; padding:10px; margin-bottom:8px"
+      onclick="if(confirm('Aggiorna squalificati/infortunati/titolarità con i dati più recenti? Eventuali correzioni manuali già fatte verranno sovrascritte.')) risincronizzaRosa()">
+      🔄 Aggiorna con dati live (squalificati, infortunati, titolarità)</button>`;
   }
 
   let html = importHtml + `<input class="search" id="q" placeholder="Cerca giocatore da aggiungere…"
@@ -1543,6 +1564,16 @@ function tsOf(st){
   return w*rateoCorrente + (1-w)*rateoStorico;
 }
 function indiceTitolarita(st){
+  // Segnale più forte di tutti: squalifica/infortunio confermati da fonte reale
+  // (indisponibili.json) → quasi certamente non gioca, a prescindere da storico
+  // o percentuale probabili formazioni (che potrebbe non essersi ancora aggiornata).
+  const cat = S.indisponibili && S.indisponibili[st.squadra];
+  const fuoriCerto = cat && (
+    (cat.squalificati||[]).some(x => String(x.id) === String(st.id)) ||
+    (cat.infortunati||[]).some(x => String(x.id) === String(st.id))
+  );
+  if(fuoriCerto) return 0.02;   // quasi zero, non esattamente 0 per non rompere eventuali divisioni altrove
+
   const ts = tsOf(st);
   const fonte = S.titolarita_reale && S.titolarita_reale[st.id];
   if(!fonte || fonte.confidence == null) return ts;             // nessuna fonte reale (es. fuori giornata)
