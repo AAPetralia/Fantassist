@@ -1361,7 +1361,7 @@ function renderFormazione(){
         <input type="range" min="55" max="85" value="${S.threshold}"
           oninput="S.threshold=+this.value; S.thresholdSetByUser=true; saveLocal(); render()">
         <div class="sub" style="margin-top:4px">${S.thresholdSetByUser
-          ? "Soglia impostata da te."
+          ? `Soglia impostata da te. <span style="color:var(--fluo); cursor:pointer" onclick="S.thresholdSetByUser=false; saveLocal(); render()">Torna automatica</span>`
           : "Soglia calcolata dalla media dei migliori 11 voti reali della tua lega (senza capitano/modificatore) — si aggiorna da sola man mano che si gioca. Muovi la barretta per fissarla."}</div>
       </div>
     </div>
