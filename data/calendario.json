@@ -1,6 +1,6 @@
 {
   "giornata": 1,
-  "aggiornato": "2026-08-09T15:56:34.599779+00:00",
+  "aggiornato": "2026-08-10T05:27:22.457819+00:00",
   "partite": [
     {
       "casa": "inter",
@@ -9,6 +9,78 @@
       "ora": null,
       "stadio": null,
       "match_id": "17959"
+    },
+    {
+      "casa": "udinese",
+      "trasferta": "como",
+      "data": null,
+      "ora": null,
+      "stadio": null,
+      "match_id": "17963"
+    },
+    {
+      "casa": "genoa",
+      "trasferta": "napoli",
+      "data": null,
+      "ora": null,
+      "stadio": null,
+      "match_id": "17958"
+    },
+    {
+      "casa": "parma",
+      "trasferta": "cagliari",
+      "data": null,
+      "ora": null,
+      "stadio": null,
+      "match_id": "17960"
+    },
+    {
+      "casa": "frosinone",
+      "trasferta": "juventus",
+      "data": null,
+      "ora": null,
+      "stadio": null,
+      "match_id": "17957"
+    },
+    {
+      "casa": "venezia",
+      "trasferta": "lecce",
+      "data": null,
+      "ora": null,
+      "stadio": null,
+      "match_id": "17964"
+    },
+    {
+      "casa": "atalanta",
+      "trasferta": "sassuolo",
+      "data": null,
+      "ora": null,
+      "stadio": null,
+      "match_id": "17955"
+    },
+    {
+      "casa": "torino",
+      "trasferta": "milan",
+      "data": null,
+      "ora": null,
+      "stadio": null,
+      "match_id": "17962"
+    },
+    {
+      "casa": "bologna",
+      "trasferta": "lazio",
+      "data": null,
+      "ora": null,
+      "stadio": null,
+      "match_id": "17956"
+    },
+    {
+      "casa": "roma",
+      "trasferta": "fiorentina",
+      "data": null,
+      "ora": null,
+      "stadio": null,
+      "match_id": "17961"
     }
   ]
 }

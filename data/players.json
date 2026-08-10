@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-08-09T15:56:32.505878+00:00",
+ "aggiornato": "2026-08-10T05:27:20.809961+00:00",
  "fonte": "tabella HTML statistiche-serie-a",
  "giocatori": [
   {
@@ -8524,6 +8524,23 @@
    "nome": "Pellegrini Lo.",
    "squadra": "roma",
    "ruolo": "C",
+   "pv": 0,
+   "mv": null,
+   "fm": 0,
+   "gol": 0,
+   "golSubiti": 0,
+   "rigoriSegnati": null,
+   "rigoriCalciati": null,
+   "rigoriParati": null,
+   "assist": null,
+   "ammonizioni": null,
+   "espulsioni": null
+  },
+  {
+   "id": 5641,
+   "nome": "Chalobah T.",
+   "squadra": "como",
+   "ruolo": "D",
    "pv": 0,
    "mv": null,
    "fm": 0,
