@@ -100,7 +100,10 @@ async def fetch_rendered():
             () => {
                 const main = document.querySelector('main') || document.body;
                 const html = main.innerHTML;
-                const idx = html.indexOf('qualificat');
+                // Salta il menu di navigazione: parte dalla prima partita reale
+                // (data-match-id compare solo lì, mai nel menu).
+                const idxPrimaePartita = html.indexOf('data-match-id');
+                const idx = html.indexOf('qualificat', idxPrimaePartita >= 0 ? idxPrimaePartita : 0);
                 return idx >= 0 ? html.substring(Math.max(0, idx-200), idx+3000) : null;
             }
         """)
