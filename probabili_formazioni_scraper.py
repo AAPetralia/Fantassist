@@ -100,11 +100,20 @@ async def fetch_rendered():
             () => {
                 const main = document.querySelector('main') || document.body;
                 const html = main.innerHTML;
-                // Salta il menu di navigazione: parte dalla prima partita reale
-                // (data-match-id compare solo lì, mai nel menu).
-                const idxPrimaePartita = html.indexOf('data-match-id');
-                const idx = html.indexOf('qualificat', idxPrimaePartita >= 0 ? idxPrimaePartita : 0);
-                return idx >= 0 ? html.substring(Math.max(0, idx-200), idx+3000) : null;
+                // Squalificati/Diffidati già risolti — ora serve vedere 'injureds'
+                // (infortunati) CON dati reali per capire la struttura del dettaglio
+                // (motivo + rientro atteso). Raccogliamo più occorrenze: la prima
+                // partita potrebbe non avere infortunati (sezione vuota).
+                const idxPrimaPartita = html.indexOf('data-match-id');
+                let pos = idxPrimaPartita >= 0 ? idxPrimaPartita : 0;
+                let pezzi = [];
+                for (let i = 0; i < 4; i++) {
+                    const idx = html.indexOf('class="injureds"', pos);
+                    if (idx < 0) break;
+                    pezzi.push(html.substring(idx, idx + 1500));
+                    pos = idx + 1500;
+                }
+                return pezzi.length ? pezzi.join('\\n\\n---PROSSIMA PARTITA---\\n\\n') : null;
             }
         """)
 
@@ -147,23 +156,33 @@ def split_match_blocks(html):
     return blocks
 
 
+PLAYER_LINK_PATTERN = re.compile(
+    r'<a class="player-name player-link"\s+href="https://www\.fantacalcio\.it/serie-a/squadre/'
+    r'([a-z\-]+)/[^/"]+/(\d+)"[^>]*>\s*<span>([^<]+)</span>'
+)
+# Nomi reali delle sezioni scoperti nell'HTML renderizzato (non più intestazioni italiane markdown):
+SEZIONI_INDISPONIBILI = {
+    "squalificati": "suspendeds",
+    "diffidati": "cautioneds",
+    "infortunati": "injureds",
+    "dubbio": "doubtfuls",   # da confermare — non ancora visto in HTML reale, verificare al prossimo giro
+}
+
+
 def estrai_lista_indisponibili(nome_sezione, blocco, con_dettaglio=False):
-    """Estrae una lista (squalificati/diffidati/infortunati/in dubbio) da un blocco-partita."""
-    m = re.search(rf'#### {nome_sezione}\n(.*?)(?=\n#### |\Z)', blocco, re.DOTALL)
+    """Estrae una lista (squalificati/diffidati/infortunati/in dubbio) da un blocco-partita,
+    cercando la <section class="..."> corrispondente (struttura reale, non testo markdown)."""
+    section_class = SEZIONI_INDISPONIBILI.get(nome_sezione, nome_sezione)
+    m = re.search(rf'<section class="{section_class}">(.*?)</section>', blocco, re.DOTALL)
     if not m:
         return []
     corpo = m.group(1)
     items = []
-    # Ferma il dettaglio alla riga vuota successiva, al prossimo bullet, o a "Nessun calciatore"
-    for match in re.finditer(
-        r'\*\s*\[([^\]]+)\]\([^)]*?/(\d+)\)(?:\n\s*(.+?))?(?=\n\s*\n|\n\s*\*|\n\s*Nessun calciatore|\Z)',
-        corpo, re.DOTALL
-    ):
-        nome, pid, dettaglio = match.groups()
-        item = {"nome": nome.strip(), "id": pid}
-        if con_dettaglio and dettaglio and dettaglio.strip():
-            item["dettaglio"] = dettaglio.strip()
-        items.append(item)
+    for squadra, pid, nome in PLAYER_LINK_PATTERN.findall(corpo):
+        items.append({"nome": nome.strip(), "id": pid, "squadra": squadra})
+        # dettaglio (motivo infortunio, rientro atteso): struttura non ancora vista in HTML
+        # reale per gli infortunati — se con_dettaglio è True, verrà aggiunto qui appena
+        # confermata (vedi diagnostica successiva).
     return items
 
 
@@ -203,8 +222,7 @@ def parse_calendario_e_indisponibili(html):
         for lista, chiave in [(sq, "squalificati"), (diff, "diffidati"),
                                (inf, "infortunati"), (dub, "dubbio")]:
             for item in lista:
-                m_url = re.search(rf'/serie-a/squadre/([a-z-]+)/[a-zà-ù.\-]+/{item["id"]}', blocco)
-                squadra = m_url.group(1) if m_url else (casa if item["id"] else "?")
+                squadra = item["squadra"]
                 indisponibili.setdefault(squadra, {"squalificati": [], "diffidati": [],
                                                      "infortunati": [], "dubbio": []})
                 if not any(x["id"] == item["id"] for x in indisponibili[squadra][chiave]):
