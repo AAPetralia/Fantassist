@@ -1,18 +1,268 @@
 {
-  "giornata": 1,
-  "aggiornato": "2026-08-10T08:30:30.390410+00:00",
+  "fonte": "sosfanta.com",
+  "aggiornato": "2026-08-10T12:30:37.837907+00:00",
   "squadre": {
+    "atalanta": {
+      "infortunati": [
+        {
+          "nome": "Hien",
+          "dettaglio": "Fuori per una lesione del tendine prossimale del muscolo semimembranoso della coscia sinistra, in dubbio per la 6a",
+          "rientro_giornata": 6,
+          "id": "6046",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "cagliari": {
+      "infortunati": [
+        {
+          "nome": "Idrissi R.",
+          "dettaglio": "Intervento chirurgico di ricostruzione del legamento crociato anteriore del ginocchio sinistro, in dubbio per la 6a",
+          "rientro_giornata": 6,
+          "id": "7125",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "como": {
+      "infortunati": [
+        {
+          "nome": "Addai",
+          "dettaglio": "Operato a causa della rottura del tendine d'Achille della gamba sinistra, in dubbio per la 6a",
+          "rientro_giornata": 6,
+          "id": "7127",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "fiorentina": {
+      "infortunati": [
+        {
+          "nome": "Parisi",
+          "dettaglio": "Intervento chirurgico per la lesione del legamento crociato anteriore del ginocchio destro, in dubbio per la 10a",
+          "rientro_giornata": 10,
+          "id": "5449",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
     "inter": {
+      "infortunati": [],
       "squalificati": [
         {
           "nome": "Mkhitaryan",
           "id": "2529",
-          "squadra": "inter"
+          "match_score": 1.0
         }
       ],
-      "diffidati": [],
-      "infortunati": [],
-      "dubbio": []
+      "diffidati": []
+    },
+    "juventus": {
+      "infortunati": [
+        {
+          "nome": "Ekhator",
+          "dettaglio": "Lesione di basso grado del bicipite femorale della coscia destra, in dubbio per la 1a",
+          "rientro_giornata": 1,
+          "id": "6822",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "lazio": {
+      "infortunati": [
+        {
+          "nome": "Tavares N.",
+          "dettaglio": "Infiammazione al ginocchio sinistro, in dubbio per la 1a",
+          "rientro_giornata": 1,
+          "id": "5620",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Cataldi",
+          "dettaglio": "Intervento chirurgico per risolvere i problemi con la pubalgia, in dubbio per la 3a",
+          "rientro_giornata": 3,
+          "id": "333",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Isaksen",
+          "dettaglio": "Intervento chirurgico per sports hernia bilaterale, in dubbio per la 3a",
+          "rientro_giornata": 3,
+          "id": "6398",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Patric",
+          "dettaglio": "Autorizzato a osservare alcuni giorni di temporanea indisponibilità per completare un percorso clinico già programmato, in dubbio per la 3a",
+          "rientro_giornata": 3,
+          "id": "327",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "milan": {
+      "infortunati": [
+        {
+          "nome": "Gimenez",
+          "dettaglio": "Distorsione alla caviglia, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "7008",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Pulisic",
+          "dettaglio": "Microfrattura e un edema osseo a tibia e perone della gamba destra, in dubbio per la 1a giornata",
+          "rientro_giornata": 1,
+          "id": "2423",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "napoli": {
+      "infortunati": [
+        {
+          "nome": "Beukema",
+          "dettaglio": "Programma di rieducazione intrapreso dopo la riacutizzazione di una patologia cronica bilaterale del tendine achilleo, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "6202",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Buongiorno",
+          "dettaglio": "Intervento chirurgico di riparazione della radice del menisco mediale del ginocchio destro, in dubbio per la 12a",
+          "rientro_giornata": 12,
+          "id": "2724",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "parma": {
+      "infortunati": [
+        {
+          "nome": "Daffara",
+          "dettaglio": "Lesione di basso grado alla coscia destra, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "7411",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Cremaschi",
+          "dettaglio": "Intervento chirurgico per la lesione del menisco esterno del ginocchio sinistro, in dubbio per la 3a",
+          "rientro_giornata": 3,
+          "id": "7276",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [
+        {
+          "nome": "Britschgi",
+          "id": "7255",
+          "match_score": 1.0
+        }
+      ],
+      "diffidati": []
+    },
+    "roma": {
+      "infortunati": [
+        {
+          "nome": "Vaz",
+          "dettaglio": "Lesione del legamento collaterale mediale del ginocchio destro, in dubbio per la 4a",
+          "rientro_giornata": 4,
+          "id": "6981",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "sassuolo": {
+      "infortunati": [
+        {
+          "nome": "Boloca",
+          "dettaglio": "Intervento chirurgico in artroscopia al ginocchio sinistro per la pulizia meniscale e l’applicazione di PRP, in dubbio per la 3a",
+          "rientro_giornata": 3,
+          "id": "6219",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Candè",
+          "dettaglio": "Intervento di ricostruzione del Legamento Crociato Anteriore del ginocchio destro, in dubbio per la 3a",
+          "rientro_giornata": 3,
+          "id": "6985",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Pieragnolo",
+          "dettaglio": "Intervento chirurgico di ricostruzione del Legamento Crociato Anteriore del ginocchio destro, in dubbio per la 3a",
+          "rientro_giornata": 3,
+          "id": "7156",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Konè I.",
+          "dettaglio": "Intervento di riduzione della frattura della gamba sinistra, in dubbio per la 20a",
+          "rientro_giornata": 20,
+          "id": "6717",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "udinese": {
+      "infortunati": [
+        {
+          "nome": "Chakvetadze",
+          "dettaglio": "Frattura al terzo metatarso del piede destro, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "7418",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Zanoli",
+          "dettaglio": "Intervento chirurgico per lesione del legamento crociato anteriore del ginocchio destro, in dubbio per la 4a",
+          "rientro_giornata": 4,
+          "id": "5527",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [
+        {
+          "nome": "Kabasele",
+          "id": "4263",
+          "match_score": 1.0
+        }
+      ],
+      "diffidati": []
+    },
+    "venezia": {
+      "infortunati": [
+        {
+          "nome": "Sverko",
+          "dettaglio": "Infortunio alle anche, in dubbio per la 7a",
+          "rientro_giornata": 7,
+          "id": "6673",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
     }
   }
 }
