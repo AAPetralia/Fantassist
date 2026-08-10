@@ -25,6 +25,7 @@ import json
 import os
 from datetime import datetime, timezone
 import requests
+from bs4 import BeautifulSoup
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from player_name_matcher import PlayerMatcher
@@ -51,41 +52,85 @@ def fetch_html():
     return resp.text
 
 
-def estrai_giocatori(sezione, corpo, con_dettaglio):
-    m = re.search(rf'\*{sezione}:\*\s*(.+?)(?=\n\*[A-Z]|\Z)', corpo, re.DOTALL)
-    if not m:
-        return []
-    testo_sez = m.group(1).strip()
-    if testo_sez in ("-", ""):
-        return []
-    if con_dettaglio:
-        out = []
-        for nome, dettaglio in re.findall(r'\*\*([^*]+)\*\*\s*-\s*([^\n]+?)(?=\n\n|\Z)', testo_sez, re.DOTALL):
-            m_g = re.search(r'(?:in dubbio per la|per la)\s*(\d+)[aª]', dettaglio)
-            out.append({
-                "nome": nome.strip(),
-                "dettaglio": dettaglio.strip().rstrip("."),
-                "rientro_giornata": int(m_g.group(1)) if m_g else None,
-            })
-        return out
-    return [{"nome": n.strip()} for n in re.findall(r'\*\*([^*]+)\*\*', testo_sez)]
 
 
 def parse(html):
-    blocchi = re.split(r'\n\*\*([A-Z ]+)\*\*\n', "\n" + html)
+    """Naviga i tag HTML VERI (<strong>, <em>) con BeautifulSoup, non testo
+    markdown ipotizzato — più robusto a differenze di formattazione che
+    regex su '**grassetto**' (fallito: quello era solo come lo vedevo IO,
+    non l'HTML reale scaricato da requests.get())."""
+    soup = BeautifulSoup(html, "html.parser")
     squadre_raw = {}
-    for i in range(1, len(blocchi), 2):
-        nome_squadra = blocchi[i].strip()
-        if nome_squadra not in SLUG_SQUADRA:
-            continue   # scarta falsi positivi (titoli articolo in maiuscolo, ecc.)
-        corpo = blocchi[i + 1]
-        inf = estrai_giocatori("Infortunati", corpo, con_dettaglio=True)
-        sq = estrai_giocatori("Squalificati", corpo, con_dettaglio=False)
-        diff = estrai_giocatori("Diffidati", corpo, con_dettaglio=False)
+
+    # Ogni nome squadra è un tag <strong> (o <b>) col testo esatto in maiuscolo
+    header_tags = [t for t in soup.find_all(["strong", "b"])
+                   if t.get_text(strip=True) in SLUG_SQUADRA]
+
+    for idx, header in enumerate(header_tags):
+        nome_squadra = header.get_text(strip=True)
+        slug = SLUG_SQUADRA[nome_squadra]
+
+        # Il "corpo" di questa squadra: tutto il testo tra questo header e il prossimo
+        corpo_tags = []
+        for sib in header.find_all_next():
+            if sib in header_tags[idx+1:idx+2]:
+                break
+            if sib.name in ("strong", "b") and sib.get_text(strip=True) in SLUG_SQUADRA:
+                break
+            corpo_tags.append(sib)
+
+        corpo_testo = " ".join(t.get_text(" ", strip=True) for t in corpo_tags if t.get_text(strip=True))
+
+        inf = _estrai_sezione_bs(corpo_tags, "Infortunati", con_dettaglio=True)
+        sq = _estrai_sezione_bs(corpo_tags, "Squalificati", con_dettaglio=False)
+        diff = _estrai_sezione_bs(corpo_tags, "Diffidati", con_dettaglio=False)
+
         if inf or sq or diff:
-            squadre_raw[SLUG_SQUADRA[nome_squadra]] = {
-                "infortunati": inf, "squalificati": sq, "diffidati": diff}
+            squadre_raw[slug] = {"infortunati": inf, "squalificati": sq, "diffidati": diff}
+
     return squadre_raw
+
+
+def _estrai_sezione_bs(corpo_tags, etichetta, con_dettaglio):
+    """Trova <em>/<i> con testo 'Infortunati:' (ecc.) e i <strong> successivi
+    fino alla prossima etichetta di sezione, con eventuale testo descrittivo."""
+    etichette = ("Infortunati", "Squalificati", "Diffidati")
+    label_tag = None
+    for t in corpo_tags:
+        if t.name in ("em", "i") and t.get_text(strip=True).rstrip(":") == etichetta:
+            label_tag = t
+            break
+    if label_tag is None:
+        return []
+
+    risultati = []
+    started = False
+    for t in corpo_tags:
+        if t is label_tag:
+            started = True
+            continue
+        if not started:
+            continue
+        if t.name in ("em", "i") and t.get_text(strip=True).rstrip(":") in etichette:
+            break   # prossima sezione
+        if t.name in ("strong", "b"):
+            nome = t.get_text(strip=True)
+            if not nome or nome == "-":
+                continue
+            if con_dettaglio:
+                # il testo descrittivo di solito segue nello stesso blocco/paragrafo
+                parent = t.find_parent(["p", "li", "div"]) or t
+                testo_completo = parent.get_text(" ", strip=True)
+                dettaglio = testo_completo.split(nome, 1)[-1].lstrip(" -–—").strip()
+                m_g = re.search(r'(?:in dubbio per la|per la)\s*(\d+)[aª]', dettaglio)
+                risultati.append({
+                    "nome": nome,
+                    "dettaglio": dettaglio.rstrip("."),
+                    "rientro_giornata": int(m_g.group(1)) if m_g else None,
+                })
+            else:
+                risultati.append({"nome": nome})
+    return risultati
 
 
 def risolvi_id(squadre_raw, matcher):
@@ -120,6 +165,15 @@ def main():
 
     if not squadre_raw:
         print("⚠️  Nessuna squadra estratta — la struttura della pagina potrebbe essere cambiata.")
+        idx = html.find("ATALANTA")
+        if idx >= 0:
+            print("\n" + "="*70)
+            print("DIAGNOSTICA — HTML grezzo reale attorno a 'ATALANTA':")
+            print("="*70)
+            print(html[max(0, idx-300): idx+2500])
+            print("="*70 + "\n")
+        else:
+            print("Nemmeno 'ATALANTA' trovato nel testo — controllare se la pagina è cambiata del tutto.")
         return 1
 
     if not os.path.exists("data/players.json"):
