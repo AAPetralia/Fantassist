@@ -65,12 +65,31 @@ def fetch_html_statico():
 
 
 async def fetch_rendered():
-    """Titolarità e indisponibili sono caricati via JS: serve un browser vero."""
+    """Titolarità e indisponibili sono caricati via JS: serve un browser vero.
+    Scroll progressivo perché le sezioni squalificati/infortunati di ogni
+    partita potrebbero caricarsi solo quando la partita diventa visibile
+    (lazy loading) — osservato: senza scroll, solo 1 squadra su 20 popolata."""
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
         await page.goto(URL, wait_until="networkidle", timeout=60000)
-        await page.wait_for_timeout(2000)   # margine per hydration completa
+        await page.wait_for_timeout(1500)
+
+        # Scorre tutta la pagina in step, aspettando tra uno e l'altro, così ogni
+        # partita entra in viewport almeno una volta e ha modo di idratarsi.
+        altezza_totale = await page.evaluate("document.body.scrollHeight")
+        step = 600
+        y = 0
+        max_iterazioni = 100   # sicurezza anti-loop-infinito
+        i = 0
+        while y < altezza_totale and i < max_iterazioni:
+            await page.evaluate(f"window.scrollTo(0, {y})")
+            await page.wait_for_timeout(400)
+            y += step
+            i += 1
+            altezza_totale = await page.evaluate("document.body.scrollHeight")
+        await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+        await page.wait_for_timeout(1500)   # margine finale per hydration completa
 
         titolarita = await page.evaluate("""
             () => {
