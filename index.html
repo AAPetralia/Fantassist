@@ -255,7 +255,7 @@ input[type=range]{width:100%; accent-color:var(--fluo); height:26px}
 .wplab{font-size:9px; text-transform:uppercase; letter-spacing:.14em; color:var(--dim)}
 .vsmod{font-size:10px; color:var(--dim); margin-top:5px}
 .cmpgrid{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px}
-.cmphead{font-size:13px; text-transform:uppercase; letter-spacing:.1em; font-weight:800; color:var(--dim); margin-bottom:6px}
+.cmphead{font-size:13px; text-transform:uppercase; letter-spacing:.1em; font-weight:800; color:var(--dim); margin-bottom:6px; line-height:1.3; min-height:2.6em; display:flex; align-items:flex-end}
 .minixi{display:flex; flex-direction:column; gap:3px}
 .mline{display:flex; align-items:center; gap:6px; font-size:14px; padding:1px 0}
 .mrole{font-weight:900; width:15px; flex-shrink:0}
@@ -764,15 +764,21 @@ function parseListoneWorkbook(buf){
   const giocatori=[];
   for(let i=h+1;i<rows.length;i++){
     const r=rows[i]||[];
-    const id=r[cId], nome=r[cNome];
-    if(id==null||nome==null||String(nome).trim()==="") continue;
+    const id=r[cId], nomeGrezzo=r[cNome];
+    if(id==null||nomeGrezzo==null||String(nomeGrezzo).trim()==="") continue;
+    // Asterisco (*) accodato al nome = giocatore non più tesserato per un club di
+    // Serie A (trasferito estero/B, rescissione, ritiro) — convenzione ufficiale
+    // fantacalcio.it, nessuna colonna dedicata. Tollerante a spazi ("Nome *"/"Nome*").
+    const nomeStr = String(nomeGrezzo).trim();
+    const fuoriSerieA = /\s*\*\s*$/.test(nomeStr);
     giocatori.push({
       id: typeof id==="number"? id : (parseInt(id,10)||id),
-      nome: String(nome).trim(),
+      nome: nomeStr.replace(/\s*\*\s*$/,"").trim(),
       squadra: cSq>=0 ? String(r[cSq]||"").trim() : "",
       ruolo: cR>=0 ? String(r[cR]||"").trim().toUpperCase().charAt(0) : "?",
       qt: cQt>=0 ? (r[cQt]??null) : null,
       fvm: cFvm>=0 ? (r[cFvm]??null) : null,
+      fuoriSerieA,
     });
   }
   return giocatori;
@@ -811,9 +817,16 @@ function buildNameIndex(){
   if(S.listone){
     for(const p of S.listone.giocatori){
       const k=normName(p.nome);
-      if(idx.has(k)) continue;   // già coperto da S.db (dati più ricchi) → non duplicare
+      if(idx.has(k)){
+        // già in S.db: se il listone lo segnala uscito dalla Serie A, propaga
+        // comunque il flag sulla scheda esistente (dati statistiche più ricchi,
+        // ma senza questo campo).
+        if(p.fuoriSerieA && S.byId.has(p.id)) S.byId.get(p.id).fuoriSerieA = true;
+        continue;
+      }
       const stub={id:p.id, nome:p.nome, squadra:p.squadra, ruolo:p.ruolo,
-                  pv:0, mv:null, fm:0, gol:0, golSubiti:0, assist:0, qt:p.qt, fvm:p.fvm};
+                  pv:0, mv:null, fm:0, gol:0, golSubiti:0, assist:0, qt:p.qt, fvm:p.fvm,
+                  fuoriSerieA:p.fuoriSerieA};
       if(!S.byId.has(p.id)) S.byId.set(p.id, stub);
       idx.set(k,[stub]);
     }
@@ -1203,7 +1216,8 @@ function renderRosa(){
           <div class="pmain">
             <div class="pname">${esc(st.nome)}<span class="pteam">${esc(st.squadra)}</span>${
               r.rig?'<span class="chip rig">R</span>':""}${r.sq?'<span class="chip out">SQ</span>':""}${
-              r.inf?'<span class="chip out">IND</span>':""}</div>
+              r.inf?'<span class="chip out">IND</span>':""}${
+              st.fuoriSerieA?'<span class="chip out" title="Non più tesserato per un club di Serie A (fonte: listone ufficiale)">EX</span>':""}</div>
             <div class="bar"><i style="width:${Math.min(100, combinato/9*100)}%; background:${ROLE_COLOR[role]}"></i></div>
           </div>
           <div class="pnum"><div class="v" style="color:${ROLE_COLOR[role]}">${fmt(combinato)}</div><div class="l">E[slot] · tit ${r.pTit}%</div></div>
@@ -1933,6 +1947,8 @@ function renderAsta(){
 function astaCard(g){
   const ind = astaIndice(g.id);
   const fvm = fvmOf(g.id);
+  const stG = S.byId.get(g.id);
+  const fuoriSerieA = stG && stG.fuoriSerieA;
   const preso = g.stato === "preso";
   const TIT = {T:"Titolare", B:"Ballottaggio", S:"Scommessa"};
   const titBtns = ["T","B","S"].map(t => {
@@ -1946,6 +1962,7 @@ function astaCard(g){
       <span class="asta-team">${esc(g.squadra||"")}</span>
       <button class="asta-x" onclick="astaRemove(${JSON.stringify(g.id)})" title="Togli dalla lista">×</button>
     </div>
+    ${fuoriSerieA ? `<div class="sub" style="color:var(--red); padding:0 0 4px">⚠️ Non più tesserato per un club di Serie A (listone ufficiale) — non acquistabile</div>` : ""}
     <div class="asta-row2">
       ${g.qt!=null?`<span class="asta-tag">Qt ${g.qt}</span>`:""}
       ${ind!=null?`<span class="asta-tag" title="indice di schierabilità dal motore">Idx ${fmt(ind)}</span>`:""}
