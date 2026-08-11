@@ -1,6 +1,6 @@
 {
   "fonte": "sosfanta.com",
-  "aggiornato": "2026-08-11T08:41:46.023877+00:00",
+  "aggiornato": "2026-08-11T18:54:22.447490+00:00",
   "squadre": {
     "atalanta": {
       "infortunati": [
@@ -139,6 +139,13 @@
           "dettaglio": "Programma di rieducazione intrapreso dopo la riacutizzazione di una patologia cronica bilaterale del tendine achilleo, in dubbio per la 2a",
           "rientro_giornata": 2,
           "id": "6202",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Marianucci",
+          "dettaglio": "Lesione di alto grado del collaterale mediale del ginocchio sinistro, in dubbio per la 6a",
+          "rientro_giornata": 6,
+          "id": "6809",
           "match_score": 1.0
         },
         {
