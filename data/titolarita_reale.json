@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-10T20:11:13.930342+00:00",
+  "aggiornato": "2026-08-11T08:41:46.093056+00:00",
   "fonti_usate": [
     "fantacalcio.it"
   ],
@@ -1021,15 +1021,6 @@
       ],
       "n_fonti": 1
     },
-    "6917": {
-      "nome": "Masini",
-      "squadra": "genoa",
-      "confidence": 0.25,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
     "6980": {
       "nome": "Venturino",
       "squadra": "genoa",
@@ -1561,19 +1552,19 @@
       ],
       "n_fonti": 1
     },
-    "7374": {
-      "nome": "Mendy P.",
+    "4896": {
+      "nome": "Maldini",
       "squadra": "cagliari",
-      "confidence": 0.7,
+      "confidence": 0.9,
       "fonti": [
         "fantacalcio.it"
       ],
       "n_fonti": 1
     },
-    "4896": {
-      "nome": "Maldini",
+    "7547": {
+      "nome": "Kevin Carlos",
       "squadra": "cagliari",
-      "confidence": 0.9,
+      "confidence": 0.7,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1600,7 +1591,7 @@
     "7532": {
       "nome": "Kofler",
       "squadra": "cagliari",
-      "confidence": 0.3,
+      "confidence": 0.35,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1610,6 +1601,15 @@
       "nome": "Raterink",
       "squadra": "cagliari",
       "confidence": 0.15,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "7548": {
+      "nome": "Aurelio",
+      "squadra": "cagliari",
+      "confidence": 0.3,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1627,7 +1627,7 @@
     "6424": {
       "nome": "Prati",
       "squadra": "cagliari",
-      "confidence": 0.3,
+      "confidence": 0.4,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1681,7 +1681,16 @@
     "6243": {
       "nome": "Borrelli",
       "squadra": "cagliari",
-      "confidence": 0.55,
+      "confidence": 0.5,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "7374": {
+      "nome": "Mendy P.",
+      "squadra": "cagliari",
+      "confidence": 0.6,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1690,7 +1699,7 @@
     "7317": {
       "nome": "Trepy",
       "squadra": "cagliari",
-      "confidence": 0.4,
+      "confidence": 0.3,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1759,10 +1768,10 @@
       ],
       "n_fonti": 1
     },
-    "7473": {
-      "nome": "Cichella",
+    "6917": {
+      "nome": "Masini",
       "squadra": "frosinone",
-      "confidence": 0.7,
+      "confidence": 0.75,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1858,10 +1867,19 @@
       ],
       "n_fonti": 1
     },
+    "7473": {
+      "nome": "Cichella",
+      "squadra": "frosinone",
+      "confidence": 0.6,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
     "7456": {
       "nome": "El Azzouzi A.",
       "squadra": "frosinone",
-      "confidence": 0.55,
+      "confidence": 0.4,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1870,7 +1888,7 @@
     "5725": {
       "nome": "Kone B.",
       "squadra": "frosinone",
-      "confidence": 0.55,
+      "confidence": 0.5,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1888,7 +1906,7 @@
     "6903": {
       "nome": "Hasa",
       "squadra": "frosinone",
-      "confidence": 0.6,
+      "confidence": 0.55,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1897,7 +1915,7 @@
     "6506": {
       "nome": "Fini",
       "squadra": "frosinone",
-      "confidence": 0.15,
+      "confidence": 0.35,
       "fonti": [
         "fantacalcio.it"
       ],

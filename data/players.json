@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-08-10T20:10:18.309363+00:00",
+ "aggiornato": "2026-08-11T08:40:50.795538+00:00",
  "fonte": "tabella HTML statistiche-serie-a",
  "giocatori": [
   {
@@ -2844,7 +2844,7 @@
   {
    "id": 6917,
    "nome": "Masini",
-   "squadra": "genoa",
+   "squadra": "frosinone",
    "ruolo": "C",
    "pv": 0,
    "mv": null,
@@ -8540,6 +8540,40 @@
    "id": 5641,
    "nome": "Chalobah T.",
    "squadra": "como",
+   "ruolo": "D",
+   "pv": 0,
+   "mv": null,
+   "fm": 0,
+   "gol": 0,
+   "golSubiti": 0,
+   "rigoriSegnati": null,
+   "rigoriCalciati": null,
+   "rigoriParati": null,
+   "assist": null,
+   "ammonizioni": null,
+   "espulsioni": null
+  },
+  {
+   "id": 7547,
+   "nome": "Kevin Carlos",
+   "squadra": "cagliari",
+   "ruolo": "A",
+   "pv": 0,
+   "mv": null,
+   "fm": 0,
+   "gol": 0,
+   "golSubiti": 0,
+   "rigoriSegnati": null,
+   "rigoriCalciati": null,
+   "rigoriParati": null,
+   "assist": null,
+   "ammonizioni": null,
+   "espulsioni": null
+  },
+  {
+   "id": 7548,
+   "nome": "Aurelio",
+   "squadra": "cagliari",
    "ruolo": "D",
    "pv": 0,
    "mv": null,
