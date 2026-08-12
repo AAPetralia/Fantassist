@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-12T07:06:42.344321+00:00",
+  "aggiornato": "2026-08-12T18:54:13.528706+00:00",
   "fonti_usate": [
     "fantacalcio.it"
   ],
@@ -1264,15 +1264,6 @@
       ],
       "n_fonti": 1
     },
-    "2531": {
-      "nome": "Lukaku",
-      "squadra": "napoli",
-      "confidence": 0.1,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
     "6215": {
       "nome": "Lucca",
       "squadra": "napoli",
@@ -1363,10 +1354,10 @@
       ],
       "n_fonti": 1
     },
-    "7023": {
-      "nome": "Pellegrino M.",
+    "7342": {
+      "nome": "Elphege",
       "squadra": "parma",
-      "confidence": 0.9,
+      "confidence": 0.7,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1438,7 +1429,7 @@
     "7536": {
       "nome": "Diallo O.",
       "squadra": "parma",
-      "confidence": 0.5,
+      "confidence": 0.55,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1462,10 +1453,10 @@
       ],
       "n_fonti": 1
     },
-    "7342": {
-      "nome": "Elphege",
+    "7023": {
+      "nome": "Pellegrino M.",
       "squadra": "parma",
-      "confidence": 0.6,
+      "confidence": 0.5,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1597,15 +1588,6 @@
       ],
       "n_fonti": 1
     },
-    "7346": {
-      "nome": "Raterink",
-      "squadra": "cagliari",
-      "confidence": 0.15,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
     "7548": {
       "nome": "Aurelio",
       "squadra": "cagliari",
@@ -1708,7 +1690,7 @@
     "6415": {
       "nome": "Palmisani",
       "squadra": "frosinone",
-      "confidence": 0.7,
+      "confidence": 0.8,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1726,7 +1708,7 @@
     "7467": {
       "nome": "Calvani",
       "squadra": "frosinone",
-      "confidence": 0.7,
+      "confidence": 0.8,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1750,10 +1732,10 @@
       ],
       "n_fonti": 1
     },
-    "7474": {
-      "nome": "Koutsoupias",
+    "7550": {
+      "nome": "Grillitsch",
       "squadra": "frosinone",
-      "confidence": 0.8,
+      "confidence": 0.7,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1795,10 +1777,10 @@
       ],
       "n_fonti": 1
     },
-    "6204": {
-      "nome": "Kvernadze",
+    "7551": {
+      "nome": "Schmid",
       "squadra": "frosinone",
-      "confidence": 0.75,
+      "confidence": 0.7,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1849,15 +1831,6 @@
       ],
       "n_fonti": 1
     },
-    "7471": {
-      "nome": "Corrado",
-      "squadra": "frosinone",
-      "confidence": 0.2,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
     "7468": {
       "nome": "Gelli J.",
       "squadra": "frosinone",
@@ -1879,7 +1852,7 @@
     "7456": {
       "nome": "El Azzouzi A.",
       "squadra": "frosinone",
-      "confidence": 0.4,
+      "confidence": 0.35,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1888,7 +1861,16 @@
     "5725": {
       "nome": "Kone B.",
       "squadra": "frosinone",
-      "confidence": 0.5,
+      "confidence": 0.35,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "7474": {
+      "nome": "Koutsoupias",
+      "squadra": "frosinone",
+      "confidence": 0.6,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1897,7 +1879,7 @@
     "6241": {
       "nome": "Gelli F.",
       "squadra": "frosinone",
-      "confidence": 0.6,
+      "confidence": 0.55,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1906,7 +1888,7 @@
     "6903": {
       "nome": "Hasa",
       "squadra": "frosinone",
-      "confidence": 0.55,
+      "confidence": 0.35,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1915,7 +1897,7 @@
     "6506": {
       "nome": "Fini",
       "squadra": "frosinone",
-      "confidence": 0.35,
+      "confidence": 0.3,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -1923,6 +1905,15 @@
     },
     "5998": {
       "nome": "Zerbin",
+      "squadra": "frosinone",
+      "confidence": 0.55,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "6204": {
+      "nome": "Kvernadze",
       "squadra": "frosinone",
       "confidence": 0.6,
       "fonti": [
@@ -2614,10 +2605,10 @@
       ],
       "n_fonti": 1
     },
-    "5119": {
-      "nome": "Samardzic",
+    "5792": {
+      "nome": "Ederson D.S.",
       "squadra": "atalanta",
-      "confidence": 0.7,
+      "confidence": 0.85,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2626,16 +2617,16 @@
     "4364": {
       "nome": "Gaetano",
       "squadra": "atalanta",
-      "confidence": 0.8,
+      "confidence": 0.75,
       "fonti": [
         "fantacalcio.it"
       ],
       "n_fonti": 1
     },
-    "5792": {
-      "nome": "Ederson D.S.",
+    "5119": {
+      "nome": "Samardzic",
       "squadra": "atalanta",
-      "confidence": 0.85,
+      "confidence": 0.8,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3499,7 +3490,7 @@
     "5678": {
       "nome": "Holm",
       "squadra": "bologna",
-      "confidence": 0.15,
+      "confidence": 0.5,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3589,7 +3580,7 @@
     "4436": {
       "nome": "Cambiaghi",
       "squadra": "bologna",
-      "confidence": 0.55,
+      "confidence": 0.6,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3598,7 +3589,7 @@
     "6643": {
       "nome": "Dallinga",
       "squadra": "bologna",
-      "confidence": 0.6,
+      "confidence": 0.3,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3685,8 +3676,8 @@
       ],
       "n_fonti": 1
     },
-    "7313": {
-      "nome": "Ratkov",
+    "5672": {
+      "nome": "Dia",
       "squadra": "lazio",
       "confidence": 0.7,
       "fonti": [
@@ -3802,8 +3793,8 @@
       ],
       "n_fonti": 1
     },
-    "5672": {
-      "nome": "Dia",
+    "7313": {
+      "nome": "Ratkov",
       "squadra": "lazio",
       "confidence": 0.6,
       "fonti": [
@@ -3847,10 +3838,10 @@
       ],
       "n_fonti": 1
     },
-    "6986": {
-      "nome": "Rensch",
+    "4998": {
+      "nome": "Molina N.",
       "squadra": "roma",
-      "confidence": 0.9,
+      "confidence": 0.7,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3931,7 +3922,7 @@
     "7529": {
       "nome": "Koulierakis",
       "squadra": "roma",
-      "confidence": 0.55,
+      "confidence": 0.5,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3940,7 +3931,16 @@
     "6631": {
       "nome": "Ghilardi",
       "squadra": "roma",
-      "confidence": 0.5,
+      "confidence": 0.4,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "6986": {
+      "nome": "Rensch",
+      "squadra": "roma",
+      "confidence": 0.6,
       "fonti": [
         "fantacalcio.it"
       ],
