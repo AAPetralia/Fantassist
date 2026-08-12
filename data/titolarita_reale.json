@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-11T18:54:22.512292+00:00",
+  "aggiornato": "2026-08-12T07:06:42.344321+00:00",
   "fonti_usate": [
     "fantacalcio.it"
   ],
@@ -412,7 +412,7 @@
     "6485": {
       "nome": "Kristensen T.",
       "squadra": "udinese",
-      "confidence": 0.9,
+      "confidence": 0.8,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2878,7 +2878,7 @@
     "7157": {
       "nome": "Iannoni",
       "squadra": "sassuolo",
-      "confidence": 0.5,
+      "confidence": 0.3,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2887,7 +2887,7 @@
     "6246": {
       "nome": "Lipani",
       "squadra": "sassuolo",
-      "confidence": 0.6,
+      "confidence": 0.55,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2904,6 +2904,15 @@
     },
     "7036": {
       "nome": "Bakola",
+      "squadra": "sassuolo",
+      "confidence": 0.55,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "6895": {
+      "nome": "Dominguez B.",
       "squadra": "sassuolo",
       "confidence": 0.6,
       "fonti": [
@@ -3581,15 +3590,6 @@
       "nome": "Cambiaghi",
       "squadra": "bologna",
       "confidence": 0.55,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "6895": {
-      "nome": "Dominguez B.",
-      "squadra": "bologna",
-      "confidence": 0.35,
       "fonti": [
         "fantacalcio.it"
       ],
