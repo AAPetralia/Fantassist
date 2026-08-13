@@ -746,31 +746,29 @@ function teamMatch(abbr, slug){       // per risolvere le omonimie con la squadr
   return b.startsWith(a.slice(0,3)) || a.startsWith(b.slice(0,3)) || b.includes(a) || a.includes(b);
 }
 /* ---- LISTONE UFFICIALE: parser del file quotazioni ---- */
-function parseListoneWorkbook(buf){
-  const wb=XLSX.read(buf,{type:"array"});
-  const ws=wb.Sheets["Tutti"]||wb.Sheets[wb.SheetNames[0]];
+function parseListoneSheet(ws, forzaFuoriSerieA){
+  if(!ws) return [];
   const rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:null});
-  // trovo la riga d'intestazione (contiene "Id" e "Nome")
   let h=-1;
   for(let i=0;i<Math.min(rows.length,10);i++){
     const up=(rows[i]||[]).map(x=>String(x||"").toLowerCase());
     if(up.includes("id") && up.includes("nome")){ h=i; break; }
   }
-  if(h<0) throw new Error("intestazione non riconosciuta (manca Id / Nome)");
+  if(h<0) return [];   // foglio senza intestazione riconoscibile (es. non presente in vecchie versioni del file)
   const H=rows[h].map(x=>String(x||"").toLowerCase().trim());
   const ci = n => H.indexOf(n);
   const cId=ci("id"), cR=ci("r"), cNome=ci("nome"), cSq=ci("squadra"), cQt=ci("qt.a"), cFvm=ci("fvm");
-  if(cId<0||cNome<0) throw new Error("colonne Id/Nome non trovate");
+  if(cId<0||cNome<0) return [];
   const giocatori=[];
   for(let i=h+1;i<rows.length;i++){
     const r=rows[i]||[];
     const id=r[cId], nomeGrezzo=r[cNome];
     if(id==null||nomeGrezzo==null||String(nomeGrezzo).trim()==="") continue;
-    // Asterisco (*) accodato al nome = giocatore non più tesserato per un club di
-    // Serie A (trasferito estero/B, rescissione, ritiro) — convenzione ufficiale
-    // fantacalcio.it, nessuna colonna dedicata. Tollerante a spazi ("Nome *"/"Nome*").
+    // Asterisco (*) accodato al nome: convenzione storica fantacalcio.it per i giocatori
+    // usciti dalla Serie A. Tenuta per compatibilità, ma il meccanismo osservato nella
+    // stagione 2026-27 è un foglio Excel dedicato ("Ceduti") — vedi forzaFuoriSerieA.
     const nomeStr = String(nomeGrezzo).trim();
-    const fuoriSerieA = /\s*\*\s*$/.test(nomeStr);
+    const fuoriSerieA = forzaFuoriSerieA || /\s*\*\s*$/.test(nomeStr);
     giocatori.push({
       id: typeof id==="number"? id : (parseInt(id,10)||id),
       nome: nomeStr.replace(/\s*\*\s*$/,"").trim(),
@@ -780,6 +778,23 @@ function parseListoneWorkbook(buf){
       fvm: cFvm>=0 ? (r[cFvm]??null) : null,
       fuoriSerieA,
     });
+  }
+  return giocatori;
+}
+function parseListoneWorkbook(buf){
+  const wb=XLSX.read(buf,{type:"array"});
+  const wsTutti = wb.Sheets["Tutti"]||wb.Sheets[wb.SheetNames[0]];
+  const giocatori = parseListoneSheet(wsTutti, false);
+  if(!giocatori.length) throw new Error("intestazione non riconosciuta (manca Id / Nome) nel foglio principale");
+
+  // Foglio "Ceduti": giocatori usciti dalla Serie A, elencati a parte (stagione 2026-27).
+  // Stessa struttura colonne del foglio Tutti, ma qui NON compaiono affatto in Tutti —
+  // vanno aggiunti a parte, altrimenti spariscono del tutto dal listone (es. Lukaku).
+  const wsCeduti = wb.Sheets["Ceduti"];
+  if(wsCeduti){
+    const ceduti = parseListoneSheet(wsCeduti, true);
+    const giaPresenti = new Set(giocatori.map(g => g.id));
+    for(const c of ceduti) if(!giaPresenti.has(c.id)) giocatori.push(c);
   }
   return giocatori;
 }
