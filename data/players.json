@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-08-12T18:53:16.825374+00:00",
+ "aggiornato": "2026-08-13T07:09:20.178226+00:00",
  "fonte": "tabella HTML statistiche-serie-a",
  "giocatori": [
   {
@@ -8626,6 +8626,23 @@
    "nome": "Schmid",
    "squadra": "frosinone",
    "ruolo": "C",
+   "pv": 0,
+   "mv": null,
+   "fm": 0,
+   "gol": 0,
+   "golSubiti": 0,
+   "rigoriSegnati": null,
+   "rigoriCalciati": null,
+   "rigoriParati": null,
+   "assist": null,
+   "ammonizioni": null,
+   "espulsioni": null
+  },
+  {
+   "id": 7557,
+   "nome": "Penev",
+   "squadra": "lecce",
+   "ruolo": "P",
    "pv": 0,
    "mv": null,
    "fm": 0,

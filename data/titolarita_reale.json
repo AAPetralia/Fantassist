@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-12T18:54:13.528706+00:00",
+  "aggiornato": "2026-08-13T07:10:14.715096+00:00",
   "fonti_usate": [
     "fantacalcio.it"
   ],
@@ -2461,10 +2461,10 @@
       ],
       "n_fonti": 1
     },
-    "6523": {
-      "nome": "Samooja",
+    "7557": {
+      "nome": "Penev",
       "squadra": "lecce",
-      "confidence": 0.01,
+      "confidence": 0.05,
       "fonti": [
         "fantacalcio.it"
       ],

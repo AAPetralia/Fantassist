@@ -1,6 +1,6 @@
 {
   "fonte": "sosfanta.com",
-  "aggiornato": "2026-08-12T18:54:13.457282+00:00",
+  "aggiornato": "2026-08-13T07:10:14.644732+00:00",
   "squadre": {
     "atalanta": {
       "infortunati": [
@@ -9,6 +9,13 @@
           "dettaglio": "Fuori per una lesione del tendine prossimale del muscolo semimembranoso della coscia sinistra, in dubbio per la 6a",
           "rientro_giornata": 6,
           "id": "6046",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Sulemana K.",
+          "dettaglio": "Lesione del collaterale mediale di secondo grado del ginocchio sinistro, in dubbio per la 6a",
+          "rientro_giornata": 6,
+          "id": "6024",
           "match_score": 1.0
         }
       ],
