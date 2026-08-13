@@ -807,6 +807,12 @@ function onListoneFile(input){
       if(!giocatori.length) throw new Error("nessun giocatore letto");
       S.listone={quando:new Date().toISOString(), giocatori};
       S.listoneById=new Map(giocatori.map(g=>[g.id,g]));
+      // Propaga subito fuoriSerieA su S.byId: non aspettare che qualcuno importi
+      // una rosa di lega (che è l'unico altro posto dove questo flag si aggiorna) —
+      // un giocatore già in rosa da prima deve vedere il flag appena importi il listone.
+      for(const g of giocatori){
+        if(g.fuoriSerieA && S.byId.has(g.id)) S.byId.get(g.id).fuoriSerieA = true;
+      }
       S._listoneReport={n:giocatori.length};
       saveLocal(); render();
     }catch(err){
