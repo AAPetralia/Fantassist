@@ -1,6 +1,6 @@
 {
   "fonte": "sosfanta.com",
-  "aggiornato": "2026-08-13T07:10:14.644732+00:00",
+  "aggiornato": "2026-08-13T18:55:09.862295+00:00",
   "squadre": {
     "atalanta": {
       "infortunati": [
@@ -181,6 +181,13 @@
           "rientro_giornata": 3,
           "id": "7276",
           "match_score": 1.0
+        },
+        {
+          "nome": "Nicolussi Caviglia",
+          "dettaglio": "Lesione di medio grado della coscia destra, in dubbio per la 3a",
+          "rientro_giornata": 3,
+          "id": "4349",
+          "match_score": 1.0
         }
       ],
       "squalificati": [
@@ -267,6 +274,13 @@
     },
     "venezia": {
       "infortunati": [
+        {
+          "nome": "Adorante",
+          "dettaglio": "Operazione per un problema alla schiena, in dubbio per la 7a",
+          "rientro_giornata": 7,
+          "id": "4387",
+          "match_score": 1.0
+        },
         {
           "nome": "Sverko",
           "dettaglio": "Infortunio alle anche, in dubbio per la 7a",
