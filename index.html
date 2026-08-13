@@ -572,6 +572,14 @@ async function loadData(){
     S.db.forEach(p => S.byId.set(p.id, p));
   }
   syncExtraNamesIntoById();  // giocatori non riconosciuti (ID sintetico "x:..."): stub sicuro, mai undefined
+  // Ripropaga fuoriSerieA dal listone già salvato (loadLocal gira PRIMA di questo
+  // punto): altrimenti il flag si perde a ogni riavvio, perché S.byId viene
+  // ricostruito da zero da players.json ogni volta, senza sapere nulla del listone.
+  if(S.listone && S.listone.giocatori){
+    for(const g of S.listone.giocatori){
+      if(g.fuoriSerieA && S.byId.has(g.id)) S.byId.get(g.id).fuoriSerieA = true;
+    }
+  }
   if(cl){
     // mappa nome classifica → slug squadra dei giocatori
     const slugs = [...new Set(S.db.map(p => p.squadra))];
