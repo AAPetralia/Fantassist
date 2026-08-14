@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-13T18:55:09.932915+00:00",
+  "aggiornato": "2026-08-14T07:06:56.205238+00:00",
   "fonti_usate": [
     "fantacalcio.it"
   ],
@@ -2443,15 +2443,6 @@
       ],
       "n_fonti": 1
     },
-    "7164": {
-      "nome": "Perez M.",
-      "squadra": "lecce",
-      "confidence": 0.15,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
     "6883": {
       "nome": "Jean",
       "squadra": "lecce",
@@ -2569,8 +2560,8 @@
       ],
       "n_fonti": 1
     },
-    "5792": {
-      "nome": "Ederson D.S.",
+    "5119": {
+      "nome": "Samardzic",
       "squadra": "atalanta",
       "confidence": 0.85,
       "fonti": [
@@ -2581,23 +2572,23 @@
     "4364": {
       "nome": "Gaetano",
       "squadra": "atalanta",
-      "confidence": 0.75,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "5119": {
-      "nome": "Samardzic",
-      "squadra": "atalanta",
       "confidence": 0.8,
       "fonti": [
         "fantacalcio.it"
       ],
       "n_fonti": 1
     },
-    "5995": {
-      "nome": "De Ketelaere",
+    "5792": {
+      "nome": "Ederson D.S.",
+      "squadra": "atalanta",
+      "confidence": 0.85,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "4371": {
+      "nome": "Raspadori",
       "squadra": "atalanta",
       "confidence": 0.85,
       "fonti": [
@@ -2614,10 +2605,10 @@
       ],
       "n_fonti": 1
     },
-    "4371": {
-      "nome": "Raspadori",
+    "5422": {
+      "nome": "Zalewski",
       "squadra": "atalanta",
-      "confidence": 0.75,
+      "confidence": 0.8,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2644,7 +2635,7 @@
     "2640": {
       "nome": "Kolasinac",
       "squadra": "atalanta",
-      "confidence": 0.4,
+      "confidence": 0.5,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2653,16 +2644,7 @@
     "4887": {
       "nome": "Bellanova",
       "squadra": "atalanta",
-      "confidence": 0.5,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "6916": {
-      "nome": "Ahanor",
-      "squadra": "atalanta",
-      "confidence": 0.3,
+      "confidence": 0.55,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2672,15 +2654,6 @@
       "nome": "Kossounou",
       "squadra": "atalanta",
       "confidence": 0.35,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "5422": {
-      "nome": "Zalewski",
-      "squadra": "atalanta",
-      "confidence": 0.6,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3181,19 +3154,19 @@
       ],
       "n_fonti": 1
     },
-    "4199": {
-      "nome": "Loftus-Cheek",
+    "4856": {
+      "nome": "Chukwueze",
       "squadra": "milan",
-      "confidence": 0.75,
+      "confidence": 0.7,
       "fonti": [
         "fantacalcio.it"
       ],
       "n_fonti": 1
     },
-    "4510": {
-      "nome": "Leao",
+    "4199": {
+      "nome": "Loftus-Cheek",
       "squadra": "milan",
-      "confidence": 0.7,
+      "confidence": 0.8,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3238,7 +3211,7 @@
     "5739": {
       "nome": "De Winter",
       "squadra": "milan",
-      "confidence": 0.4,
+      "confidence": 0.5,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3271,15 +3244,6 @@
       ],
       "n_fonti": 1
     },
-    "7203": {
-      "nome": "Jashari",
-      "squadra": "milan",
-      "confidence": 0.55,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
     "5295": {
       "nome": "Musah",
       "squadra": "milan",
@@ -3298,6 +3262,15 @@
       ],
       "n_fonti": 1
     },
+    "7203": {
+      "nome": "Jashari",
+      "squadra": "milan",
+      "confidence": 0.6,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
     "2423": {
       "nome": "Pulisic",
       "squadra": "milan",
@@ -3307,19 +3280,10 @@
       ],
       "n_fonti": 1
     },
-    "4856": {
-      "nome": "Chukwueze",
+    "4510": {
+      "nome": "Leao",
       "squadra": "milan",
-      "confidence": 0.6,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "6519": {
-      "nome": "Camarda",
-      "squadra": "milan",
-      "confidence": 0.55,
+      "confidence": 0.3,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3343,6 +3307,15 @@
       ],
       "n_fonti": 1
     },
+    "6519": {
+      "nome": "Camarda",
+      "squadra": "milan",
+      "confidence": 0.6,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
     "133": {
       "nome": "Skorupski",
       "squadra": "bologna",
@@ -3361,19 +3334,19 @@
       ],
       "n_fonti": 1
     },
-    "7212": {
-      "nome": "Heggem",
+    "7068": {
+      "nome": "Vitik",
       "squadra": "bologna",
-      "confidence": 0.9,
+      "confidence": 0.7,
       "fonti": [
         "fantacalcio.it"
       ],
       "n_fonti": 1
     },
-    "6042": {
-      "nome": "Lucumì",
+    "7212": {
+      "nome": "Heggem",
       "squadra": "bologna",
-      "confidence": 0.8,
+      "confidence": 0.9,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3469,6 +3442,15 @@
       ],
       "n_fonti": 1
     },
+    "6042": {
+      "nome": "Lucumì",
+      "squadra": "bologna",
+      "confidence": 0.25,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
     "487": {
       "nome": "De Silvestri",
       "squadra": "bologna",
@@ -3480,15 +3462,6 @@
     },
     "7326": {
       "nome": "Helland",
-      "squadra": "bologna",
-      "confidence": 0.25,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "7068": {
-      "nome": "Vitik",
       "squadra": "bologna",
       "confidence": 0.35,
       "fonti": [
