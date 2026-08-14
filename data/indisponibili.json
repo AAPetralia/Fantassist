@@ -1,9 +1,23 @@
 {
   "fonte": "sosfanta.com",
-  "aggiornato": "2026-08-14T14:57:38.915591+00:00",
+  "aggiornato": "2026-08-14T18:45:08.321860+00:00",
   "squadre": {
     "atalanta": {
       "infortunati": [
+        {
+          "nome": "Ahanor",
+          "dettaglio": "Distrazione di basso grado a carico dei muscoli adduttori della gamba destra, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "6916",
+          "match_score": 1.0
+        },
+        {
+          "nome": "De Ketelaere",
+          "dettaglio": "Distrazione di basso grado a carico dei muscoli adduttori della gamba sinistra, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "5995",
+          "match_score": 1.0
+        },
         {
           "nome": "Hien",
           "dettaglio": "Fuori per una lesione del tendine prossimale del muscolo semimembranoso della coscia sinistra, in dubbio per la 6a",
@@ -16,6 +30,26 @@
           "dettaglio": "Lesione del collaterale mediale di secondo grado del ginocchio sinistro, in dubbio per la 6a",
           "rientro_giornata": 6,
           "id": "6024",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "bologna": {
+      "infortunati": [
+        {
+          "nome": "Casale",
+          "dettaglio": "Risentimento agli adduttori di sinistra, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "5498",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Vitik",
+          "dettaglio": "Affaticamento muscolare alla coscia destra, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "7068",
           "match_score": 1.0
         }
       ],
@@ -129,10 +163,30 @@
           "match_score": 1.0
         },
         {
+          "nome": "Leao",
+          "dettaglio": "Risentimento muscolare al quadricipite, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "4510",
+          "match_score": 1.0
+        },
+        {
           "nome": "Pulisic",
           "dettaglio": "Microfrattura e un edema osseo a tibia e perone della gamba destra, in dubbio per la 1a giornata",
           "rientro_giornata": 1,
           "id": "2423",
+          "match_score": 1.0
+        }
+      ],
+      "squalificati": [],
+      "diffidati": []
+    },
+    "monza": {
+      "infortunati": [
+        {
+          "nome": "Pessina",
+          "dettaglio": "Operato per lussazione della rotula del ginocchio destro, in dubbio per la 9a",
+          "rientro_giornata": 9,
+          "id": "2741",
           "match_score": 1.0
         }
       ],
@@ -168,13 +222,6 @@
     },
     "parma": {
       "infortunati": [
-        {
-          "nome": "Daffara",
-          "dettaglio": "Lesione di basso grado alla coscia destra, in dubbio per la 2a",
-          "rientro_giornata": 2,
-          "id": "7411",
-          "match_score": 1.0
-        },
         {
           "nome": "Cremaschi",
           "dettaglio": "Intervento chirurgico per la lesione del menisco esterno del ginocchio sinistro, in dubbio per la 3a",
