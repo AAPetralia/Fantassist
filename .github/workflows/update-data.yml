@@ -43,7 +43,10 @@ jobs:
       - name: Indisponibili da SOS Fanta (sostituisce quelli di fantacalcio.it, fonte più affidabile)
         run: python sosfanta_indisponibili_scraper.py
 
-      - name: Consensus titolarità (oggi solo fantacalcio.it, pronto per altre fonti)
+      - name: Titolarità da SOS Fanta (seconda fonte per il consensus)
+        run: python sosfanta_titolarita_scraper.py
+
+      - name: Consensus titolarità (fantacalcio.it + sosfanta.com)
         run: python titolarita_consensus.py
 
       # UNDERSTAT TEMPORANEAMENTE DISABILITATO (fuori stagione)
