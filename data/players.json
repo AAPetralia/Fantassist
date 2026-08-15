@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-08-14T18:44:10.286832+00:00",
+ "aggiornato": "2026-08-15T06:18:25.782526+00:00",
  "fonte": "tabella HTML statistiche-serie-a",
  "giocatori": [
   {
@@ -8676,6 +8676,23 @@
    "id": 4375,
    "nome": "Terzic",
    "squadra": "frosinone",
+   "ruolo": "D",
+   "pv": 0,
+   "mv": null,
+   "fm": 0,
+   "gol": 0,
+   "golSubiti": 0,
+   "rigoriSegnati": null,
+   "rigoriCalciati": null,
+   "rigoriParati": null,
+   "assist": null,
+   "ammonizioni": null,
+   "espulsioni": null
+  },
+  {
+   "id": 7329,
+   "nome": "Obrador",
+   "squadra": "sassuolo",
    "ruolo": "D",
    "pv": 0,
    "mv": null,
