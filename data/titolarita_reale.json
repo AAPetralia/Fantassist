@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-15T06:19:24.484574+00:00",
+  "aggiornato": "2026-08-15T18:19:35.870181+00:00",
   "fonti_usate": [
     "fantacalcio.it",
     "sosfanta.com"
@@ -1386,7 +1386,7 @@
     "7554": {
       "nome": "Romero D.",
       "squadra": "parma",
-      "confidence": 0.667,
+      "confidence": 0.783,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -1764,12 +1764,11 @@
     "4375": {
       "nome": "Terzic",
       "squadra": "frosinone",
-      "confidence": 0.667,
+      "confidence": 0.7,
       "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
+        "fantacalcio.it"
       ],
-      "n_fonti": 2
+      "n_fonti": 1
     },
     "7550": {
       "nome": "Grillitsch",
@@ -3449,15 +3448,6 @@
       "nome": "Leao",
       "squadra": "milan",
       "confidence": 0.2,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "7008": {
-      "nome": "Gimenez",
-      "squadra": "milan",
-      "confidence": 0.15,
       "fonti": [
         "fantacalcio.it"
       ],
