@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-08-16T06:20:48.586420+00:00",
+ "aggiornato": "2026-08-16T18:18:29.837247+00:00",
  "fonte": "tabella HTML statistiche-serie-a",
  "giocatori": [
   {
@@ -8727,6 +8727,23 @@
    "id": 7560,
    "nome": "Pisseri",
    "squadra": "frosinone",
+   "ruolo": "P",
+   "pv": 0,
+   "mv": null,
+   "fm": 0,
+   "gol": 0,
+   "golSubiti": 0,
+   "rigoriSegnati": null,
+   "rigoriCalciati": null,
+   "rigoriParati": null,
+   "assist": null,
+   "ammonizioni": null,
+   "espulsioni": null
+  },
+  {
+   "id": 3,
+   "nome": "Radunovic",
+   "squadra": "cagliari",
    "ruolo": "P",
    "pv": 0,
    "mv": null,
