@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-16T18:19:32.252749+00:00",
+  "aggiornato": "2026-08-17T06:32:25.276007+00:00",
   "fonti_usate": [
     "fantacalcio.it",
     "sosfanta.com"
@@ -363,7 +363,7 @@
     "7476": {
       "nome": "Bakoune",
       "squadra": "monza",
-      "confidence": 0.4,
+      "confidence": 0.5,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -391,7 +391,7 @@
     "7546": {
       "nome": "Robinson J.",
       "squadra": "monza",
-      "confidence": 0.5,
+      "confidence": 0.55,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -400,7 +400,7 @@
     "383": {
       "nome": "Petagna",
       "squadra": "monza",
-      "confidence": 0.55,
+      "confidence": 0.3,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3750,7 +3750,7 @@
     "2188": {
       "nome": "Marusic",
       "squadra": "lazio",
-      "confidence": 0.85,
+      "confidence": 0.917,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -3770,7 +3770,7 @@
     "460": {
       "nome": "Romagnoli",
       "squadra": "lazio",
-      "confidence": 0.917,
+      "confidence": 0.783,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -3780,7 +3780,7 @@
     "4817": {
       "nome": "Pedraza",
       "squadra": "lazio",
-      "confidence": 0.7,
+      "confidence": 0.733,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -3884,6 +3884,15 @@
     },
     "5620": {
       "nome": "Tavares N.",
+      "squadra": "lazio",
+      "confidence": 0.35,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "2728": {
+      "nome": "Pellegrini Lu.",
       "squadra": "lazio",
       "confidence": 0.5,
       "fonti": [
