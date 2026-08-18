@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-17T18:31:20.230734+00:00",
+  "aggiornato": "2026-08-18T06:23:59.996345+00:00",
   "fonti_usate": [
     "fantacalcio.it",
     "sosfanta.com"
@@ -48,7 +48,7 @@
     "6274": {
       "nome": "Diouf",
       "squadra": "inter",
-      "confidence": 0.75,
+      "confidence": 0.8,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -78,7 +78,7 @@
     "152": {
       "nome": "Zielinski",
       "squadra": "inter",
-      "confidence": 0.637,
+      "confidence": 0.65,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -88,7 +88,7 @@
     "254": {
       "nome": "Dimarco",
       "squadra": "inter",
-      "confidence": 0.867,
+      "confidence": 0.917,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -98,7 +98,7 @@
     "2764": {
       "nome": "Martinez L.",
       "squadra": "inter",
-      "confidence": 0.783,
+      "confidence": 0.637,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -202,9 +202,10 @@
       "squadra": "inter",
       "confidence": 0.6,
       "fonti": [
-        "fantacalcio.it"
+        "fantacalcio.it",
+        "sosfanta.com"
       ],
-      "n_fonti": 1
+      "n_fonti": 2
     },
     "6669": {
       "nome": "Bonny",
@@ -428,12 +429,11 @@
     "5820": {
       "nome": "Bertola",
       "squadra": "udinese",
-      "confidence": 0.783,
+      "confidence": 0.7,
       "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
+        "fantacalcio.it"
       ],
-      "n_fonti": 2
+      "n_fonti": 1
     },
     "6956": {
       "nome": "Solet",
@@ -448,12 +448,11 @@
     "5994": {
       "nome": "Ebosse",
       "squadra": "udinese",
-      "confidence": 0.783,
+      "confidence": 0.7,
       "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
+        "fantacalcio.it"
       ],
-      "n_fonti": 2
+      "n_fonti": 1
     },
     "4994": {
       "nome": "Vojvoda",
@@ -546,11 +545,12 @@
     "6925": {
       "nome": "Palma",
       "squadra": "udinese",
-      "confidence": 0.35,
+      "confidence": 0.55,
       "fonti": [
-        "fantacalcio.it"
+        "fantacalcio.it",
+        "sosfanta.com"
       ],
-      "n_fonti": 1
+      "n_fonti": 2
     },
     "7356": {
       "nome": "Mlacic",
@@ -564,11 +564,12 @@
     "6021": {
       "nome": "Abankwah",
       "squadra": "udinese",
-      "confidence": 0.15,
+      "confidence": 0.283,
       "fonti": [
-        "fantacalcio.it"
+        "fantacalcio.it",
+        "sosfanta.com"
       ],
-      "n_fonti": 1
+      "n_fonti": 2
     },
     "7312": {
       "nome": "Arizala",
@@ -978,7 +979,7 @@
     "6164": {
       "nome": "Vitinha O.",
       "squadra": "genoa",
-      "confidence": 0.733,
+      "confidence": 0.817,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -1187,7 +1188,7 @@
     "536": {
       "nome": "Politano",
       "squadra": "napoli",
-      "confidence": 0.783,
+      "confidence": 0.833,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -2543,15 +2544,14 @@
       ],
       "n_fonti": 2
     },
-    "7318": {
-      "nome": "Gandelman",
+    "5457": {
+      "nome": "Maleh",
       "squadra": "lecce",
       "confidence": 0.7,
       "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
+        "fantacalcio.it"
       ],
-      "n_fonti": 2
+      "n_fonti": 1
     },
     "6549": {
       "nome": "Pierotti",
@@ -2637,19 +2637,20 @@
       ],
       "n_fonti": 1
     },
+    "7318": {
+      "nome": "Gandelman",
+      "squadra": "lecce",
+      "confidence": 0.633,
+      "fonti": [
+        "fantacalcio.it",
+        "sosfanta.com"
+      ],
+      "n_fonti": 2
+    },
     "6015": {
       "nome": "Berisha M.",
       "squadra": "lecce",
       "confidence": 0.5,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "5457": {
-      "nome": "Maleh",
-      "squadra": "lecce",
-      "confidence": 0.6,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2867,7 +2868,7 @@
     "4236": {
       "nome": "Muric",
       "squadra": "sassuolo",
-      "confidence": 0.737,
+      "confidence": 0.883,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -2915,7 +2916,7 @@
     "5844": {
       "nome": "Thorstvedt",
       "squadra": "sassuolo",
-      "confidence": 0.917,
+      "confidence": 0.77,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -2935,14 +2936,24 @@
     "5735": {
       "nome": "Volpato",
       "squadra": "sassuolo",
-      "confidence": 0.85,
+      "confidence": 0.75,
+      "fonti": [
+        "fantacalcio.it",
+        "sosfanta.com"
+      ],
+      "n_fonti": 2
+    },
+    "6677": {
+      "nome": "Adzic",
+      "squadra": "sassuolo",
+      "confidence": 0.8,
       "fonti": [
         "fantacalcio.it"
       ],
       "n_fonti": 1
     },
-    "6677": {
-      "nome": "Adzic",
+    "7347": {
+      "nome": "Bowie",
       "squadra": "sassuolo",
       "confidence": 0.8,
       "fonti": [
@@ -2954,16 +2965,6 @@
       "nome": "Laurientè",
       "squadra": "sassuolo",
       "confidence": 0.917,
-      "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
-      ],
-      "n_fonti": 2
-    },
-    "2038": {
-      "nome": "Pinamonti",
-      "squadra": "sassuolo",
-      "confidence": 0.667,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -2991,7 +2992,7 @@
     "7329": {
       "nome": "Obrador",
       "squadra": "sassuolo",
-      "confidence": 0.583,
+      "confidence": 0.57,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -3010,21 +3011,12 @@
     "6246": {
       "nome": "Lipani",
       "squadra": "sassuolo",
-      "confidence": 0.533,
+      "confidence": 0.567,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
       ],
       "n_fonti": 2
-    },
-    "7036": {
-      "nome": "Bakola",
-      "squadra": "sassuolo",
-      "confidence": 0.55,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
     },
     "6895": {
       "nome": "Dominguez B.",
@@ -3035,18 +3027,8 @@
       ],
       "n_fonti": 1
     },
-    "531": {
-      "nome": "Berardi",
-      "squadra": "sassuolo",
-      "confidence": 0.517,
-      "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
-      ],
-      "n_fonti": 2
-    },
-    "7347": {
-      "nome": "Bowie",
+    "7036": {
+      "nome": "Bakola",
       "squadra": "sassuolo",
       "confidence": 0.6,
       "fonti": [
@@ -3054,10 +3036,29 @@
       ],
       "n_fonti": 1
     },
+    "2038": {
+      "nome": "Pinamonti",
+      "squadra": "sassuolo",
+      "confidence": 0.533,
+      "fonti": [
+        "fantacalcio.it",
+        "sosfanta.com"
+      ],
+      "n_fonti": 2
+    },
     "7158": {
       "nome": "Moro L.",
       "squadra": "sassuolo",
       "confidence": 0.25,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "531": {
+      "nome": "Berardi",
+      "squadra": "sassuolo",
+      "confidence": 0.2,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3345,12 +3346,11 @@
     "2379": {
       "nome": "Rabiot",
       "squadra": "milan",
-      "confidence": 0.917,
+      "confidence": 0.9,
       "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
+        "fantacalcio.it"
       ],
-      "n_fonti": 2
+      "n_fonti": 1
     },
     "6496": {
       "nome": "Bartesaghi",
@@ -3476,11 +3476,12 @@
     "7203": {
       "nome": "Jashari",
       "squadra": "milan",
-      "confidence": 0.6,
+      "confidence": 0.583,
       "fonti": [
-        "fantacalcio.it"
+        "fantacalcio.it",
+        "sosfanta.com"
       ],
-      "n_fonti": 1
+      "n_fonti": 2
     },
     "2423": {
       "nome": "Pulisic",
@@ -3550,11 +3551,12 @@
     "7068": {
       "nome": "Vitik",
       "squadra": "bologna",
-      "confidence": 0.7,
+      "confidence": 0.783,
       "fonti": [
-        "fantacalcio.it"
+        "fantacalcio.it",
+        "sosfanta.com"
       ],
-      "n_fonti": 1
+      "n_fonti": 2
     },
     "7212": {
       "nome": "Heggem",
@@ -3674,12 +3676,11 @@
     "7326": {
       "nome": "Helland",
       "squadra": "bologna",
-      "confidence": 0.55,
+      "confidence": 0.35,
       "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
+        "fantacalcio.it"
       ],
-      "n_fonti": 2
+      "n_fonti": 1
     },
     "5498": {
       "nome": "Casale",
@@ -3757,7 +3758,7 @@
     "6482": {
       "nome": "Mandas",
       "squadra": "lazio",
-      "confidence": 0.77,
+      "confidence": 0.783,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -3787,12 +3788,11 @@
     "460": {
       "nome": "Romagnoli",
       "squadra": "lazio",
-      "confidence": 0.783,
+      "confidence": 0.7,
       "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
+        "fantacalcio.it"
       ],
-      "n_fonti": 2
+      "n_fonti": 1
     },
     "4817": {
       "nome": "Pedraza",
@@ -3827,7 +3827,7 @@
     "2848": {
       "nome": "Frattesi",
       "squadra": "lazio",
-      "confidence": 0.783,
+      "confidence": 0.637,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -3884,11 +3884,12 @@
     "7012": {
       "nome": "Provstgaard",
       "squadra": "lazio",
-      "confidence": 0.3,
+      "confidence": 0.517,
       "fonti": [
-        "fantacalcio.it"
+        "fantacalcio.it",
+        "sosfanta.com"
       ],
-      "n_fonti": 1
+      "n_fonti": 2
     },
     "7131": {
       "nome": "Floriani Mussolini",
