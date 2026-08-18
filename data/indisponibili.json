@@ -1,6 +1,6 @@
 {
   "fonte": "sosfanta.com",
-  "aggiornato": "2026-08-18T06:23:57.765713+00:00",
+  "aggiornato": "2026-08-18T18:34:39.642271+00:00",
   "squadre": {
     "atalanta": {
       "infortunati": [
@@ -227,6 +227,13 @@
           "dettaglio": "Intervento chirurgico di riparazione della radice del menisco mediale del ginocchio destro, in dubbio per la 12a",
           "rientro_giornata": 12,
           "id": "2724",
+          "match_score": 1.0
+        },
+        {
+          "nome": "Neres",
+          "dettaglio": "Ritardo di condizione, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "6831",
           "match_score": 1.0
         }
       ],
