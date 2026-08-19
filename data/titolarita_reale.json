@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-19T06:25:53.040605+00:00",
+  "aggiornato": "2026-08-19T12:01:15.407565+00:00",
   "fonti_usate": [
     "fantacalcio.it",
     "sosfanta.com"
@@ -1245,7 +1245,16 @@
     "5481": {
       "nome": "Mazzocchi",
       "squadra": "napoli",
-      "confidence": 0.2,
+      "confidence": 0.15,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "7563": {
+      "nome": "Favasuli",
+      "squadra": "napoli",
+      "confidence": 0.25,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2363,8 +2372,8 @@
       ],
       "n_fonti": 1
     },
-    "6671": {
-      "nome": "Grandi",
+    "4957": {
+      "nome": "Montipò",
       "squadra": "venezia",
       "confidence": 0.05,
       "fonti": [
@@ -2372,8 +2381,8 @@
       ],
       "n_fonti": 1
     },
-    "7531": {
-      "nome": "Pozzi",
+    "6671": {
+      "nome": "Grandi",
       "squadra": "venezia",
       "confidence": 0.01,
       "fonti": [
@@ -4094,7 +4103,7 @@
     "7529": {
       "nome": "Koulierakis",
       "squadra": "roma",
-      "confidence": 0.533,
+      "confidence": 0.467,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -4141,6 +4150,15 @@
       "nome": "Pellegrini Lo.",
       "squadra": "roma",
       "confidence": 0.1,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
+    "7556": {
+      "nome": "Mora",
+      "squadra": "roma",
+      "confidence": 0.5,
       "fonti": [
         "fantacalcio.it"
       ],

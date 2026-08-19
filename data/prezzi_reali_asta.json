@@ -1,0 +1,5126 @@
+{
+  "fonte": "fantacalcio-online.com",
+  "aggiornato": "2026-08-19T12:01:15.331921+00:00",
+  "giocatori": {
+    "254": {
+      "nome": "DIMARCO Federico",
+      "squadra": "Inter",
+      "percMax": 8.21,
+      "comprato_pct": 36.1,
+      "prezzo_350": 30.35,
+      "prezzo_500": 41.05,
+      "quotazione": 30.0,
+      "match_score": 0.95
+    },
+    "5585": {
+      "nome": "MALEN Donyell",
+      "squadra": "Roma",
+      "percMax": 16.92,
+      "comprato_pct": 27.7,
+      "prezzo_350": 83.47,
+      "prezzo_500": 84.62,
+      "quotazione": 53.0,
+      "match_score": 0.95
+    },
+    "2764": {
+      "nome": "MARTINEZ Lautaro",
+      "squadra": "Inter",
+      "percMax": 20.4,
+      "comprato_pct": 26.4,
+      "prezzo_350": 99.18,
+      "prezzo_500": 102.01,
+      "quotazione": 55.0,
+      "match_score": 0.9
+    },
+    "6908": {
+      "nome": "ATTA Arthur",
+      "squadra": "Fiorentina",
+      "percMax": 3.39,
+      "comprato_pct": 26.0,
+      "prezzo_350": 25.13,
+      "prezzo_500": 16.94,
+      "quotazione": 23.0,
+      "match_score": 0.95
+    },
+    "2814": {
+      "nome": "PROVEDEL Ivan",
+      "squadra": "Inter",
+      "percMax": 3.24,
+      "comprato_pct": 21.2,
+      "prezzo_350": 15.87,
+      "prezzo_500": 16.21,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "4777": {
+      "nome": "MCTOMINAY Scott",
+      "squadra": "Napoli",
+      "percMax": 13.52,
+      "comprato_pct": 17.8,
+      "prezzo_350": 50.26,
+      "prezzo_500": 67.61,
+      "quotazione": 38.0,
+      "match_score": 0.95
+    },
+    "6229": {
+      "nome": "TOURE El Bilal",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 17.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "5116": {
+      "nome": "MARTINEZ Josep",
+      "squadra": "Inter",
+      "percMax": 0.48,
+      "comprato_pct": 17.4,
+      "prezzo_350": 2.7,
+      "prezzo_500": 2.38,
+      "quotazione": 20.0,
+      "match_score": 0.9
+    },
+    "6875": {
+      "nome": "PAZ Yeferson",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 2.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "2194": {
+      "nome": "CALHANOGLU Hakan",
+      "squadra": "Inter",
+      "percMax": 7.86,
+      "comprato_pct": 16.2,
+      "prezzo_350": 32.96,
+      "prezzo_500": 39.32,
+      "quotazione": 36.0,
+      "match_score": 0.95
+    },
+    "6434": {
+      "nome": "YILDIZ Kenan",
+      "squadra": "Juventus",
+      "percMax": 13.17,
+      "comprato_pct": 16.1,
+      "prezzo_350": 58.45,
+      "prezzo_500": 65.87,
+      "quotazione": 36.0,
+      "match_score": 0.95
+    },
+    "6397": {
+      "nome": "RAMOS Goncalo Matias",
+      "squadra": "Milan",
+      "percMax": null,
+      "comprato_pct": 15.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 46.0,
+      "match_score": 0.95
+    },
+    "6274": {
+      "nome": "DIOUF Andy",
+      "squadra": "Inter",
+      "percMax": 3.83,
+      "comprato_pct": 15.7,
+      "prezzo_350": 13.39,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "4994": {
+      "nome": "VOJVODA Mergim",
+      "squadra": "Udinese",
+      "percMax": 3.14,
+      "comprato_pct": 15.3,
+      "prezzo_350": 17.6,
+      "prezzo_500": 15.69,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7181": {
+      "nome": "WESLEY França Lima",
+      "squadra": "Roma",
+      "percMax": 4.31,
+      "comprato_pct": 14.7,
+      "prezzo_350": 23.76,
+      "prezzo_500": 21.56,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "7260": {
+      "nome": "ZIOLKOWSKI Jan",
+      "squadra": "Roma",
+      "percMax": null,
+      "comprato_pct": 14.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7456": {
+      "nome": "EL AZZOUZI Anouar",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 14.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.85
+    },
+    "2848": {
+      "nome": "FURLANETTO Alessio",
+      "squadra": "Lazio",
+      "percMax": 0.21,
+      "comprato_pct": 0.3,
+      "prezzo_350": 4.26,
+      "prezzo_500": 1.06,
+      "quotazione": 1.0,
+      "match_score": 0.665
+    },
+    "5951": {
+      "nome": "KOSPO Eman",
+      "squadra": "Fiorentina",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.7
+    },
+    "5365": {
+      "nome": "ALVAREZ Agustin",
+      "squadra": "Estero",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.609
+    },
+    "7482": {
+      "nome": "LAUBERBACH Lion",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 13.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6956": {
+      "nome": "SOLET Oumar",
+      "squadra": "Udinese",
+      "percMax": 3.51,
+      "comprato_pct": 13.8,
+      "prezzo_350": 23.8,
+      "prezzo_500": 17.54,
+      "quotazione": 18.0,
+      "match_score": 0.95
+    },
+    "7357": {
+      "nome": "LAHDO Adrian",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 13.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "5841": {
+      "nome": "SVILAR Mile",
+      "squadra": "Roma",
+      "percMax": 5.59,
+      "comprato_pct": 13.2,
+      "prezzo_350": 25.71,
+      "prezzo_500": 27.93,
+      "quotazione": 22.0,
+      "match_score": 0.95
+    },
+    "572": {
+      "nome": "MERET Alex",
+      "squadra": "Napoli",
+      "percMax": 3.9,
+      "comprato_pct": 12.8,
+      "prezzo_350": 18.24,
+      "prezzo_500": 19.5,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "5750": {
+      "nome": "OSTIGARD Leo",
+      "squadra": "Genoa",
+      "percMax": 4.35,
+      "comprato_pct": 12.7,
+      "prezzo_350": 23.85,
+      "prezzo_500": 21.74,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "6677": {
+      "nome": "ADZIC Vasilije",
+      "squadra": "Sassuolo",
+      "percMax": 0.3,
+      "comprato_pct": 12.3,
+      "prezzo_350": 1.04,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "2788": {
+      "nome": "BREMER Gleison",
+      "squadra": "Juventus",
+      "percMax": 5.0,
+      "comprato_pct": 12.1,
+      "prezzo_350": 26.67,
+      "prezzo_500": 24.98,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "4657": {
+      "nome": "CELIK Zeki",
+      "squadra": "Juventus",
+      "percMax": 3.23,
+      "comprato_pct": 12.1,
+      "prezzo_350": 18.07,
+      "prezzo_500": 16.13,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "2170": {
+      "nome": "MILINKOVIC Vanja",
+      "squadra": "Napoli",
+      "percMax": 3.39,
+      "comprato_pct": 12.1,
+      "prezzo_350": 17.37,
+      "prezzo_500": 16.97,
+      "quotazione": 7.0,
+      "match_score": 0.738
+    },
+    "5833": {
+      "nome": "GILA Mario",
+      "squadra": "Milan",
+      "percMax": 3.08,
+      "comprato_pct": 12.0,
+      "prezzo_350": 17.52,
+      "prezzo_500": 15.42,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "7481": {
+      "nome": "DAGASSO Matteo",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 12.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6675": {
+      "nome": "DOVBYK Artem",
+      "squadra": "Bologna",
+      "percMax": 4.45,
+      "comprato_pct": 11.9,
+      "prezzo_350": 21.01,
+      "prezzo_500": 22.26,
+      "quotazione": 24.0,
+      "match_score": 0.95
+    },
+    "6052": {
+      "nome": "HOJLUND Rasmus",
+      "squadra": "Napoli",
+      "percMax": 13.97,
+      "comprato_pct": 11.8,
+      "prezzo_350": 73.56,
+      "prezzo_500": 69.84,
+      "quotazione": 47.0,
+      "match_score": 0.95
+    },
+    "7017": {
+      "nome": "DOUVIKAS Tasos",
+      "squadra": "Como",
+      "percMax": 4.62,
+      "comprato_pct": 11.7,
+      "prezzo_350": 37.36,
+      "prezzo_500": 23.1,
+      "quotazione": 36.0,
+      "match_score": 0.95
+    },
+    "2097": {
+      "nome": "KEAN Moise",
+      "squadra": "Fiorentina",
+      "percMax": 20.79,
+      "comprato_pct": 11.3,
+      "prezzo_350": 65.82,
+      "prezzo_500": 103.94,
+      "quotazione": 41.0,
+      "match_score": 0.95
+    },
+    "7126": {
+      "nome": "BATURINA Martin",
+      "squadra": "Como",
+      "percMax": 5.93,
+      "comprato_pct": 11.1,
+      "prezzo_350": 31.38,
+      "prezzo_500": 29.63,
+      "quotazione": 31.0,
+      "match_score": 0.95
+    },
+    "6966": {
+      "nome": "BUTEZ Jean",
+      "squadra": "Como",
+      "percMax": 3.95,
+      "comprato_pct": 11.0,
+      "prezzo_350": 24.66,
+      "prezzo_500": 19.73,
+      "quotazione": 19.0,
+      "match_score": 0.95
+    },
+    "4976": {
+      "nome": "KALULU Pierre",
+      "squadra": "Juventus",
+      "percMax": 3.57,
+      "comprato_pct": 10.9,
+      "prezzo_350": 26.02,
+      "prezzo_500": 17.83,
+      "quotazione": 18.0,
+      "match_score": 0.95
+    },
+    "6042": {
+      "nome": "LUCUMI Jhon",
+      "squadra": "Juventus",
+      "percMax": 2.92,
+      "comprato_pct": 10.7,
+      "prezzo_350": 16.0,
+      "prezzo_500": 14.62,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "7317": {
+      "nome": "TREPY Yael",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 10.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7351": {
+      "nome": "SANTOS Alisson",
+      "squadra": "Napoli",
+      "percMax": 3.53,
+      "comprato_pct": 10.3,
+      "prezzo_350": 19.34,
+      "prezzo_500": 17.66,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "2296": {
+      "nome": "MANCINI Gianluca",
+      "squadra": "Roma",
+      "percMax": 4.77,
+      "comprato_pct": 9.9,
+      "prezzo_350": 27.27,
+      "prezzo_500": 23.85,
+      "quotazione": 20.0,
+      "match_score": 0.95
+    },
+    "7023": {
+      "nome": "PELLEGRINO Mateo",
+      "squadra": "Fiorentina",
+      "percMax": 7.36,
+      "comprato_pct": 9.9,
+      "prezzo_350": 25.75,
+      "prezzo_500": null,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "7436": {
+      "nome": "ALAJBEGOVIC Kerim-Sam",
+      "squadra": "Juventus",
+      "percMax": null,
+      "comprato_pct": 9.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 20.0,
+      "match_score": 0.95
+    },
+    "6238": {
+      "nome": "OYONO Anthony",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 9.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.9
+    },
+    "4973": {
+      "nome": "MCKENNIE Weston",
+      "squadra": "Juventus",
+      "percMax": 6.7,
+      "comprato_pct": 9.8,
+      "prezzo_350": 33.45,
+      "prezzo_500": 33.51,
+      "quotazione": 24.0,
+      "match_score": 0.95
+    },
+    "2120": {
+      "nome": "BASTONI Alessandro",
+      "squadra": "Inter",
+      "percMax": 4.98,
+      "comprato_pct": 9.7,
+      "prezzo_350": 21.42,
+      "prezzo_500": 24.89,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "6869": {
+      "nome": "RAMON Jacobo",
+      "squadra": "Como",
+      "percMax": 2.78,
+      "comprato_pct": 9.6,
+      "prezzo_350": 15.75,
+      "prezzo_500": 13.91,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "6010": {
+      "nome": "FAZZINI Jacopo",
+      "squadra": "Cagliari",
+      "percMax": 3.28,
+      "comprato_pct": 9.5,
+      "prezzo_350": 11.49,
+      "prezzo_500": null,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "7078": {
+      "nome": "CASAS Antonio",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.667
+    },
+    "7060": {
+      "nome": "CACCIAMANI Alessio",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 9.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "2816": {
+      "nome": "DI LORENZO Giovanni",
+      "squadra": "Napoli",
+      "percMax": 4.34,
+      "comprato_pct": 9.3,
+      "prezzo_350": 21.38,
+      "prezzo_500": 21.72,
+      "quotazione": 19.0,
+      "match_score": 0.9
+    },
+    "5641": {
+      "nome": "CHALOBAH Trevoh",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 9.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "4911": {
+      "nome": "DOUGLAS LUIZ -",
+      "squadra": "Juventus",
+      "percMax": null,
+      "comprato_pct": 9.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "218": {
+      "nome": "PERIN Mattia",
+      "squadra": "Juventus",
+      "percMax": 0.53,
+      "comprato_pct": 9.3,
+      "prezzo_350": 1.86,
+      "prezzo_500": 2.65,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "1926": {
+      "nome": "DI GENNARO Raffaele",
+      "squadra": "Inter",
+      "percMax": 0.2,
+      "comprato_pct": 9.2,
+      "prezzo_350": 1.37,
+      "prezzo_500": 1.0,
+      "quotazione": 1.0,
+      "match_score": 0.85
+    },
+    "610": {
+      "nome": "GOLLINI Pierluigi",
+      "squadra": "Roma",
+      "percMax": 0.29,
+      "comprato_pct": 9.2,
+      "prezzo_350": 1.79,
+      "prezzo_500": 1.45,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "5526": {
+      "nome": "SCALVINI Giorgio",
+      "squadra": "Atalanta",
+      "percMax": 3.87,
+      "comprato_pct": 9.1,
+      "prezzo_350": 21.3,
+      "prezzo_500": 19.37,
+      "quotazione": 16.0,
+      "match_score": 0.95
+    },
+    "2521": {
+      "nome": "DE GEA David",
+      "squadra": "Fiorentina",
+      "percMax": 4.6,
+      "comprato_pct": 9.1,
+      "prezzo_350": 21.2,
+      "prezzo_500": 22.99,
+      "quotazione": 16.0,
+      "match_score": 0.9
+    },
+    "7484": {
+      "nome": "ADAMS Akor Jerome",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 9.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 14.0,
+      "match_score": 0.9
+    },
+    "6531": {
+      "nome": "JIMENEZ Alex",
+      "squadra": "Fiorentina",
+      "percMax": null,
+      "comprato_pct": 9.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "5022": {
+      "nome": "PAVLOVIC Strahinja",
+      "squadra": "Milan",
+      "percMax": 3.77,
+      "comprato_pct": 9.0,
+      "prezzo_350": 24.98,
+      "prezzo_500": 18.85,
+      "quotazione": 20.0,
+      "match_score": 0.95
+    },
+    "6495": {
+      "nome": "COMUZZO Pietro",
+      "squadra": "Torino",
+      "percMax": 2.78,
+      "comprato_pct": 9.0,
+      "prezzo_350": 14.37,
+      "prezzo_500": 13.89,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "4431": {
+      "nome": "CARNESECCHI Marco",
+      "squadra": "Atalanta",
+      "percMax": 4.4,
+      "comprato_pct": 8.9,
+      "prezzo_350": 25.74,
+      "prezzo_500": 22.02,
+      "quotazione": 20.0,
+      "match_score": 0.95
+    },
+    "6496": {
+      "nome": "BARTESAGHI Davide",
+      "squadra": "Milan",
+      "percMax": 3.12,
+      "comprato_pct": 8.9,
+      "prezzo_350": 16.49,
+      "prezzo_500": 15.6,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "6727": {
+      "nome": "COUTO Yan Bueno",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 8.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "2514": {
+      "nome": "STONES John",
+      "squadra": "Inter",
+      "percMax": null,
+      "comprato_pct": 8.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 17.0,
+      "match_score": 0.95
+    },
+    "6664": {
+      "nome": "DEL PRATO Enrico",
+      "squadra": "Parma",
+      "percMax": 3.49,
+      "comprato_pct": 8.6,
+      "prezzo_350": 20.82,
+      "prezzo_500": 17.45,
+      "quotazione": 10.0,
+      "match_score": 0.717
+    },
+    "6884": {
+      "nome": "CONCEICAO Fernandes Francisco",
+      "squadra": "Juventus",
+      "percMax": 5.68,
+      "comprato_pct": 8.5,
+      "prezzo_350": 24.5,
+      "prezzo_500": 28.42,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "6766": {
+      "nome": "KELLY Lloyd",
+      "squadra": "Juventus",
+      "percMax": 3.27,
+      "comprato_pct": 8.5,
+      "prezzo_350": 17.94,
+      "prezzo_500": 16.36,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7071": {
+      "nome": "ESPOSITO FP Francesco Pio",
+      "squadra": "Inter",
+      "percMax": 5.64,
+      "comprato_pct": 8.3,
+      "prezzo_350": 23.72,
+      "prezzo_500": 28.2,
+      "quotazione": 26.0,
+      "match_score": 0.9
+    },
+    "4312": {
+      "nome": "MAIGNAN Mike",
+      "squadra": "Milan",
+      "percMax": 5.7,
+      "comprato_pct": 8.3,
+      "prezzo_350": 26.89,
+      "prezzo_500": 28.49,
+      "quotazione": 20.0,
+      "match_score": 0.95
+    },
+    "2766": {
+      "nome": "ZANIOLO Nicolò",
+      "squadra": "Udinese",
+      "percMax": 4.64,
+      "comprato_pct": 7.9,
+      "prezzo_350": 26.78,
+      "prezzo_500": 23.2,
+      "quotazione": 28.0,
+      "match_score": 0.95
+    },
+    "6666": {
+      "nome": "BERNABE Adrian",
+      "squadra": "Parma",
+      "percMax": 4.05,
+      "comprato_pct": 7.9,
+      "prezzo_350": 22.36,
+      "prezzo_500": 20.25,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "5792": {
+      "nome": "EDERSON -",
+      "squadra": "Atalanta",
+      "percMax": 4.44,
+      "comprato_pct": 7.8,
+      "prezzo_350": 26.13,
+      "prezzo_500": 22.18,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "7182": {
+      "nome": "NDABA Corrie",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 7.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7414": {
+      "nome": "KAIKI Bruno Da Silva",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 7.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "4896": {
+      "nome": "MALDINI Daniel",
+      "squadra": "Cagliari",
+      "percMax": 3.24,
+      "comprato_pct": 7.6,
+      "prezzo_350": 20.8,
+      "prezzo_500": 16.2,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "7345": {
+      "nome": "PRZYBOREK Adrian",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 7.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6151": {
+      "nome": "PERRONE Maximo",
+      "squadra": "Como",
+      "percMax": 3.86,
+      "comprato_pct": 7.6,
+      "prezzo_350": 22.96,
+      "prezzo_500": 19.29,
+      "quotazione": 17.0,
+      "match_score": 0.95
+    },
+    "4199": {
+      "nome": "LOFTUS-CHEEK Ruben",
+      "squadra": "Milan",
+      "percMax": 4.88,
+      "comprato_pct": 7.6,
+      "prezzo_350": 19.36,
+      "prezzo_500": 24.41,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "2137": {
+      "nome": "SCAMACCA Gianluca",
+      "squadra": "Atalanta",
+      "percMax": 7.14,
+      "comprato_pct": 7.5,
+      "prezzo_350": 34.58,
+      "prezzo_500": 35.69,
+      "quotazione": 34.0,
+      "match_score": 0.95
+    },
+    "7294": {
+      "nome": "VALDEPENAS Víctor Talavera",
+      "squadra": "Fiorentina",
+      "percMax": null,
+      "comprato_pct": 7.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "6814": {
+      "nome": "NORTON-CUFFY Brooke",
+      "squadra": "Genoa",
+      "percMax": 2.55,
+      "comprato_pct": 7.4,
+      "prezzo_350": 14.3,
+      "prezzo_500": 12.74,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "7268": {
+      "nome": "RODRIGUEZ Juan",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 7.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.85
+    },
+    "309": {
+      "nome": "DYBALA Paulo",
+      "squadra": "Roma",
+      "percMax": 10.26,
+      "comprato_pct": 7.2,
+      "prezzo_350": 33.17,
+      "prezzo_500": 51.3,
+      "quotazione": 28.0,
+      "match_score": 0.95
+    },
+    "2061": {
+      "nome": "SIMEONE Giovanni",
+      "squadra": "Torino",
+      "percMax": 6.04,
+      "comprato_pct": 7.2,
+      "prezzo_350": 26.24,
+      "prezzo_500": 30.2,
+      "quotazione": 28.0,
+      "match_score": 0.95
+    },
+    "5637": {
+      "nome": "DAVIS Keinan",
+      "squadra": "Udinese",
+      "percMax": 4.77,
+      "comprato_pct": 7.2,
+      "prezzo_350": 27.27,
+      "prezzo_500": 23.83,
+      "quotazione": 33.0,
+      "match_score": 0.95
+    },
+    "4287": {
+      "nome": "LOBOTKA Stanislav",
+      "squadra": "Napoli",
+      "percMax": 3.58,
+      "comprato_pct": 7.1,
+      "prezzo_350": 19.26,
+      "prezzo_500": 17.92,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "6618": {
+      "nome": "CISSE Alphadjo",
+      "squadra": "Milan",
+      "percMax": null,
+      "comprato_pct": 7.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "6662": {
+      "nome": "CORVI Edoardo",
+      "squadra": "Parma",
+      "percMax": 0.55,
+      "comprato_pct": 7.0,
+      "prezzo_350": null,
+      "prezzo_500": 2.73,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "5559": {
+      "nome": "DA CUNHA Lucas",
+      "squadra": "Como",
+      "percMax": 4.7,
+      "comprato_pct": 7.0,
+      "prezzo_350": 30.18,
+      "prezzo_500": 23.48,
+      "quotazione": 26.0,
+      "match_score": 0.95
+    },
+    "4159": {
+      "nome": "AKANJI Manuel",
+      "squadra": "Inter",
+      "percMax": 3.74,
+      "comprato_pct": 6.9,
+      "prezzo_350": 20.9,
+      "prezzo_500": 18.71,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "5119": {
+      "nome": "SAMARDZIC Lazar",
+      "squadra": "Atalanta",
+      "percMax": 4.91,
+      "comprato_pct": 6.9,
+      "prezzo_350": 22.53,
+      "prezzo_500": 24.56,
+      "quotazione": 19.0,
+      "match_score": 0.95
+    },
+    "5687": {
+      "nome": "VLASIC Nikola",
+      "squadra": "Torino",
+      "percMax": 4.32,
+      "comprato_pct": 6.8,
+      "prezzo_350": 27.68,
+      "prezzo_500": 21.62,
+      "quotazione": 25.0,
+      "match_score": 0.95
+    },
+    "5589": {
+      "nome": "KONE Manu",
+      "squadra": "Roma",
+      "percMax": 4.84,
+      "comprato_pct": 6.8,
+      "prezzo_350": 24.29,
+      "prezzo_500": 24.18,
+      "quotazione": 20.0,
+      "match_score": 0.9
+    },
+    "4": {
+      "nome": "SPORTIELLO Marco",
+      "squadra": "Atalanta",
+      "percMax": 0.27,
+      "comprato_pct": 6.7,
+      "prezzo_350": 1.39,
+      "prezzo_500": 1.33,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7472": {
+      "nome": "CALO Giacomo",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 6.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "6190": {
+      "nome": "PISILLI Niccolo",
+      "squadra": "Roma",
+      "percMax": 3.57,
+      "comprato_pct": 6.6,
+      "prezzo_350": 18.74,
+      "prezzo_500": 17.87,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "4317": {
+      "nome": "NDICKA Evan",
+      "squadra": "Roma",
+      "percMax": 4.13,
+      "comprato_pct": 6.6,
+      "prezzo_350": 24.15,
+      "prezzo_500": 20.64,
+      "quotazione": 18.0,
+      "match_score": 0.95
+    },
+    "6813": {
+      "nome": "TORRIANI Lorenzo",
+      "squadra": "Milan",
+      "percMax": 0.2,
+      "comprato_pct": 6.4,
+      "prezzo_350": 2.52,
+      "prezzo_500": 1.02,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "2606": {
+      "nome": "MODRIC Luka",
+      "squadra": "Milan",
+      "percMax": 4.95,
+      "comprato_pct": 6.4,
+      "prezzo_350": 27.15,
+      "prezzo_500": 24.75,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "4734": {
+      "nome": "MIRANDA Juan",
+      "squadra": "Bologna",
+      "percMax": 3.5,
+      "comprato_pct": 6.4,
+      "prezzo_350": 20.46,
+      "prezzo_500": 17.5,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "1870": {
+      "nome": "BARELLA Nicolò",
+      "squadra": "Inter",
+      "percMax": 7.62,
+      "comprato_pct": 6.3,
+      "prezzo_350": 30.44,
+      "prezzo_500": 38.09,
+      "quotazione": 26.0,
+      "match_score": 0.95
+    },
+    "7477": {
+      "nome": "COLOMBO Leonardo",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 1.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.9
+    },
+    "4871": {
+      "nome": "THURAM Marcus",
+      "squadra": "Inter",
+      "percMax": 21.23,
+      "comprato_pct": 6.3,
+      "prezzo_350": 86.39,
+      "prezzo_500": 106.14,
+      "quotazione": 47.0,
+      "match_score": 0.85
+    },
+    "554": {
+      "nome": "ZAPPACOSTA Davide",
+      "squadra": "Atalanta",
+      "percMax": 3.81,
+      "comprato_pct": 6.3,
+      "prezzo_350": 28.48,
+      "prezzo_500": 19.06,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "6294": {
+      "nome": "NDOUR Cher",
+      "squadra": "Fiorentina",
+      "percMax": 3.26,
+      "comprato_pct": 6.1,
+      "prezzo_350": null,
+      "prezzo_500": 16.32,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "6572": {
+      "nome": "CASTRO Santiago",
+      "squadra": "Roma",
+      "percMax": 5.4,
+      "comprato_pct": 6.1,
+      "prezzo_350": 29.22,
+      "prezzo_500": 26.98,
+      "quotazione": 27.0,
+      "match_score": 0.95
+    },
+    "4807": {
+      "nome": "HERMOSO Mario",
+      "squadra": "Roma",
+      "percMax": 3.0,
+      "comprato_pct": 6.1,
+      "prezzo_350": 17.44,
+      "prezzo_500": 14.98,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "4502": {
+      "nome": "GALLO Antonino",
+      "squadra": "Lecce",
+      "percMax": 3.12,
+      "comprato_pct": 6.1,
+      "prezzo_350": 19.4,
+      "prezzo_500": 15.61,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "4210": {
+      "nome": "MINA Yerry",
+      "squadra": "Cagliari",
+      "percMax": 3.01,
+      "comprato_pct": 6.1,
+      "prezzo_350": 19.07,
+      "prezzo_500": 15.04,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "7235": {
+      "nome": "TROILO Mariano",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 6.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "152": {
+      "nome": "ZIELINSKI Piotr",
+      "squadra": "Inter",
+      "percMax": 5.28,
+      "comprato_pct": 6.0,
+      "prezzo_350": 28.7,
+      "prezzo_500": 26.4,
+      "quotazione": 18.0,
+      "match_score": 0.95
+    },
+    "7238": {
+      "nome": "KOUASSI Owen",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 1.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.632
+    },
+    "5876": {
+      "nome": "DI GREGORIO Michele",
+      "squadra": "Juventus",
+      "percMax": 5.49,
+      "comprato_pct": 5.9,
+      "prezzo_350": 25.03,
+      "prezzo_500": 27.44,
+      "quotazione": 12.0,
+      "match_score": 0.85
+    },
+    "6638": {
+      "nome": "MARIN Rafa",
+      "squadra": "Napoli",
+      "percMax": null,
+      "comprato_pct": 5.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "6519": {
+      "nome": "CAMARDA Francesco",
+      "squadra": "Milan",
+      "percMax": 1.94,
+      "comprato_pct": 5.9,
+      "prezzo_350": 3.37,
+      "prezzo_500": 9.7,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "2012": {
+      "nome": "MILIK Arek",
+      "squadra": "Juventus",
+      "percMax": null,
+      "comprato_pct": 5.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "1852": {
+      "nome": "SPINAZZOLA Leonardo",
+      "squadra": "Napoli",
+      "percMax": 3.75,
+      "comprato_pct": 5.8,
+      "prezzo_350": 22.97,
+      "prezzo_500": 18.73,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "7219": {
+      "nome": "BERNASCONI Lorenzo",
+      "squadra": "Atalanta",
+      "percMax": 2.15,
+      "comprato_pct": 5.8,
+      "prezzo_350": 12.17,
+      "prezzo_500": 10.76,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7449": {
+      "nome": "RRAHMANI Albion",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 1.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 11.0,
+      "match_score": 0.9
+    },
+    "5562": {
+      "nome": "THURAM Khéphren",
+      "squadra": "Juventus",
+      "percMax": 6.18,
+      "comprato_pct": 5.7,
+      "prezzo_350": 26.29,
+      "prezzo_500": 30.91,
+      "quotazione": 18.0,
+      "match_score": 0.9
+    },
+    "5520": {
+      "nome": "CAMBIASO Andrea",
+      "squadra": "Juventus",
+      "percMax": 4.1,
+      "comprato_pct": 5.7,
+      "prezzo_350": 22.89,
+      "prezzo_500": 20.51,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "5862": {
+      "nome": "VALERI Emanuele",
+      "squadra": "Parma",
+      "percMax": 3.29,
+      "comprato_pct": 5.7,
+      "prezzo_350": 19.51,
+      "prezzo_500": 16.47,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "6189": {
+      "nome": "MISSORI Filippo",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 5.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "2167": {
+      "nome": "ORSOLINI Riccardo",
+      "squadra": "Bologna",
+      "percMax": 11.34,
+      "comprato_pct": 5.6,
+      "prezzo_350": 48.19,
+      "prezzo_500": 56.72,
+      "quotazione": 34.0,
+      "match_score": 0.95
+    },
+    "827": {
+      "nome": "LOCATELLI Manuel",
+      "squadra": "Juventus",
+      "percMax": 3.8,
+      "comprato_pct": 5.6,
+      "prezzo_350": 22.48,
+      "prezzo_500": 18.99,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "2845": {
+      "nome": "CONTINI Nikita",
+      "squadra": "Napoli",
+      "percMax": 0.2,
+      "comprato_pct": 5.6,
+      "prezzo_350": 1.37,
+      "prezzo_500": 1.01,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6217": {
+      "nome": "BISSECK Yann Aurel",
+      "squadra": "Inter",
+      "percMax": 3.75,
+      "comprato_pct": 5.5,
+      "prezzo_350": 23.49,
+      "prezzo_500": 18.76,
+      "quotazione": 17.0,
+      "match_score": 0.95
+    },
+    "7392": {
+      "nome": "CAMARA Abdoulaye",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 5.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6503": {
+      "nome": "STANKOVIC Aleksandar",
+      "squadra": "Inter",
+      "percMax": null,
+      "comprato_pct": 5.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.9
+    },
+    "2815": {
+      "nome": "TERRACCIANO Filippo",
+      "squadra": "Milan",
+      "percMax": 2.29,
+      "comprato_pct": 0.7,
+      "prezzo_350": 13.2,
+      "prezzo_500": 11.47,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "7314": {
+      "nome": "TAYLOR Kenneth",
+      "squadra": "Lazio",
+      "percMax": 4.79,
+      "comprato_pct": 5.2,
+      "prezzo_350": 29.15,
+      "prezzo_500": 23.96,
+      "quotazione": 20.0,
+      "match_score": 0.95
+    },
+    "6244": {
+      "nome": "MATTURRO Alan",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 5.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "4433": {
+      "nome": "ZORTEA Nadir",
+      "squadra": "Bologna",
+      "percMax": 3.68,
+      "comprato_pct": 5.2,
+      "prezzo_350": 21.06,
+      "prezzo_500": 18.41,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6403": {
+      "nome": "CHRISTENSEN Oliver",
+      "squadra": "Fiorentina",
+      "percMax": 0.27,
+      "comprato_pct": 5.2,
+      "prezzo_350": 1.08,
+      "prezzo_500": 1.33,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7175": {
+      "nome": "JOAO MARIO Neto Lopes",
+      "squadra": "Fiorentina",
+      "percMax": 2.5,
+      "comprato_pct": 5.1,
+      "prezzo_350": 14.61,
+      "prezzo_500": 12.48,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "5507": {
+      "nome": "BUSIO Gianluca",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 5.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "5791": {
+      "nome": "FRENDRUP Morten",
+      "squadra": "Genoa",
+      "percMax": 3.59,
+      "comprato_pct": 5.1,
+      "prezzo_350": 22.84,
+      "prezzo_500": 17.97,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "4360": {
+      "nome": "CAPRILE Elia",
+      "squadra": "Cagliari",
+      "percMax": 2.74,
+      "comprato_pct": 5.0,
+      "prezzo_350": 14.01,
+      "prezzo_500": 13.68,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "6678": {
+      "nome": "LIBERALI Mattia",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 5.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "1933": {
+      "nome": "MANDRAGORA Rolando",
+      "squadra": "Fiorentina",
+      "percMax": 4.1,
+      "comprato_pct": 4.9,
+      "prezzo_350": 29.93,
+      "prezzo_500": 20.52,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "7253": {
+      "nome": "BELLA-KOTCHAP Armel",
+      "squadra": "Venezia",
+      "percMax": 1.06,
+      "comprato_pct": 4.9,
+      "prezzo_350": null,
+      "prezzo_500": 5.3,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7301": {
+      "nome": "TORNQVIST Noel",
+      "squadra": "Como",
+      "percMax": 0.18,
+      "comprato_pct": 4.9,
+      "prezzo_350": null,
+      "prezzo_500": 0.88,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "4856": {
+      "nome": "CHUKWUEZE Samuel",
+      "squadra": "Milan",
+      "percMax": null,
+      "comprato_pct": 4.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "6989": {
+      "nome": "TIAGO GABRIEL Coelho Oliveira",
+      "squadra": "Lecce",
+      "percMax": 2.95,
+      "comprato_pct": 4.9,
+      "prezzo_350": 16.57,
+      "prezzo_500": 14.75,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "6896": {
+      "nome": "VAN DER BREMPT Ignace",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 2.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "5995": {
+      "nome": "DE KETELAERE Charles",
+      "squadra": "Atalanta",
+      "percMax": 8.89,
+      "comprato_pct": 4.8,
+      "prezzo_350": 32.09,
+      "prezzo_500": 44.44,
+      "quotazione": 28.0,
+      "match_score": 0.9
+    },
+    "5851": {
+      "nome": "DOIG Josh",
+      "squadra": "Sassuolo",
+      "percMax": 2.23,
+      "comprato_pct": 4.8,
+      "prezzo_350": 11.98,
+      "prezzo_500": 11.16,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "5838": {
+      "nome": "BIRINDELLI Samuele",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 4.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "2379": {
+      "nome": "RABIOT Adrien",
+      "squadra": "Milan",
+      "percMax": 8.13,
+      "comprato_pct": 4.8,
+      "prezzo_350": 32.34,
+      "prezzo_500": 40.65,
+      "quotazione": 30.0,
+      "match_score": 0.95
+    },
+    "2517": {
+      "nome": "DE BRUYNE Kevin",
+      "squadra": "Napoli",
+      "percMax": 11.7,
+      "comprato_pct": 4.7,
+      "prezzo_350": 40.95,
+      "prezzo_500": null,
+      "quotazione": 28.0,
+      "match_score": 0.9
+    },
+    "632": {
+      "nome": "ZACCAGNI Mattia",
+      "squadra": "Lazio",
+      "percMax": 9.6,
+      "comprato_pct": 4.7,
+      "prezzo_350": 35.4,
+      "prezzo_500": 48.01,
+      "quotazione": 27.0,
+      "match_score": 0.95
+    },
+    "5620": {
+      "nome": "NUNO TAVARES -",
+      "squadra": "Lazio",
+      "percMax": 2.97,
+      "comprato_pct": 4.7,
+      "prezzo_350": 18.65,
+      "prezzo_500": 14.86,
+      "quotazione": 9.0,
+      "match_score": 0.717
+    },
+    "7464": {
+      "nome": "OULAI Christ Ravynel Inao",
+      "squadra": "Fiorentina",
+      "percMax": null,
+      "comprato_pct": 4.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "7374": {
+      "nome": "MENDY Paul",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 4.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "4359": {
+      "nome": "PICCOLI Roberto",
+      "squadra": "Bologna",
+      "percMax": 4.01,
+      "comprato_pct": 4.6,
+      "prezzo_350": 26.47,
+      "prezzo_500": 20.05,
+      "quotazione": 16.0,
+      "match_score": 0.95
+    },
+    "4401": {
+      "nome": "GABBIA Matteo",
+      "squadra": "Milan",
+      "percMax": 2.78,
+      "comprato_pct": 4.6,
+      "prezzo_350": 15.7,
+      "prezzo_500": 13.89,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "22": {
+      "nome": "DE ROON Marten",
+      "squadra": "Atalanta",
+      "percMax": 4.0,
+      "comprato_pct": 4.6,
+      "prezzo_350": 21.57,
+      "prezzo_500": 19.98,
+      "quotazione": 10.0,
+      "match_score": 0.9
+    },
+    "4998": {
+      "nome": "MOLINA Nahuel",
+      "squadra": "Roma",
+      "percMax": null,
+      "comprato_pct": 4.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "5885": {
+      "nome": "DODO -",
+      "squadra": "Fiorentina",
+      "percMax": 3.54,
+      "comprato_pct": 4.5,
+      "prezzo_350": 21.35,
+      "prezzo_500": 17.7,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "4459": {
+      "nome": "ROVELLA Nicolo",
+      "squadra": "Lazio",
+      "percMax": 3.36,
+      "comprato_pct": 4.5,
+      "prezzo_350": 12.82,
+      "prezzo_500": 16.78,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "2640": {
+      "nome": "KOLASINAC Sead",
+      "squadra": "Atalanta",
+      "percMax": 2.41,
+      "comprato_pct": 4.5,
+      "prezzo_350": 13.73,
+      "prezzo_500": 12.06,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "5831": {
+      "nome": "GATTI Federico",
+      "squadra": "Juventus",
+      "percMax": 3.08,
+      "comprato_pct": 4.5,
+      "prezzo_350": 18.66,
+      "prezzo_500": 15.41,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "6663": {
+      "nome": "CIRCATI Alessandro",
+      "squadra": "Parma",
+      "percMax": 2.58,
+      "comprato_pct": 4.5,
+      "prezzo_350": 13.85,
+      "prezzo_500": 12.89,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "5823": {
+      "nome": "BALDANZI Tommaso",
+      "squadra": "Genoa",
+      "percMax": 2.53,
+      "comprato_pct": 4.4,
+      "prezzo_350": 13.96,
+      "prezzo_500": 12.64,
+      "quotazione": 17.0,
+      "match_score": 0.95
+    },
+    "4465": {
+      "nome": "FAGIOLI Nicolo",
+      "squadra": "Fiorentina",
+      "percMax": 3.86,
+      "comprato_pct": 4.4,
+      "prezzo_350": 23.79,
+      "prezzo_500": 19.29,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "779": {
+      "nome": "CRISTANTE Bryan",
+      "squadra": "Roma",
+      "percMax": 4.14,
+      "comprato_pct": 4.3,
+      "prezzo_350": 22.68,
+      "prezzo_500": 20.71,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "6669": {
+      "nome": "BONNY Ange-Yoan",
+      "squadra": "Inter",
+      "percMax": 5.49,
+      "comprato_pct": 4.3,
+      "prezzo_350": 22.93,
+      "prezzo_500": 27.43,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "4952": {
+      "nome": "MONTERISI Ilario",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 4.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7470": {
+      "nome": "OYONO Jeremy",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 4.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.9
+    },
+    "4371": {
+      "nome": "RASPADORI Giacomo",
+      "squadra": "Atalanta",
+      "percMax": 8.95,
+      "comprato_pct": 4.3,
+      "prezzo_350": 41.81,
+      "prezzo_500": 44.73,
+      "quotazione": 23.0,
+      "match_score": 0.95
+    },
+    "6844": {
+      "nome": "ROWE Jonathan",
+      "squadra": "Bologna",
+      "percMax": 4.36,
+      "comprato_pct": 4.3,
+      "prezzo_350": 28.54,
+      "prezzo_500": 21.8,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "158": {
+      "nome": "LEZZERINI Luca",
+      "squadra": "Fiorentina",
+      "percMax": 0.2,
+      "comprato_pct": 4.3,
+      "prezzo_350": 1.45,
+      "prezzo_500": 0.98,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "2809": {
+      "nome": "VIGORITO Mauro",
+      "squadra": "Como",
+      "percMax": 1.28,
+      "comprato_pct": 4.2,
+      "prezzo_350": 4.48,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6485": {
+      "nome": "KRISTENSEN Thomas",
+      "squadra": "Atalanta",
+      "percMax": 3.79,
+      "comprato_pct": 4.2,
+      "prezzo_350": 20.74,
+      "prezzo_500": 18.96,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6893": {
+      "nome": "KEMPF Marc",
+      "squadra": "Como",
+      "percMax": 3.6,
+      "comprato_pct": 4.2,
+      "prezzo_350": 18.06,
+      "prezzo_500": 17.98,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "4887": {
+      "nome": "BELLANOVA Raoul",
+      "squadra": "Atalanta",
+      "percMax": 4.08,
+      "comprato_pct": 4.1,
+      "prezzo_350": 18.24,
+      "prezzo_500": 20.42,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6435": {
+      "nome": "KRSTOVIC Nikola",
+      "squadra": "Atalanta",
+      "percMax": 7.95,
+      "comprato_pct": 4.1,
+      "prezzo_350": 33.27,
+      "prezzo_500": 39.75,
+      "quotazione": 30.0,
+      "match_score": 0.95
+    },
+    "4892": {
+      "nome": "SAELEMAEKERS Alexis",
+      "squadra": "Milan",
+      "percMax": 4.04,
+      "comprato_pct": 4.1,
+      "prezzo_350": 20.63,
+      "prezzo_500": 20.2,
+      "quotazione": 17.0,
+      "match_score": 0.95
+    },
+    "6684": {
+      "nome": "EKKELENKAMP Jurgen",
+      "squadra": "Udinese",
+      "percMax": 5.36,
+      "comprato_pct": 4.1,
+      "prezzo_350": 24.98,
+      "prezzo_500": 26.79,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "4364": {
+      "nome": "GAETANO Gianluca",
+      "squadra": "Atalanta",
+      "percMax": 3.88,
+      "comprato_pct": 4.1,
+      "prezzo_350": 23.19,
+      "prezzo_500": 19.41,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "7165": {
+      "nome": "LITETA Joseph",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 4.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "536": {
+      "nome": "POLITANO Matteo",
+      "squadra": "Napoli",
+      "percMax": 5.76,
+      "comprato_pct": 4.0,
+      "prezzo_350": 23.46,
+      "prezzo_500": 28.81,
+      "quotazione": 20.0,
+      "match_score": 0.95
+    },
+    "5514": {
+      "nome": "VASQUEZ Devis",
+      "squadra": "Roma",
+      "percMax": 0.25,
+      "comprato_pct": 3.8,
+      "prezzo_350": 1.23,
+      "prezzo_500": 1.27,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6164": {
+      "nome": "VITINHA -",
+      "squadra": "Genoa",
+      "percMax": 4.52,
+      "comprato_pct": 4.0,
+      "prezzo_350": 22.07,
+      "prezzo_500": 22.59,
+      "quotazione": 16.0,
+      "match_score": 0.95
+    },
+    "6632": {
+      "nome": "GASPAR Kialonda",
+      "squadra": "Lecce",
+      "percMax": 1.94,
+      "comprato_pct": 4.0,
+      "prezzo_350": 11.69,
+      "prezzo_500": 9.72,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "5544": {
+      "nome": "PEJICIC David",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 0.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 0.0,
+      "match_score": 0.85
+    },
+    "531": {
+      "nome": "BERARDI Domenico",
+      "squadra": "Sassuolo",
+      "percMax": 7.71,
+      "comprato_pct": 3.9,
+      "prezzo_350": 36.89,
+      "prezzo_500": 38.53,
+      "quotazione": 31.0,
+      "match_score": 0.95
+    },
+    "6462": {
+      "nome": "OKOYE Maduka",
+      "squadra": "Udinese",
+      "percMax": 2.67,
+      "comprato_pct": 3.9,
+      "prezzo_350": 14.97,
+      "prezzo_500": 13.36,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "7476": {
+      "nome": "BAKOUNE Adam",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 3.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "5820": {
+      "nome": "BERTOLA Nicolo",
+      "squadra": "Udinese",
+      "percMax": 2.03,
+      "comprato_pct": 3.8,
+      "prezzo_350": 11.13,
+      "prezzo_500": 10.15,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "2134": {
+      "nome": "FALCONE Wladimiro",
+      "squadra": "Lecce",
+      "percMax": 3.06,
+      "comprato_pct": 3.8,
+      "prezzo_350": 16.66,
+      "prezzo_500": 15.31,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "6320": {
+      "nome": "DOEKHI Danilho",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 3.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "6904": {
+      "nome": "YEBOAH John",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 3.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "6672": {
+      "nome": "IDZES Jay",
+      "squadra": "Sassuolo",
+      "percMax": 3.28,
+      "comprato_pct": 3.7,
+      "prezzo_350": 18.82,
+      "prezzo_500": 16.39,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7454": {
+      "nome": "GOMES Alejandro Furtado",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 3.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "5800": {
+      "nome": "GUDMUNDSSON Albert",
+      "squadra": "Fiorentina",
+      "percMax": 8.08,
+      "comprato_pct": 3.7,
+      "prezzo_350": 31.05,
+      "prezzo_500": 40.4,
+      "quotazione": 24.0,
+      "match_score": 0.95
+    },
+    "6248": {
+      "nome": "STANKOVIC Filip",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 3.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.9
+    },
+    "184": {
+      "nome": "BERNARDESCHI Federico",
+      "squadra": "Bologna",
+      "percMax": 4.1,
+      "comprato_pct": 3.7,
+      "prezzo_350": 23.64,
+      "prezzo_500": 20.5,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "4378": {
+      "nome": "RANIERI Luca",
+      "squadra": "Fiorentina",
+      "percMax": 2.88,
+      "comprato_pct": 3.7,
+      "prezzo_350": 16.95,
+      "prezzo_500": 14.38,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7337": {
+      "nome": "MOTTA Edoardo",
+      "squadra": "Lazio",
+      "percMax": 0.33,
+      "comprato_pct": 3.7,
+      "prezzo_350": 4.07,
+      "prezzo_500": 1.64,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "460": {
+      "nome": "ROMAGNOLI Alessio",
+      "squadra": "Lazio",
+      "percMax": 2.89,
+      "comprato_pct": 3.6,
+      "prezzo_350": 16.89,
+      "prezzo_500": 14.45,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "6426": {
+      "nome": "PEDERSEN Marcus",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 3.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7161": {
+      "nome": "BAYO Vakoun",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 3.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "2155": {
+      "nome": "CUTRONE Patrick",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 3.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "5007": {
+      "nome": "ILIC Mihajlo",
+      "squadra": "Serie Minori",
+      "percMax": null,
+      "comprato_pct": 0.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "7529": {
+      "nome": "KOULIERAKIS Konstantinos",
+      "squadra": "Roma",
+      "percMax": null,
+      "comprato_pct": 3.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "5739": {
+      "nome": "DE WINTER Koni",
+      "squadra": "Milan",
+      "percMax": 3.09,
+      "comprato_pct": 3.5,
+      "prezzo_350": 16.49,
+      "prezzo_500": 15.43,
+      "quotazione": 6.0,
+      "match_score": 0.9
+    },
+    "1930": {
+      "nome": "PINSOGLIO Carlo",
+      "squadra": "Juventus",
+      "percMax": 0.18,
+      "comprato_pct": 3.5,
+      "prezzo_350": 1.94,
+      "prezzo_500": 0.88,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6060": {
+      "nome": "LAURIENTE Armand",
+      "squadra": "Sassuolo",
+      "percMax": 6.5,
+      "comprato_pct": 3.4,
+      "prezzo_350": 31.93,
+      "prezzo_500": 32.5,
+      "quotazione": 27.0,
+      "match_score": 0.95
+    },
+    "7070": {
+      "nome": "SUCIC Petar",
+      "squadra": "Inter",
+      "percMax": 4.07,
+      "comprato_pct": 3.4,
+      "prezzo_350": 23.63,
+      "prezzo_500": 20.34,
+      "quotazione": 16.0,
+      "match_score": 0.95
+    },
+    "5422": {
+      "nome": "ZALEWSKI Nicola",
+      "squadra": "Atalanta",
+      "percMax": 3.61,
+      "comprato_pct": 3.4,
+      "prezzo_350": 20.3,
+      "prezzo_500": 18.05,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "6660": {
+      "nome": "MARCANDALLI Alessandro",
+      "squadra": "Genoa",
+      "percMax": 3.24,
+      "comprato_pct": 3.4,
+      "prezzo_350": 11.34,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6215": {
+      "nome": "LUCCA Lorenzo",
+      "squadra": "Napoli",
+      "percMax": null,
+      "comprato_pct": 3.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6892": {
+      "nome": "SCHINGTIENNE Joël",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 3.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "2423": {
+      "nome": "PULISIC Christian",
+      "squadra": "Milan",
+      "percMax": 12.38,
+      "comprato_pct": 3.4,
+      "prezzo_350": 51.44,
+      "prezzo_500": 61.89,
+      "quotazione": 38.0,
+      "match_score": 0.95
+    },
+    "5734": {
+      "nome": "SOULE Matias",
+      "squadra": "Roma",
+      "percMax": 9.76,
+      "comprato_pct": 3.4,
+      "prezzo_350": 38.22,
+      "prezzo_500": 48.82,
+      "quotazione": 23.0,
+      "match_score": 0.95
+    },
+    "6967": {
+      "nome": "DIAO Assane",
+      "squadra": "Como",
+      "percMax": 6.11,
+      "comprato_pct": 3.4,
+      "prezzo_350": 32.08,
+      "prezzo_500": 30.54,
+      "quotazione": 21.0,
+      "match_score": 0.95
+    },
+    "7248": {
+      "nome": "GORTER Olaf",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 3.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "2038": {
+      "nome": "PINAMONTI Andrea",
+      "squadra": "Sassuolo",
+      "percMax": 5.3,
+      "comprato_pct": 3.3,
+      "prezzo_350": 26.48,
+      "prezzo_500": 26.52,
+      "quotazione": 27.0,
+      "match_score": 0.95
+    },
+    "5888": {
+      "nome": "CASADEI Cesare",
+      "squadra": "Torino",
+      "percMax": 4.22,
+      "comprato_pct": 3.3,
+      "prezzo_350": 24.21,
+      "prezzo_500": 21.08,
+      "quotazione": 17.0,
+      "match_score": 0.95
+    },
+    "7223": {
+      "nome": "VERGARA Antonio",
+      "squadra": "Napoli",
+      "percMax": 3.12,
+      "comprato_pct": 3.3,
+      "prezzo_350": 13.79,
+      "prezzo_500": 15.61,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "7172": {
+      "nome": "PESSINA Massimo",
+      "squadra": "Bologna",
+      "percMax": 0.31,
+      "comprato_pct": 2.3,
+      "prezzo_350": 2.77,
+      "prezzo_500": 1.57,
+      "quotazione": 1.0,
+      "match_score": 0.9
+    },
+    "6680": {
+      "nome": "KARLSTROM Jesper",
+      "squadra": "Udinese",
+      "percMax": 3.02,
+      "comprato_pct": 3.3,
+      "prezzo_350": 18.46,
+      "prezzo_500": 15.11,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "7203": {
+      "nome": "JASHARI Ardon",
+      "squadra": "Milan",
+      "percMax": 2.73,
+      "comprato_pct": 3.3,
+      "prezzo_350": 11.79,
+      "prezzo_500": 13.67,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6990": {
+      "nome": "VEIGA Danilo de Melo",
+      "squadra": "Lecce",
+      "percMax": 0.83,
+      "comprato_pct": 3.2,
+      "prezzo_350": null,
+      "prezzo_500": 4.14,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "133": {
+      "nome": "SKORUPSKI Lukasz",
+      "squadra": "Bologna",
+      "percMax": 2.82,
+      "comprato_pct": 3.2,
+      "prezzo_350": 12.92,
+      "prezzo_500": 14.1,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "5701": {
+      "nome": "OBERT Adam",
+      "squadra": "Cagliari",
+      "percMax": 3.84,
+      "comprato_pct": 3.2,
+      "prezzo_350": 13.44,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "6867": {
+      "nome": "VALLE Álex",
+      "squadra": "Como",
+      "percMax": 2.84,
+      "comprato_pct": 3.1,
+      "prezzo_350": 16.18,
+      "prezzo_500": 14.22,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "6821": {
+      "nome": "HAINAUT Antoine",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 3.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "5878": {
+      "nome": "COLPANI Andrea",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 3.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "6642": {
+      "nome": "COCO Saul",
+      "squadra": "Torino",
+      "percMax": 3.25,
+      "comprato_pct": 3.1,
+      "prezzo_350": 17.47,
+      "prezzo_500": 16.25,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "2077": {
+      "nome": "PASALIC Mario",
+      "squadra": "Atalanta",
+      "percMax": 5.05,
+      "comprato_pct": 3.0,
+      "prezzo_350": 28.99,
+      "prezzo_500": 25.25,
+      "quotazione": 16.0,
+      "match_score": 0.95
+    },
+    "6641": {
+      "nome": "SUZUKI Zion",
+      "squadra": "Parma",
+      "percMax": 1.34,
+      "comprato_pct": 3.0,
+      "prezzo_350": 2.05,
+      "prezzo_500": 6.7,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "4751": {
+      "nome": "TOMORI Fikayo",
+      "squadra": "Milan",
+      "percMax": 3.11,
+      "comprato_pct": 3.0,
+      "prezzo_350": 15.11,
+      "prezzo_500": 15.56,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "2724": {
+      "nome": "BUONGIORNO Alessandro",
+      "squadra": "Napoli",
+      "percMax": 3.94,
+      "comprato_pct": 3.0,
+      "prezzo_350": 21.1,
+      "prezzo_500": 19.71,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "5320": {
+      "nome": "PALEARI Alberto",
+      "squadra": "Torino",
+      "percMax": 0.58,
+      "comprato_pct": 3.0,
+      "prezzo_350": 1.94,
+      "prezzo_500": 2.91,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "4510": {
+      "nome": "LEAO Rafael",
+      "squadra": "Milan",
+      "percMax": 15.53,
+      "comprato_pct": 2.9,
+      "prezzo_350": 57.25,
+      "prezzo_500": 77.66,
+      "quotazione": 30.0,
+      "match_score": 0.95
+    },
+    "5029": {
+      "nome": "GEUBBELS Willem",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 2.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "6717": {
+      "nome": "KONE Ismaël",
+      "squadra": "Sassuolo",
+      "percMax": 4.41,
+      "comprato_pct": 2.8,
+      "prezzo_350": 26.22,
+      "prezzo_500": 22.05,
+      "quotazione": 14.0,
+      "match_score": 0.9
+    },
+    "7535": {
+      "nome": "FITZ-JIM Kian",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 2.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "4236": {
+      "nome": "MURIC Arijanet",
+      "squadra": "Sassuolo",
+      "percMax": 2.13,
+      "comprato_pct": 2.8,
+      "prezzo_350": 11.97,
+      "prezzo_500": 10.65,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "5578": {
+      "nome": "KOSSOUNOU Odilon",
+      "squadra": "Atalanta",
+      "percMax": 3.95,
+      "comprato_pct": 2.8,
+      "prezzo_350": 13.81,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "5674": {
+      "nome": "BASIC Toma",
+      "squadra": "Venezia",
+      "percMax": 2.05,
+      "comprato_pct": 2.7,
+      "prezzo_350": 13.97,
+      "prezzo_500": 10.24,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "5678": {
+      "nome": "HOLM Emil",
+      "squadra": "Bologna",
+      "percMax": 2.68,
+      "comprato_pct": 2.7,
+      "prezzo_350": 15.32,
+      "prezzo_500": 13.41,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6271": {
+      "nome": "EL AYNAOUI Neil",
+      "squadra": "Roma",
+      "percMax": 2.87,
+      "comprato_pct": 2.7,
+      "prezzo_350": 15.78,
+      "prezzo_500": 14.34,
+      "quotazione": 7.0,
+      "match_score": 0.85
+    },
+    "6917": {
+      "nome": "MASINI Patrizio",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 2.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "5424": {
+      "nome": "AMEY Wisdom",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 2.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "5982": {
+      "nome": "SPENCE Djed",
+      "squadra": "Inter",
+      "percMax": null,
+      "comprato_pct": 2.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 18.0,
+      "match_score": 0.95
+    },
+    "6482": {
+      "nome": "MANDAS Christos",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 2.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "7313": {
+      "nome": "RATKOV Petar",
+      "squadra": "Lazio",
+      "percMax": 3.43,
+      "comprato_pct": 2.6,
+      "prezzo_350": 21.07,
+      "prezzo_500": 17.17,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "2832": {
+      "nome": "BOGA Jeremie",
+      "squadra": "Juventus",
+      "percMax": 3.76,
+      "comprato_pct": 2.6,
+      "prezzo_350": 24.14,
+      "prezzo_500": 18.82,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "5436": {
+      "nome": "RAIMONDO Antonio",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 2.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "2188": {
+      "nome": "MARUSIC Adam",
+      "squadra": "Lazio",
+      "percMax": 3.09,
+      "comprato_pct": 2.6,
+      "prezzo_350": 17.65,
+      "prezzo_500": 15.44,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "5877": {
+      "nome": "CARLOS AUGUSTO -",
+      "squadra": "Inter",
+      "percMax": 2.77,
+      "comprato_pct": 2.6,
+      "prezzo_350": 18.75,
+      "prezzo_500": 13.83,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "7212": {
+      "nome": "HEGGEM Torbjørn",
+      "squadra": "Bologna",
+      "percMax": 0.96,
+      "comprato_pct": 2.6,
+      "prezzo_350": 6.76,
+      "prezzo_500": 4.8,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "4925": {
+      "nome": "CARBONI Andrea",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 2.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.9
+    },
+    "6981": {
+      "nome": "VAZ Robinio",
+      "squadra": "Roma",
+      "percMax": 2.4,
+      "comprato_pct": 2.6,
+      "prezzo_350": 13.9,
+      "prezzo_500": 11.98,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "7164": {
+      "nome": "PEREZ Matías",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 2.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.9
+    },
+    "6021": {
+      "nome": "ABANKWAH James",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 2.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "5844": {
+      "nome": "THORSTVEDT Kristian",
+      "squadra": "Sassuolo",
+      "percMax": 4.18,
+      "comprato_pct": 2.5,
+      "prezzo_350": 22.28,
+      "prezzo_500": 20.89,
+      "quotazione": 17.0,
+      "match_score": 0.95
+    },
+    "608": {
+      "nome": "ZAPATA Duvan",
+      "squadra": "Torino",
+      "percMax": 3.78,
+      "comprato_pct": 2.5,
+      "prezzo_350": 25.02,
+      "prezzo_500": 18.88,
+      "quotazione": 16.0,
+      "match_score": 0.95
+    },
+    "5858": {
+      "nome": "FERGUSON Lewis",
+      "squadra": "Bologna",
+      "percMax": 3.66,
+      "comprato_pct": 2.5,
+      "prezzo_350": 18.03,
+      "prezzo_500": 18.32,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "6202": {
+      "nome": "BEUKEMA Sam",
+      "squadra": "Napoli",
+      "percMax": 3.12,
+      "comprato_pct": 2.5,
+      "prezzo_350": 19.15,
+      "prezzo_500": 15.59,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "5273": {
+      "nome": "ESTUPINAN Pervis",
+      "squadra": "Milan",
+      "percMax": 2.55,
+      "comprato_pct": 2.5,
+      "prezzo_350": 13.62,
+      "prezzo_500": 12.74,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "6925": {
+      "nome": "PALMA Matteo",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 2.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "6646": {
+      "nome": "ADAMS Che",
+      "squadra": "Torino",
+      "percMax": 4.52,
+      "comprato_pct": 2.4,
+      "prezzo_350": 23.9,
+      "prezzo_500": 22.61,
+      "quotazione": 16.0,
+      "match_score": 0.9
+    },
+    "6898": {
+      "nome": "BALDE Keita",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.85
+    },
+    "7457": {
+      "nome": "MASCARDI Diego",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 2.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6822": {
+      "nome": "EKHATOR Jeff",
+      "squadra": "Juventus",
+      "percMax": 5.59,
+      "comprato_pct": 2.4,
+      "prezzo_350": null,
+      "prezzo_500": 27.97,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7027": {
+      "nome": "AZON Ivan",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 2.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "6410": {
+      "nome": "KABA Mohamed",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 2.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "5672": {
+      "nome": "DIA Boulaye",
+      "squadra": "Lazio",
+      "percMax": 7.69,
+      "comprato_pct": 2.3,
+      "prezzo_350": 24.74,
+      "prezzo_500": 38.43,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "5319": {
+      "nome": "SOHM Simon",
+      "squadra": "Venezia",
+      "percMax": 3.27,
+      "comprato_pct": 2.3,
+      "prezzo_350": 14.61,
+      "prezzo_500": 16.34,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7183": {
+      "nome": "ABOUKHLAL Zakaria",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 2.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "294": {
+      "nome": "RUGANI Daniele",
+      "squadra": "Juventus",
+      "percMax": 0.64,
+      "comprato_pct": 2.3,
+      "prezzo_350": 1.15,
+      "prezzo_500": 3.22,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "6398": {
+      "nome": "ISAKSEN Gustav",
+      "squadra": "Lazio",
+      "percMax": 4.36,
+      "comprato_pct": 2.3,
+      "prezzo_350": 32.06,
+      "prezzo_500": 21.79,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "5485": {
+      "nome": "BJARKASON Bjarki",
+      "squadra": "Serie Minori",
+      "percMax": null,
+      "comprato_pct": 2.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "4728": {
+      "nome": "NKUNKU Christopher",
+      "squadra": "Milan",
+      "percMax": 8.08,
+      "comprato_pct": 2.3,
+      "prezzo_350": 36.46,
+      "prezzo_500": 40.42,
+      "quotazione": 23.0,
+      "match_score": 0.95
+    },
+    "4463": {
+      "nome": "ESPOSITO S Sebastiano",
+      "squadra": "Cagliari",
+      "percMax": 4.57,
+      "comprato_pct": 2.3,
+      "prezzo_350": 30.54,
+      "prezzo_500": 22.83,
+      "quotazione": 22.0,
+      "match_score": 0.9
+    },
+    "6986": {
+      "nome": "RENSCH Devyne",
+      "squadra": "Roma",
+      "percMax": 4.38,
+      "comprato_pct": 2.3,
+      "prezzo_350": 15.33,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "5555": {
+      "nome": "KAMARA Hassane",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 2.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "6831": {
+      "nome": "NERES David Campos",
+      "squadra": "Napoli",
+      "percMax": 4.58,
+      "comprato_pct": 2.2,
+      "prezzo_350": 16.04,
+      "prezzo_500": null,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "313": {
+      "nome": "MORATA Alvaro",
+      "squadra": "Como",
+      "percMax": 4.49,
+      "comprato_pct": 2.2,
+      "prezzo_350": 19.11,
+      "prezzo_500": 22.45,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "5453": {
+      "nome": "RICCI Samuele",
+      "squadra": "Milan",
+      "percMax": 4.2,
+      "comprato_pct": 2.2,
+      "prezzo_350": 22.82,
+      "prezzo_500": 21.0,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7408": {
+      "nome": "LISMAN Kornel",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 2.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "7311": {
+      "nome": "ROMANO Alessandro",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 2.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "7411": {
+      "nome": "DAFFARA Giovanni",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 2.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "5761": {
+      "nome": "ZHEGROVA Edon",
+      "squadra": "Juventus",
+      "percMax": 4.84,
+      "comprato_pct": 2.2,
+      "prezzo_350": 25.92,
+      "prezzo_500": 24.2,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "7319": {
+      "nome": "FOFANA Sadik",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 2.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.9
+    },
+    "7274": {
+      "nome": "ZE PEDRO da Silva Figueiredo Freitas",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 2.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7485": {
+      "nome": "MANGAS Ricardo Luís Chaby",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 2.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7014": {
+      "nome": "SMOLCIC Ivan",
+      "squadra": "Como",
+      "percMax": 3.24,
+      "comprato_pct": 2.1,
+      "prezzo_350": 11.34,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "4970": {
+      "nome": "MESSIAS Junior",
+      "squadra": "Genoa",
+      "percMax": 4.39,
+      "comprato_pct": 2.1,
+      "prezzo_350": null,
+      "prezzo_500": 21.96,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "7537": {
+      "nome": "MITAJ Mario",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 2.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "2297": {
+      "nome": "ROSSI Francesco",
+      "squadra": "Atalanta",
+      "percMax": 0.2,
+      "comprato_pct": 2.1,
+      "prezzo_350": 1.46,
+      "prezzo_500": 1.01,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7342": {
+      "nome": "ELPHEGE Nesta",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 2.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "5527": {
+      "nome": "ZANOLI Alessandro",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 2.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "7540": {
+      "nome": "AKPOGUMA Kevin",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 2.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "4349": {
+      "nome": "NICOLUSSI CAVIGLIA Hans",
+      "squadra": "Parma",
+      "percMax": 3.2,
+      "comprato_pct": 2.0,
+      "prezzo_350": 16.58,
+      "prezzo_500": 16.01,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "4177": {
+      "nome": "PAVARD Benjamin",
+      "squadra": "Inter",
+      "percMax": null,
+      "comprato_pct": 2.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "4461": {
+      "nome": "ZAPPA Gabriele",
+      "squadra": "Cagliari",
+      "percMax": 2.58,
+      "comprato_pct": 2.0,
+      "prezzo_350": 15.79,
+      "prezzo_500": 12.9,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "6903": {
+      "nome": "HASA Luis",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 2.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "2529": {
+      "nome": "MKHITARYAN Henrikh",
+      "squadra": "Inter",
+      "percMax": 4.64,
+      "comprato_pct": 2.0,
+      "prezzo_350": 27.08,
+      "prezzo_500": 23.2,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "2528": {
+      "nome": "MATIC Nemanja",
+      "squadra": "Sassuolo",
+      "percMax": 3.25,
+      "comprato_pct": 2.0,
+      "prezzo_350": 22.84,
+      "prezzo_500": 16.24,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "5504": {
+      "nome": "COULIBALY Lassana",
+      "squadra": "Lecce",
+      "percMax": 3.2,
+      "comprato_pct": 2.0,
+      "prezzo_350": 19.13,
+      "prezzo_500": 16.0,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7413": {
+      "nome": "PUCZKA David",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 2.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "6046": {
+      "nome": "HIEN Isak",
+      "squadra": "Atalanta",
+      "percMax": 3.1,
+      "comprato_pct": 2.0,
+      "prezzo_350": 17.04,
+      "prezzo_500": 15.5,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "7008": {
+      "nome": "GIMENEZ Santiago",
+      "squadra": "Milan",
+      "percMax": 5.4,
+      "comprato_pct": 2.0,
+      "prezzo_350": 36.15,
+      "prezzo_500": 27.01,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "7162": {
+      "nome": "GIOVANE Santana do Nascimento",
+      "squadra": "Napoli",
+      "percMax": 3.36,
+      "comprato_pct": 2.0,
+      "prezzo_350": 13.74,
+      "prezzo_500": 16.79,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "6631": {
+      "nome": "GHILARDI Daniele",
+      "squadra": "Roma",
+      "percMax": 2.06,
+      "comprato_pct": 1.9,
+      "prezzo_350": 11.96,
+      "prezzo_500": 10.3,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "6246": {
+      "nome": "LIPANI Luca",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 1.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "487": {
+      "nome": "DE SILVESTRI Lorenzo",
+      "squadra": "Bologna",
+      "percMax": null,
+      "comprato_pct": 1.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.9
+    },
+    "5298": {
+      "nome": "POBEGA Tommaso",
+      "squadra": "Bologna",
+      "percMax": 2.41,
+      "comprato_pct": 1.8,
+      "prezzo_350": 15.26,
+      "prezzo_500": 12.07,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "5010": {
+      "nome": "ISMAJLI Ardian",
+      "squadra": "Torino",
+      "percMax": 2.68,
+      "comprato_pct": 1.8,
+      "prezzo_350": 16.25,
+      "prezzo_500": 13.38,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7410": {
+      "nome": "VIERY Viery",
+      "squadra": "Fiorentina",
+      "percMax": null,
+      "comprato_pct": 1.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7536": {
+      "nome": "DIALLO THIAO Ousmane",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 1.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "6206": {
+      "nome": "FABBIAN Giovanni",
+      "squadra": "Fiorentina",
+      "percMax": 3.43,
+      "comprato_pct": 1.8,
+      "prezzo_350": 19.52,
+      "prezzo_500": 17.15,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7249": {
+      "nome": "BUKSA Adam",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 1.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "252": {
+      "nome": "BIRAGHI Cristiano",
+      "squadra": "Torino",
+      "percMax": 1.25,
+      "comprato_pct": 1.8,
+      "prezzo_350": 3.93,
+      "prezzo_500": 6.24,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7346": {
+      "nome": "RATERINK Othniël",
+      "squadra": "Estero",
+      "percMax": null,
+      "comprato_pct": 1.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7471": {
+      "nome": "CORRADO Niccolo",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 1.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "5695": {
+      "nome": "HAPS Ridgeciano",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 1.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "6039": {
+      "nome": "CABAL Juan",
+      "squadra": "Juventus",
+      "percMax": 1.37,
+      "comprato_pct": 1.8,
+      "prezzo_350": 4.8,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "6191": {
+      "nome": "BELAHYANE Reda",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 1.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "7012": {
+      "nome": "PROVSTGAARD Oliver",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 1.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "1871": {
+      "nome": "DEIOLA Alessandro",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 1.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "6149": {
+      "nome": "CARBONI Franco Ezequiel",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 1.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.9
+    },
+    "4867": {
+      "nome": "TURATI Stefano",
+      "squadra": "Sassuolo",
+      "percMax": 2.44,
+      "comprato_pct": 1.7,
+      "prezzo_350": 1.0,
+      "prezzo_500": 12.19,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "5685": {
+      "nome": "KOOPMEINERS Teun",
+      "squadra": "Juventus",
+      "percMax": 4.26,
+      "comprato_pct": 1.7,
+      "prezzo_350": 22.31,
+      "prezzo_500": 21.29,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "4870": {
+      "nome": "ADOPO Ndary",
+      "squadra": "Cagliari",
+      "percMax": 4.65,
+      "comprato_pct": 1.7,
+      "prezzo_350": 16.29,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "2593": {
+      "nome": "PAYERO Martin",
+      "squadra": "Estero",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.85
+    },
+    "4947": {
+      "nome": "BRESCIANINI Marco",
+      "squadra": "Fiorentina",
+      "percMax": 4.01,
+      "comprato_pct": 1.7,
+      "prezzo_350": 15.03,
+      "prezzo_500": 20.05,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "5307": {
+      "nome": "VALENTI Lautaro",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 1.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7120": {
+      "nome": "LANG Noa",
+      "squadra": "Napoli",
+      "percMax": null,
+      "comprato_pct": 1.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "6415": {
+      "nome": "PALMISANI Lorenzo",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 1.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "4436": {
+      "nome": "CAMBIAGHI Nicolo",
+      "squadra": "Bologna",
+      "percMax": 4.47,
+      "comprato_pct": 1.7,
+      "prezzo_350": 23.51,
+      "prezzo_500": 22.36,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "5301": {
+      "nome": "LUIS HENRIQUE de Lima",
+      "squadra": "Inter",
+      "percMax": 3.74,
+      "comprato_pct": 1.7,
+      "prezzo_350": 17.87,
+      "prezzo_500": 18.68,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6015": {
+      "nome": "BERISHA Medon",
+      "squadra": "Lecce",
+      "percMax": 2.32,
+      "comprato_pct": 1.7,
+      "prezzo_350": 13.77,
+      "prezzo_500": 11.58,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7347": {
+      "nome": "BOWIE Kieron",
+      "squadra": "Sassuolo",
+      "percMax": 2.81,
+      "comprato_pct": 1.6,
+      "prezzo_350": null,
+      "prezzo_500": 14.07,
+      "quotazione": 16.0,
+      "match_score": 0.95
+    },
+    "2765": {
+      "nome": "ODGAARD Jens",
+      "squadra": "Bologna",
+      "percMax": 4.03,
+      "comprato_pct": 1.6,
+      "prezzo_350": 18.13,
+      "prezzo_500": 20.14,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "5036": {
+      "nome": "CAQUERET Maxence",
+      "squadra": "Como",
+      "percMax": 4.34,
+      "comprato_pct": 1.6,
+      "prezzo_350": 20.08,
+      "prezzo_500": 21.72,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "5603": {
+      "nome": "PONGRACIC Marin",
+      "squadra": "Fiorentina",
+      "percMax": 2.42,
+      "comprato_pct": 1.6,
+      "prezzo_350": 14.25,
+      "prezzo_500": 12.09,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7157": {
+      "nome": "IANNONI Edoardo",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 1.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "7129": {
+      "nome": "RODRIGUEZ Jesús",
+      "squadra": "Como",
+      "percMax": 4.12,
+      "comprato_pct": 1.6,
+      "prezzo_350": 18.82,
+      "prezzo_500": 20.58,
+      "quotazione": 21.0,
+      "match_score": 0.85
+    },
+    "4686": {
+      "nome": "FOFANA Youssouf",
+      "squadra": "Milan",
+      "percMax": 3.08,
+      "comprato_pct": 1.6,
+      "prezzo_350": 19.89,
+      "prezzo_500": 15.41,
+      "quotazione": 10.0,
+      "match_score": 0.9
+    },
+    "6916": {
+      "nome": "AHANOR Honest",
+      "squadra": "Atalanta",
+      "percMax": 0.97,
+      "comprato_pct": 1.6,
+      "prezzo_350": 1.54,
+      "prezzo_500": 4.84,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6252": {
+      "nome": "FOLORUNSHO Michael",
+      "squadra": "Napoli",
+      "percMax": 2.68,
+      "comprato_pct": 1.6,
+      "prezzo_350": 15.5,
+      "prezzo_500": 13.41,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7048": {
+      "nome": "DE MARZI GIORGIO Giorgio",
+      "squadra": "Roma",
+      "percMax": null,
+      "comprato_pct": 1.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.85
+    },
+    "7252": {
+      "nome": "STULIC Nikola",
+      "squadra": "Lecce",
+      "percMax": 3.83,
+      "comprato_pct": 1.6,
+      "prezzo_350": null,
+      "prezzo_500": 19.17,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "4817": {
+      "nome": "PEDRAZA Alfonso Sag",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 1.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "4263": {
+      "nome": "KABASELE Christian",
+      "squadra": "Udinese",
+      "percMax": 3.2,
+      "comprato_pct": 1.6,
+      "prezzo_350": 19.29,
+      "prezzo_500": 16.01,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "4845": {
+      "nome": "CORREIA Thierry Rendall",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 1.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "5813": {
+      "nome": "MIRETTI Fabio",
+      "squadra": "Juventus",
+      "percMax": 3.35,
+      "comprato_pct": 1.6,
+      "prezzo_350": 13.05,
+      "prezzo_500": 16.73,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7326": {
+      "nome": "HELLAND Eivind",
+      "squadra": "Bologna",
+      "percMax": null,
+      "comprato_pct": 1.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "543": {
+      "nome": "PADELLI Daniele",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 1.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7332": {
+      "nome": "BIJLOW Justin",
+      "squadra": "Genoa",
+      "percMax": 2.4,
+      "comprato_pct": 1.5,
+      "prezzo_350": 14.9,
+      "prezzo_500": 11.98,
+      "quotazione": 11.0,
+      "match_score": 0.95
+    },
+    "6243": {
+      "nome": "BORRELLI Gennaro",
+      "squadra": "Cagliari",
+      "percMax": 4.72,
+      "comprato_pct": 1.5,
+      "prezzo_350": 16.51,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7068": {
+      "nome": "VITIK Martin",
+      "squadra": "Bologna",
+      "percMax": 2.03,
+      "comprato_pct": 1.5,
+      "prezzo_350": 11.95,
+      "prezzo_500": 10.15,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "6556": {
+      "nome": "NOSLIN Tijjani",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 1.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "5840": {
+      "nome": "OLIVERA Mathías",
+      "squadra": "Napoli",
+      "percMax": 2.58,
+      "comprato_pct": 1.5,
+      "prezzo_350": 14.04,
+      "prezzo_500": 12.89,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7158": {
+      "nome": "MORO Luca",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 1.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.9
+    },
+    "7554": {
+      "nome": "ROMERO José David",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 1.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "7341": {
+      "nome": "AMORIM Alex",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 1.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "6424": {
+      "nome": "PRATI Matteo",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 1.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7547": {
+      "nome": "KEVIN CARLOS Omoruyi Benjamin",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 1.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 15.0,
+      "match_score": 0.95
+    },
+    "5998": {
+      "nome": "ZERBIN Alessio",
+      "squadra": "Frosinone",
+      "percMax": 3.75,
+      "comprato_pct": 1.4,
+      "prezzo_350": 13.11,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "6530": {
+      "nome": "GHEDJEMIS Fares",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "7198": {
+      "nome": "PIOTROWSKI Jakub",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6593": {
+      "nome": "AKINSANMIRO Ebenezer",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "383": {
+      "nome": "PETAGNA Andrea",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "5872": {
+      "nome": "HELGASON Thorir",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "5457": {
+      "nome": "MALEH Youssef",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "7131": {
+      "nome": "FLORIANI MUSSOLINI Romano",
+      "squadra": "Lazio",
+      "percMax": 0.4,
+      "comprato_pct": 1.3,
+      "prezzo_350": 1.41,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "4260": {
+      "nome": "WINKS Harry",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "6204": {
+      "nome": "KVERNADZE Giorgi",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "333": {
+      "nome": "CATALDI Danilo",
+      "squadra": "Lazio",
+      "percMax": 3.25,
+      "comprato_pct": 1.3,
+      "prezzo_350": 18.12,
+      "prezzo_500": 16.25,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7272": {
+      "nome": "GUEYE Idrissa",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7138": {
+      "nome": "ORDONEZ Christian",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 1.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "2263": {
+      "nome": "LAZZARI Manuel",
+      "squadra": "Lazio",
+      "percMax": 1.18,
+      "comprato_pct": 1.3,
+      "prezzo_350": 2.32,
+      "prezzo_500": 5.88,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "5498": {
+      "nome": "CASALE Nicolò",
+      "squadra": "Bologna",
+      "percMax": 0.62,
+      "comprato_pct": 1.3,
+      "prezzo_350": 2.17,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "2531": {
+      "nome": "LUKAKU Romelu",
+      "squadra": "Estero",
+      "percMax": 6.03,
+      "comprato_pct": 1.2,
+      "prezzo_350": 31.48,
+      "prezzo_500": 30.17,
+      "quotazione": 19.0,
+      "match_score": 0.95
+    },
+    "4374": {
+      "nome": "WALUKIEWICZ Sebastian",
+      "squadra": "Sassuolo",
+      "percMax": 4.9,
+      "comprato_pct": 1.2,
+      "prezzo_350": 17.15,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "530": {
+      "nome": "PELLEGRINI Lorenzo",
+      "squadra": "Roma",
+      "percMax": 3.56,
+      "comprato_pct": 1.2,
+      "prezzo_350": 22.03,
+      "prezzo_500": 17.82,
+      "quotazione": 20.0,
+      "match_score": 0.85
+    },
+    "787": {
+      "nome": "DJIMSITI Berat",
+      "squadra": "Estero",
+      "percMax": 3.07,
+      "comprato_pct": 1.2,
+      "prezzo_350": 17.55,
+      "prezzo_500": 15.33,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7128": {
+      "nome": "KUHN Nicolas",
+      "squadra": "Como",
+      "percMax": 5.4,
+      "comprato_pct": 1.2,
+      "prezzo_350": 18.91,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "6890": {
+      "nome": "MORENO Matías",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 1.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "5481": {
+      "nome": "MAZZOCCHI Pasquale",
+      "squadra": "Napoli",
+      "percMax": null,
+      "comprato_pct": 1.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "7545": {
+      "nome": "VISMARA Paolo",
+      "squadra": "Atalanta",
+      "percMax": null,
+      "comprato_pct": 1.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7469": {
+      "nome": "BRACAGLIA Gabriele",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 1.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "2728": {
+      "nome": "PELLEGRINI Luca",
+      "squadra": "Lazio",
+      "percMax": 1.33,
+      "comprato_pct": 1.2,
+      "prezzo_350": 6.93,
+      "prezzo_500": 6.64,
+      "quotazione": 5.0,
+      "match_score": 0.85
+    },
+    "7338": {
+      "nome": "ALBARRACIN Agustin",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 1.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "5735": {
+      "nome": "VOLPATO Cristian",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 1.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "7463": {
+      "nome": "DESPLANCHES Sebastiano",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 1.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "5500": {
+      "nome": "CANCELLIERI Matteo",
+      "squadra": "Lazio",
+      "percMax": 5.34,
+      "comprato_pct": 1.1,
+      "prezzo_350": 17.99,
+      "prezzo_500": 26.71,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "5131": {
+      "nome": "GILMOUR Billy",
+      "squadra": "Napoli",
+      "percMax": null,
+      "comprato_pct": 1.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7526": {
+      "nome": "COMERT Eray Ervin",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 1.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "6783": {
+      "nome": "UNAI GOMEZ Etxebarria",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "7208": {
+      "nome": "MILLER Lennon",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "4375": {
+      "nome": "TERZIC Aleksa",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "6218": {
+      "nome": "LOVRIC Sandi",
+      "squadra": "Udinese",
+      "percMax": 2.5,
+      "comprato_pct": 1.0,
+      "prezzo_350": 11.36,
+      "prezzo_500": 12.49,
+      "quotazione": 6.0,
+      "match_score": 0.667
+    },
+    "7209": {
+      "nome": "SORENSEN Oliver",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7467": {
+      "nome": "CALVANI Gabriele",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "6889": {
+      "nome": "ANJORIN Tino",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7276": {
+      "nome": "CREMASCHI Benjamín",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "6020": {
+      "nome": "ELLERTSSON Mikael",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "5449": {
+      "nome": "PARISI Fabiano",
+      "squadra": "Fiorentina",
+      "percMax": 2.61,
+      "comprato_pct": 1.0,
+      "prezzo_350": 13.89,
+      "prezzo_500": 13.07,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7255": {
+      "nome": "BRITSCHGI Sascha",
+      "squadra": "Parma",
+      "percMax": 0.2,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": 1.02,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "6212": {
+      "nome": "ZARRAGA Oier",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "3": {
+      "nome": "RADUNOVIC Boris",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 1.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6629": {
+      "nome": "DELE-BASHIRU Fisayo",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7349": {
+      "nome": "KULENOVIC Sandro",
+      "squadra": "Torino",
+      "percMax": 3.25,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": 16.25,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "6024": {
+      "nome": "SULEMANA Ibrahim",
+      "squadra": "Atalanta",
+      "percMax": 0.96,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": 4.82,
+      "quotazione": 7.0,
+      "match_score": 0.9
+    },
+    "5994": {
+      "nome": "EBOSSE Enzo",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7356": {
+      "nome": "MLACIC Branimir",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "6549": {
+      "nome": "PIEROTTI Santiago",
+      "squadra": "Lecce",
+      "percMax": 3.53,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": 17.65,
+      "quotazione": 12.0,
+      "match_score": 0.95
+    },
+    "6895": {
+      "nome": "DOMINGUEZ Benjamín",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "5880": {
+      "nome": "CIURRIA Patrick",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "5946": {
+      "nome": "SOW Djibril",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "2115": {
+      "nome": "DELLI CARRI Filippo",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "5295": {
+      "nome": "MUSAH Yunus",
+      "squadra": "Milan",
+      "percMax": 3.3,
+      "comprato_pct": 0.9,
+      "prezzo_350": 11.56,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "6809": {
+      "nome": "MARIANUCCI Luca",
+      "squadra": "Napoli",
+      "percMax": 0.59,
+      "comprato_pct": 0.9,
+      "prezzo_350": 4.42,
+      "prezzo_500": 2.93,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "6977": {
+      "nome": "OTOA Sebastian",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "418": {
+      "nome": "GOLDANIGA Edoardo",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 0.9,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "6980": {
+      "nome": "NUREDINI Joi",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 0.0,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.621
+    },
+    "6245": {
+      "nome": "VOGLIACCO Alessandro",
+      "squadra": "Serie Minori",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "5918": {
+      "nome": "SULEMANA Kamaldeen",
+      "squadra": "Atalanta",
+      "percMax": 3.42,
+      "comprato_pct": 0.8,
+      "prezzo_350": 16.87,
+      "prezzo_500": 17.11,
+      "quotazione": 12.0,
+      "match_score": 0.9
+    },
+    "7318": {
+      "nome": "GANDELMAN Omri",
+      "squadra": "Lecce",
+      "percMax": 2.98,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": 14.88,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "327": {
+      "nome": "PATRIC -",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "4772": {
+      "nome": "ANGELINO Jose",
+      "squadra": "Estero",
+      "percMax": 3.67,
+      "comprato_pct": 0.8,
+      "prezzo_350": 13.22,
+      "prezzo_500": 18.34,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "6643": {
+      "nome": "DALLINGA Thijs",
+      "squadra": "Estero",
+      "percMax": 2.69,
+      "comprato_pct": 0.8,
+      "prezzo_350": 14.58,
+      "prezzo_500": 13.47,
+      "quotazione": 13.0,
+      "match_score": 0.95
+    },
+    "6170": {
+      "nome": "GINEITIS Gvidas",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7213": {
+      "nome": "FRIGAN Matija",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7036": {
+      "nome": "BAKOLA Darryl",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7528": {
+      "nome": "AMONDARAIN Mikel Jesus",
+      "squadra": "Bologna",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7561": {
+      "nome": "LONTANI Simone",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7418": {
+      "nome": "CHAKVETADZE Giorgi",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "6682": {
+      "nome": "PIZZIGNACCO Semuel",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6650": {
+      "nome": "SHERRI Alen",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 0.8,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6815": {
+      "nome": "FADERA Alieu",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "4485": {
+      "nome": "THIAM Demba",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7525": {
+      "nome": "DIAWARA Sankhoun",
+      "squadra": "Milan",
+      "percMax": null,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "5399": {
+      "nome": "ANTOV Valentin",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "7127": {
+      "nome": "ADDAI Jayden",
+      "squadra": "Como",
+      "percMax": 2.93,
+      "comprato_pct": 0.7,
+      "prezzo_350": 11.95,
+      "prezzo_500": 14.65,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "6225": {
+      "nome": "EL AZZOUZI Oussama",
+      "squadra": "Bologna",
+      "percMax": null,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.85
+    },
+    "4387": {
+      "nome": "AMORAN Peter",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.7
+    },
+    "7329": {
+      "nome": "OBRADOR Rafa",
+      "squadra": "Sassuolo",
+      "percMax": 2.61,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": 13.07,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "526": {
+      "nome": "DUNCAN Alfred",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "5757": {
+      "nome": "CITTADINI Giorgio",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7202": {
+      "nome": "NDIAYE Abdoulaye",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "5725": {
+      "nome": "KONE Ben Lhassine",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.7,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.9
+    },
+    "7211": {
+      "nome": "ATHEKAME Zachary",
+      "squadra": "Estero",
+      "percMax": 4.5,
+      "comprato_pct": 0.6,
+      "prezzo_350": 15.76,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "6994": {
+      "nome": "PEREZ Kike",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 0.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.9
+    },
+    "6054": {
+      "nome": "MORO Nikola",
+      "squadra": "Bologna",
+      "percMax": null,
+      "comprato_pct": 0.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.9
+    },
+    "7322": {
+      "nome": "NGOM Oumar",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 0.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "6506": {
+      "nome": "FINI Seydou",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "7407": {
+      "nome": "CUENCA CEJUDO Andrés",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 0.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "2857": {
+      "nome": "TRAORE Hamed Junior",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 0.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 10.0,
+      "match_score": 0.95
+    },
+    "6984": {
+      "nome": "ONDREJKA Jacob",
+      "squadra": "Estero",
+      "percMax": 4.63,
+      "comprato_pct": 0.6,
+      "prezzo_350": 16.21,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7550": {
+      "nome": "GRILLITSCH Florian",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "791": {
+      "nome": "SABELLI Stefano",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 0.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "5707": {
+      "nome": "PIANA Edoardo",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 0.6,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "5427": {
+      "nome": "GUTIERREZ Miguel",
+      "squadra": "Estero",
+      "percMax": 3.35,
+      "comprato_pct": 0.5,
+      "prezzo_350": 17.13,
+      "prezzo_500": 16.73,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7240": {
+      "nome": "SIEBERT Jamil",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 0.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "7125": {
+      "nome": "IDRISSI Riyad",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 0.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7474": {
+      "nome": "KOUTSOUPIAS Ilias",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "6681": {
+      "nome": "SAGRADO Richie",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 0.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7412": {
+      "nome": "MILLA Luis Manzanares",
+      "squadra": "Como",
+      "percMax": null,
+      "comprato_pct": 0.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "7531": {
+      "nome": "POZZI Alessio",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 0.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6671": {
+      "nome": "GRANDI Matteo",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 0.5,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6207": {
+      "nome": "ALMQVIST Pontus",
+      "squadra": "Parma",
+      "percMax": null,
+      "comprato_pct": 0.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7473": {
+      "nome": "CICHELLA Matteo",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "6598": {
+      "nome": "MUTANDWA Kingstone",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 0.4,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 7.0,
+      "match_score": 0.95
+    },
+    "7551": {
+      "nome": "SCHMID Romano",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 14.0,
+      "match_score": 0.95
+    },
+    "7538": {
+      "nome": "HALHAL Redouane",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "6523": {
+      "nome": "SAMOOJA Jasper",
+      "squadra": "Estero",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7533": {
+      "nome": "HAPPONEN Ukko",
+      "squadra": "Bologna",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "219": {
+      "nome": "SOMMARIVA Daniele",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7532": {
+      "nome": "KOFLER Raphael",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.95
+    },
+    "7468": {
+      "nome": "GELLI Jacopo",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.9
+    },
+    "7478": {
+      "nome": "FRANJIć Bartol",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "7475": {
+      "nome": "STRAJNAR Aljaž",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "2401": {
+      "nome": "FRUCHTL Christian",
+      "squadra": "Estero",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7453": {
+      "nome": "HAVEL Elias",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6005": {
+      "nome": "ILKHAN Emirhan",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "4929": {
+      "nome": "CIOCCI Giuseppe",
+      "squadra": "Serie Minori",
+      "percMax": null,
+      "comprato_pct": 0.3,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6673": {
+      "nome": "SVERKO Marin",
+      "squadra": "Venezia",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7548": {
+      "nome": "AURELIO Giuseppe",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7483": {
+      "nome": "ALHASSANE Abdel Rahim Bonkano",
+      "squadra": "Bologna",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "7534": {
+      "nome": "RENZETTI Davide",
+      "squadra": "Lazio",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6569": {
+      "nome": "STOLZ Franz",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6640": {
+      "nome": "FELICI Mattia",
+      "squadra": "Cagliari",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6827": {
+      "nome": "NJIE Alieu",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "7312": {
+      "nome": "ARIZALA Juan",
+      "squadra": "Udinese",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "6659": {
+      "nome": "LUCCHESI Lorenzo",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "2127": {
+      "nome": "SATALINO Giacomo",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7363": {
+      "nome": "SIVIERO Lapo",
+      "squadra": "Torino",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "6241": {
+      "nome": "GELLI Francesco",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 6.0,
+      "match_score": 0.9
+    },
+    "7156": {
+      "nome": "PIERAGNOLO Edoardo",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 2.0,
+      "match_score": 0.95
+    },
+    "7557": {
+      "nome": "PENEV Plamen",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 0.2,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7409": {
+      "nome": "MEICHTRY Franz-Ethan",
+      "squadra": "Genoa",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 8.0,
+      "match_score": 0.95
+    },
+    "6219": {
+      "nome": "BOLOCA Daniel",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "6985": {
+      "nome": "CANDE Fali",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 5.0,
+      "match_score": 0.95
+    },
+    "6592": {
+      "nome": "FORSON Omari",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 4.0,
+      "match_score": 0.95
+    },
+    "4518": {
+      "nome": "RUSSO Alessandro",
+      "squadra": "Sassuolo",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7560": {
+      "nome": "PISSERI Matteo",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    },
+    "7546": {
+      "nome": "ROBINSON Jay",
+      "squadra": "Monza",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 9.0,
+      "match_score": 0.95
+    },
+    "6883": {
+      "nome": "JEAN Gaby",
+      "squadra": "Lecce",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 3.0,
+      "match_score": 0.95
+    },
+    "7466": {
+      "nome": "LOLIC Eldin",
+      "squadra": "Frosinone",
+      "percMax": null,
+      "comprato_pct": 0.1,
+      "prezzo_350": null,
+      "prezzo_500": null,
+      "quotazione": 1.0,
+      "match_score": 0.95
+    }
+  }
+}
