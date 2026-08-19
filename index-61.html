@@ -1,0 +1,2473 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fantassist</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-512.png">
+<meta name="theme-color" content="#F7F8F3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700;900&family=Saira:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#F7F8F3; --bg2:#EFF1E8; --card:#FFFFFF; --cardhi:#EAEEE1;
+  --line:#DBE0D2; --chalk:#1E2A20; --dim:#71806E;
+  --fluo:#4C7A3D; --amber:#B87A0A; --red:#C6433D; --cyan:#1E7E8C;
+  --por:#D4A830; --dif:#2E7D32; --cen:#1565C0; --att:#D32F2F;
+}
+/* ── TEMA DARK (toggle) ── */
+html.dark{
+  --bg:#0C1A12; --bg2:#10231A; --card:#16301F; --cardhi:#1C3B27;
+  --line:#2A4A35; --chalk:#EAF4EC; --dim:#9DB8A5;
+  --fluo:#D8F651; --amber:#FFC24B; --red:#FF6B6B; --cyan:#6BD5E1;
+  --por:#D4A830; --dif:#2E7D32; --cen:#1565C0; --att:#D32F2F;
+}
+/* Colori ruoli */
+.role-por{color:var(--por); font-weight:900}
+.role-dif{color:var(--dif); font-weight:900}
+.role-cen{color:var(--cen); font-weight:900}
+.role-att{color:var(--att); font-weight:900}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+body{margin:0; background:var(--bg); color:var(--chalk);
+  font-family:'Saira',system-ui,sans-serif; padding-bottom:76px}
+h1{font-family:'Saira Condensed',sans-serif; letter-spacing:.03em}
+.wrap{max-width:520px; margin:0 auto; padding:0 12px}
+header{position:sticky; top:0; z-index:40; background:var(--bg);
+  border-bottom:1px solid var(--line); padding:14px 0 10px}
+header .row{display:flex; justify-content:space-between; align-items:center}
+h1{margin:0; font-size:26px; font-weight:900}
+h1 .fluo{color:var(--fluo)}
+.ver{font-size:11px; font-weight:900; color:var(--bg); background:var(--fluo);
+  border-radius:6px; padding:1px 5px; margin-left:7px; vertical-align:super; letter-spacing:0}
+.sub{font-size:12px; color:var(--dim); margin-top:2px}
+.btn{background:var(--card); color:var(--fluo); border:1px solid var(--line);
+  border-radius:10px; padding:8px 12px; font:700 12px 'Saira'; cursor:pointer;
+  transition:background .15s, border-color .15s}
+.btn:active{background:var(--cardhi)}
+.btn.primary{background:var(--fluo); color:var(--bg); border-color:var(--fluo); font-size:15px; padding:12px 22px}
+.btn:disabled{opacity:.5}
+nav{position:fixed; bottom:0; left:0; right:0; z-index:40;
+  background:var(--bg2); border-top:1px solid var(--line)}
+nav .wrap{display:flex; padding:0}
+nav button{flex:1; background:none; border:none; color:var(--dim);
+  padding:11px 0 max(11px, env(safe-area-inset-bottom)); cursor:pointer; font-family:'Saira';
+  position:relative; transition:color .15s}
+nav button.on{color:var(--fluo)}
+.menu{display:flex; flex-direction:column; gap:10px; margin-top:14px}
+.menurow{display:flex; align-items:center; gap:13px; background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:15px 14px; cursor:pointer}
+.menurow:active{background:var(--cardhi)}
+.menurow .mic{flex-shrink:0; width:24px; height:24px; color:var(--fluo); display:flex; align-items:center}
+.menurow .mic svg{width:24px; height:24px; display:block}
+.menurow .mtx{flex:1; display:flex; flex-direction:column; gap:2px}
+.menurow .mtx b{font-size:16px; color:var(--chalk); font-weight:800}
+.menurow .mtx i{font-style:normal; font-size:12.5px; color:var(--dim); line-height:1.35}
+.menurow .mch{color:var(--dim); font-size:22px; flex-shrink:0}
+.backlink{display:inline-flex; align-items:center; gap:5px; color:var(--fluo); font-weight:800;
+  font-size:13.5px; cursor:pointer; margin-bottom:12px}
+.ch-input{width:100%; box-sizing:border-box; background:var(--card); border:1px solid var(--line);
+  border-radius:12px; padding:13px 14px; color:var(--chalk); font-size:16px; font-family:inherit; margin:6px 0 14px}
+.ch-input:focus{outline:none; border-color:var(--fluo)}
+.ch-input::placeholder{color:var(--dim)}
+.ch-hint,.ch-none{color:var(--dim); font-size:13.5px; line-height:1.5}
+.ch-none{margin-top:8px; font-style:italic}
+.ch-player{display:flex; align-items:center; gap:9px; margin-bottom:6px}
+.ch-role{font-weight:900; font-size:13px; width:16px; flex-shrink:0}
+.ch-player b{font-size:16px; color:var(--chalk)}
+.ch-team{color:var(--dim); font-size:12.5px}
+.ch-hit{display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid var(--line)}
+.ch-hit.mine{opacity:.85}
+.ch-lega{flex:1; font-weight:700; color:var(--chalk); font-size:14px}
+.ch-squadra{color:var(--dim); font-size:13px}
+.ch-wa{flex-shrink:0; background:#25925a; color:#fff; border:none; border-radius:9px;
+  width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer}
+.ch-wa:active{background:#1d7548}
+.lst-meta{color:var(--dim); font-size:13px; margin-top:6px}
+.lst-ruoli{display:flex; gap:14px; margin-top:10px; font-weight:800; font-size:14px}
+.lst-ok{background:rgba(76,122,61,.12); border:1px solid var(--fluo); color:var(--chalk);
+  border-radius:10px; padding:11px 13px; font-size:13.5px; margin-bottom:12px}
+.lst-err{background:rgba(255,107,107,.12); border:1px solid var(--red); color:var(--chalk);
+  border-radius:10px; padding:11px 13px; font-size:13.5px; margin-bottom:12px}
+/* --- Appunti per l'asta --- */
+.asta-top{display:flex; align-items:center; gap:14px; margin:6px 0 10px}
+.asta-big{display:flex; flex-direction:column; line-height:1}
+.asta-big .v{font-size:34px; font-weight:900; color:var(--fluo)}
+.asta-big .l{font-size:11px; color:var(--dim); margin-top:3px}
+.asta-slots{display:flex; gap:7px; margin-left:auto}
+.asta-slot{display:flex; flex-direction:column; align-items:center; border:1.5px solid; border-radius:9px;
+  padding:5px 9px; min-width:40px}
+.asta-slot .r{font-weight:900; font-size:13px}
+.asta-slot .n{font-size:12px; color:var(--chalk); margin-top:1px}
+.asta-slot.full{background:rgba(76,122,61,.10)}
+.asta-bar{height:6px; background:var(--card); border-radius:4px; overflow:hidden; margin-bottom:4px}
+.asta-fill{height:100%; background:var(--fluo); transition:width .2s}
+.asta-sub{font-size:12px; color:var(--dim); margin-bottom:10px}
+.asta-cerca{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:5px; margin-bottom:14px}
+.asta-hit{display:flex; align-items:center; gap:9px; padding:9px 8px; cursor:pointer; border-radius:8px}
+.asta-hit:active{background:var(--cardhi)}
+.asta-hit b{font-size:14.5px; color:var(--chalk)}
+.asta-plus{margin-left:auto; color:var(--fluo); font-weight:900; font-size:20px}
+.asta-rgroup{display:flex; align-items:center; justify-content:space-between; margin:16px 2px 8px;
+  font-family:inherit; font-weight:900; font-size:15px}
+.asta-rcount{font-size:12.5px; color:var(--dim); font-weight:700}
+.asta-card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:11px 12px; margin-bottom:8px}
+.asta-card.preso{opacity:.72; border-color:var(--fluo)}
+.asta-row1{display:flex; align-items:center; gap:8px}
+.asta-row1 b{font-size:15.5px; color:var(--chalk)}
+.asta-team{font-size:12px; color:var(--dim)}
+.asta-x{margin-left:auto; background:none; border:none; color:var(--dim); font-size:22px; cursor:pointer; line-height:1; padding:0 2px}
+.asta-x:active{color:var(--red)}
+.asta-row2{display:flex; align-items:center; gap:7px; margin-top:8px; flex-wrap:wrap}
+.asta-tag{font-size:11.5px; font-weight:700; color:var(--chalk); background:var(--bg2); border:1px solid var(--line);
+  border-radius:7px; padding:3px 8px}
+.asta-tag.off{color:var(--dim)}
+.asta-tit-wrap{display:flex; gap:4px; margin-left:auto}
+.asta-tit{width:26px; height:26px; border:1px solid var(--line); background:var(--bg2); color:var(--dim);
+  border-radius:7px; font-weight:900; font-size:12px; cursor:pointer}
+.asta-tit.on{background:var(--fluo); color:var(--bg); border-color:var(--fluo)}
+.asta-row3{display:flex; align-items:center; gap:8px; margin-top:9px}
+.asta-quota{font-size:12px; color:var(--dim); display:flex; align-items:center; gap:6px}
+.asta-quota input{width:56px; background:var(--bg2); border:1px solid var(--line); border-radius:7px;
+  padding:6px 8px; color:var(--chalk); font-size:14px; font-family:inherit; text-align:center}
+.asta-buy{margin-left:auto; display:flex; gap:6px}
+.asta-prezzo{width:70px; background:var(--bg2); border:1px solid var(--line); border-radius:7px;
+  padding:6px 8px; color:var(--chalk); font-size:14px; font-family:inherit; text-align:center}
+.asta-preso{background:var(--fluo); color:var(--bg); border:none; border-radius:7px; padding:6px 12px;
+  font-weight:800; font-size:13px; cursor:pointer}
+.asta-row3.done{color:var(--chalk); font-size:13.5px}
+.asta-row3.done b{color:var(--fluo)}
+.asta-undo{margin-left:auto; background:none; border:none; color:var(--dim); font-size:12px; text-decoration:underline; cursor:pointer}
+nav button.on::before{content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:30px; height:3px; border-radius:0 0 3px 3px; background:var(--fluo)}
+nav .ico{height:34px; display:flex; align-items:center; justify-content:center}
+nav .ico svg{width:32px; height:32px}
+nav .lab{font-size:13px; font-weight:700; margin-top:4px; white-space:nowrap}
+.rolehead{font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+  font-weight:800; padding:12px 4px 6px}
+.card{background:var(--card); border-radius:14px; margin-bottom:8px; overflow:hidden}
+.prow{display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer; transition:background .12s}
+.prow:active{background:var(--cardhi)}
+.rball{width:32px; height:32px; border-radius:50%; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:12px; flex-shrink:0; border:1.5px solid}
+.pmain{flex:1; min-width:0}
+.pname{font-weight:700; font-size:15px; display:flex; align-items:baseline; gap:6px; min-width:0}
+.pname .nametext{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+.pteam{font-size:12px; color:var(--dim); font-weight:400; flex-shrink:0}
+.chip{font-size:10px; font-weight:800; border-radius:99px; padding:1px 7px; border:1px solid; flex-shrink:0}
+.chip.rig{color:var(--amber); border-color:var(--amber)}
+.chip.out{color:var(--red); border-color:var(--red)}
+.bar{height:5px; border-radius:99px; background:var(--line); margin-top:5px; position:relative}
+.bar i{position:absolute; left:0; top:0; bottom:0; border-radius:99px; transition:width .35s ease}
+.pnum{text-align:right; flex-shrink:0}
+.pnum .v{font-size:18px; font-weight:900; font-variant-numeric:tabular-nums}
+.pnum .l{font-size:9px; color:var(--dim)}
+.pedit{padding:4px 14px 14px; font-size:13px; color:var(--dim); border-top:1px solid var(--line)}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:2px 14px; margin:8px 0; font-variant-numeric:tabular-nums}
+.grid2 b{color:var(--chalk)}
+input[type=range]{width:100%; accent-color:var(--fluo); height:26px}
+.togglerow{display:flex; gap:8px; margin-top:6px; flex-wrap:wrap}
+.tog{padding:7px 12px; border-radius:9px; font:700 12px 'Saira'; cursor:pointer;
+  background:var(--bg2); color:var(--dim); border:1px solid var(--line)}
+.tog.on{color:var(--bg); border-color:transparent; background:var(--fluo)}
+.tog.on.red{background:var(--red)} .tog.on.amber{background:var(--amber)}
+.tog.del{color:var(--red); border-color:var(--red); margin-left:auto}
+.switch{position:relative; display:inline-block; width:44px; height:26px; flex-shrink:0}
+.switch input{opacity:0; width:0; height:0}
+.switch span{position:absolute; cursor:pointer; inset:0; background:var(--line);
+  transition:.2s; border-radius:26px}
+.switch span:before{position:absolute; content:""; height:20px; width:20px; left:3px; bottom:3px;
+  background:var(--card); transition:.2s; border-radius:50%}
+.switch input:checked + span{background:var(--fluo)}
+.switch input:checked + span:before{transform:translateX(18px)}
+.search{width:100%; background:var(--bg2); border:1px solid var(--line); color:var(--chalk);
+  border-radius:12px; padding:12px 14px; font:600 15px 'Saira'; margin:10px 0 6px}
+.search:focus{outline:2px solid var(--fluo)}
+.hint{font-size:13px; color:var(--dim); padding:4px}
+.srow{display:flex; align-items:center; gap:10px; padding:9px 12px}
+.addbtn{background:var(--fluo); color:var(--bg); border:none; width:34px; height:34px;
+  border-radius:10px; font-size:20px; font-weight:900; cursor:pointer; flex-shrink:0}
+.addbtn:disabled{background:var(--line); color:var(--dim)}
+.counter{display:flex; gap:6px; margin:8px 0; font-size:13px; font-variant-numeric:tabular-nums}
+.counter span{background:var(--card); border-radius:8px; padding:4px 9px; color:var(--dim)}
+.counter span.full{color:var(--fluo)}
+.match{display:flex; align-items:center; padding:12px 16px}
+.match .t{flex:1; font-weight:700}
+.match .t.right{text-align:right}
+.match .d{font-size:12px; font-variant-numeric:tabular-nums; margin:0 6px}
+.match .vs{font-size:11px; color:var(--dim); padding:0 6px}
+.pos{color:var(--fluo)} .neg{color:var(--red)}
+.note{background:var(--bg2); border-radius:12px; padding:12px 14px; font-size:13px;
+  color:var(--dim); line-height:1.5; margin-top:10px}
+.modscroll{display:flex; gap:8px; overflow-x:auto; padding:12px 2px; scrollbar-width:none}
+.modscroll::-webkit-scrollbar{display:none}
+.modbtn{flex-shrink:0; border-radius:12px; padding:8px 13px; text-align:center; cursor:pointer;
+  background:var(--card); color:var(--chalk); border:1px solid var(--line); font-family:'Saira'}
+.modbtn.on{background:var(--fluo); color:var(--bg); border-color:var(--fluo)}
+.modbtn .n{font-weight:900; font-size:15px}
+.modbtn .e{font-size:11px; font-variant-numeric:tabular-nums; opacity:.75}
+.bighead{display:flex; justify-content:space-between; align-items:baseline; padding:12px 14px 0}
+.bighead .l{font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim)}
+.bighead .v{font-size:24px; font-weight:900; font-variant-numeric:tabular-nums}
+.mcgrid{display:grid; grid-template-columns:1fr 1fr 1fr; text-align:center; padding:10px 0 4px;
+  font-variant-numeric:tabular-nums}
+.mcgrid .v{font-size:18px; font-weight:900}
+.mcgrid .l{font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim)}
+.thres{border-top:1px solid var(--line); margin:10px 14px 0; padding:12px 0 14px}
+.thres .row{display:flex; justify-content:space-between; align-items:baseline; font-size:14px; color:var(--dim)}
+.thres .p{font-size:24px; font-weight:900; font-variant-numeric:tabular-nums}
+.center{text-align:center; padding:22px 16px}
+.center .big{font-size:34px}
+.empty{padding:40px 20px; text-align:center; color:var(--dim); line-height:1.6}
+.ill{width:112px; height:112px; display:block; margin:0 auto 14px; opacity:.95}
+.sheet-bg{position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:50;
+  display:flex; align-items:flex-end; justify-content:center}
+.sheet{background:var(--bg2); width:100%; max-width:520px; border-radius:18px 18px 0 0;
+  padding:20px; max-height:80vh; overflow-y:auto; font-size:14px; line-height:1.55; color:var(--dim)}
+.sheet h3{color:var(--chalk); margin:0 0 10px; font-size:18px}
+.sheet b{color:var(--fluo)}
+.updated{font-size:10px; color:var(--dim); text-align:center; padding:6px 0 2px}
+.importbar{display:flex; align-items:center; gap:10px; padding:8px 3px 4px; flex-wrap:wrap}
+.importbar .myteam{font-size:12px; color:var(--dim)}
+.importbar .myteam b{color:var(--fluo)}
+.leaguebar{display:flex; gap:6px; overflow-x:auto; padding:10px 3px 2px; scrollbar-width:none}
+.leaguebar::-webkit-scrollbar{display:none}
+.lchip{flex-shrink:0; background:var(--card); color:var(--chalk); border:1px solid var(--line);
+  border-radius:99px; padding:6px 13px; font:700 12px 'Saira'; cursor:pointer; white-space:nowrap}
+.lchip.on{background:var(--fluo); color:var(--bg); border-color:var(--fluo)}
+.lchip.add{color:var(--fluo)}
+.lchip.del{color:var(--red); border-color:var(--red); font-size:11px; padding:5px 10px}
+.lchip.chg{font-size:10px; padding:3px 8px; color:var(--fluo); border-color:var(--line)}
+.teampick{display:flex; justify-content:space-between; align-items:center; width:100%;
+  background:var(--bg2); color:var(--chalk); border:1px solid var(--line); border-radius:10px;
+  padding:11px 13px; margin-top:6px; font:700 14px 'Saira'; cursor:pointer}
+.teampick:active{background:var(--cardhi)}
+.teampick .tp-n{font-size:11px; color:var(--dim); font-weight:600}
+.oppsel{width:100%; background:var(--card); color:var(--chalk); border:1px solid var(--line);
+  border-radius:12px; padding:12px 14px; font:700 15px 'Saira'; -webkit-appearance:none; appearance:none}
+.vsrow{display:flex; align-items:center; text-align:center}
+.vsside{flex:1; min-width:0}
+.vsname{font-weight:800; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.vstot{font-size:30px; font-weight:900; font-variant-numeric:tabular-nums; margin-top:2px}
+.vsmid{flex:0 0 96px; padding:0 4px}
+.wp{font-size:26px; font-weight:900; font-variant-numeric:tabular-nums; line-height:1}
+.wplab{font-size:9px; text-transform:uppercase; letter-spacing:.14em; color:var(--dim)}
+.vsmod{font-size:10px; color:var(--dim); margin-top:5px}
+.cmpgrid{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px}
+.cmphead{font-size:13px; text-transform:uppercase; letter-spacing:.1em; font-weight:800; color:var(--dim); margin-bottom:6px; line-height:1.3; min-height:2.6em; display:flex; align-items:flex-end}
+.minixi{display:flex; flex-direction:column; gap:3px}
+.mline{display:flex; align-items:center; gap:6px; font-size:14px; padding:1px 0}
+.mrole{font-weight:900; width:15px; flex-shrink:0}
+.mname{flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mval{font-weight:800; font-variant-numeric:tabular-nums; flex-shrink:0}
+.mkhint{font-size:13px; color:var(--dim); padding:2px 4px 8px; line-height:1.4}
+.mkline{display:flex; align-items:center; gap:8px; padding:6px 10px}
+.mkteam{font-size:12px; color:var(--dim); font-weight:400}
+.mkstat{text-align:center; font-weight:800; font-variant-numeric:tabular-nums; font-size:14px; flex-shrink:0; min-width:38px}
+.mkstat .mksub{display:block; font-size:8px; font-weight:600; color:var(--dim); text-transform:uppercase; letter-spacing:.06em}
+.mkdelta{font-weight:900; font-variant-numeric:tabular-nums; font-size:13px; flex-shrink:0; min-width:42px; text-align:right}
+.mktag{font-size:9px; font-weight:800; border:1px solid; border-radius:99px; padding:1px 6px; flex-shrink:0}
+.mkarrow{font-size:11px; color:var(--dim); text-align:center; padding:2px 0}
+svg{display:block}
+</style>
+</head>
+<body>
+<header><div class="wrap row">
+  <div>
+    <h1>FANT<span class="fluo">ASSIST</span><sup class="ver">2.0</sup></h1>
+    <div class="sub" id="subtitle">caricamento dati…</div>
+  </div>
+  <button class="btn" onclick="openMetodo()" style="margin-right:8px">Metodo ƒ(x)</button>
+  <button class="btn" id="themeToggle" onclick="toggleTheme()" title="Cambia tema" style="padding:8px; font-size:20px">🌙</button>
+</div></header>
+
+<main class="wrap" id="main"></main>
+<input type="file" id="leaguefile" accept=".xlsx,.xls" style="display:none" onchange="onLeagueFile(this)">
+<input type="file" id="listonefile" accept=".xlsx,.xls" style="display:none" onchange="onListoneFile(this)">
+
+<nav><div class="wrap">
+  <button data-tab="rosa"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 L4 6 L6.2 10.2 L8 9.2 V21 H16 V9.2 L17.8 10.2 L20 6 L15 3"/><path d="M9 3 a3.2 3.2 0 0 0 6 0"/></svg></div><div class="lab">Rosa</div></button>
+  <button data-tab="giornata"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M8 2.5 V6 M16 2.5 V6 M3 10 H21"/><circle cx="8.5" cy="14.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="14.5" r="1.1" fill="currentColor" stroke="none"/></svg></div><div class="lab">Giornata</div></button>
+  <button data-tab="formazione"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3.5" width="18" height="17" rx="2.5"/><path d="M3 12 H21"/><circle cx="12" cy="12" r="3"/><path d="M9 3.5 V6 H15 V3.5 M9 20.5 V18 H15 V20.5"/></svg></div><div class="lab">Formazione</div></button>
+  <button data-tab="altro"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></div><div class="lab">Altro</div></button>
+</div></nav>
+
+<div id="sheet"></div>
+
+<script>
+"use strict";
+/* ============ FANTASSIST — motore probabilistico ============ */
+const ROLES = ["P","D","C","A"];
+const ROLE_LABEL = {P:"Portieri", D:"Difensori", C:"Centrocampisti", A:"Attaccanti"};
+const ROLE_COLOR = {P:"var(--por)", D:"var(--dif)", C:"var(--cen)", A:"var(--att)"};
+const ROLE_MAX = {P:3, D:8, C:8, A:6};
+/* ============================================================
+   COSTANTI DEL MOTORE — taratura del 17/07/2026
+   Misurate su 10.504 fantavoti reali (Serie A 2025-26, 37 giornate)
+   incrociati con Understat. Vedi METODO.md, Parte 3.
+   ============================================================ */
+
+// Volatilità del fantavoto per ruolo (σ). MISURATE.
+const SIGMA = {P:1.55, D:1.07, C:1.33, A:1.90};
+
+// Fantamedia media della popolazione per ruolo. MISURATI.
+const PRIOR = {P:5.02, D:5.99, C:6.20, A:6.53};
+
+// Forza dello shrinkage, per ruolo. Bayes empirico: K* = σ²(rumore) / σ²(vere differenze).
+// Il rumore di giornata è 10-28× le vere differenze tra giocatori dello stesso ruolo:
+// per questo si restringe molto più di quanto (K=8) assumessi prima.
+const K_SHRINK = {P:28, D:16, C:15, A:19};
+
+// Forza della PROPRIA squadra (γ). Sopravvive al controllo per la fantamedia passata
+// in ogni ruolo → non è doppio conteggio. Applicata a (forza − 0,5), quindi ±γ/2.
+const GAMMA_TEAM = {P:0.476, D:0.432, C:0.436, A:0.464};
+
+// Forza dell'AVVERSARIO. Fortemente dipendente dal ruolo: un portiere è colpito
+// 2,3× più di un centrocampista. Applicata a (forza_avv − 0,5).
+const OPP_W = {P:-1.018, D:-0.534, C:-0.444, A:-0.891};
+
+// Scarto casa−trasferta. Applicato a (casa − 0,5), quindi ±HOME/2 ≈ ±0,08.
+// La versione precedente (±0,15) raddoppiava il vantaggio del campo.
+const HOME_W = {P:0.167, D:0.172, C:0.144, A:0.155};
+
+// NON ricalibrate: RIG_BONUS (campione n<10, troppo fragile) e BENCH_FV
+// (va ripensato in funzione delle regole di sostituzione della lega, non ritarato).
+const BENCH_FV = 4.0, RIG_BONUS = 0.3, N_SIM = 3000;
+
+/* ============================================================
+   MODIFICATORE DI DIFESA — meccanismo reale fantacalcio.it
+   Fonte: regolamento ufficiale leghe.fantacalcio.it + riscontri incrociati
+   (FantaMaster, SOS Fanta, Goal.com). Si attiva SOLO con almeno 4 difensori
+   schierati (moduli a 3 esclusi). Si calcola la MEDIA del voto PURO (senza
+   bonus/malus) di portiere + 3 migliori difensori tra quelli schierati
+   (scartando il peggiore se sono esattamente 4). Quella media cade in una
+   fascia (configurabile in Regole Lega) che dà un bonus/malus UNICO
+   all'intera squadra — non è distribuito sui singoli giocatori.
+   ============================================================ */
+function defModTeamBonus(votoP, votiD){
+  if(!S.leagueRules?.defMod?.enabled) return 0;
+  if(votoP == null || votiD.length < 4) return 0;             // serve il portiere + almeno 4 difensori
+  const validi = votiD.filter(v => v != null);
+  if(validi.length < 4) return 0;
+  const best3 = [...validi].sort((a,b) => b-a).slice(0,3);
+  const media = (votoP + best3.reduce((s,v) => s+v, 0)) / 4;
+  const fasce = [...(S.leagueRules.defMod.fasce||[])].sort((a,b) => a.min-b.min);
+  const f = fasce.find(f => media >= f.min && media <= f.max);
+  return f ? f.val : 0;
+}
+
+/* ============================================================
+   BONUS CAPITANO — configurabile, disattivabile
+   ============================================================ */
+function pickCaptain(xi){
+  if(!S.leagueRules?.captain?.enabled || !xi || !xi.length) return null;
+  return xi.reduce((best, r) => scheierability(r) > scheierability(best) ? r : best, xi[0]);
+}
+function pickViceCaptain(xi, captain){
+  if(!S.leagueRules?.captain?.enabled || !S.leagueRules?.captain?.vice || !xi || !captain) return null;
+  const rest = xi.filter(r => r.id !== captain.id);
+  if(!rest.length) return null;
+  return rest.reduce((best, r) => scheierability(r) > scheierability(best) ? r : best, rest[0]);
+}
+function fasceBonus(voto){
+  const fasce = [...(S.leagueRules.captain.fasce||[])].sort((a,b) => a.min-b.min);
+  if(!fasce.length) return 0;
+  const f = fasce.find(f => voto >= f.min && voto <= f.max);
+  return f ? f.val ?? f.bonus : 0;
+}
+function captainAdjustedValue(rating){                 // uso prospettico (Formazione): solo su rating previsto
+  const c = S.leagueRules.captain;
+  if(c.type === "raddoppio") return rating*2;
+  if(c.type === "fasce") return rating + fasceBonus(rating);   // stima: fascia letta sul rating previsto
+  return rating + (Number(c.fixedValue)||0);
+}
+function captainAdjustedValueReal(voto, fv){
+  // uso retrospettivo (Top 11): voto e fantavoto REALI, con raddoppio bonus/malus se attivo.
+  // APPROSSIMAZIONE dichiarata: non conosciamo il valore in punti di ogni singolo bonus/malus
+  // (solo il conteggio eventi), quindi trattiamo l'intero delta FV-V come "bonus" se positivo,
+  // "malus" se negativo, e lo raddoppiamo di conseguenza. Da verificare quando la lega è configurata.
+  const c = S.leagueRules.captain;
+  if(c.type === "raddoppio") return fv*2;
+  if(c.type === "fisso") return fv + (Number(c.fixedValue)||0);
+  // fasce
+  const delta = fv - voto;
+  const adjDelta = delta >= 0 ? (c.raddoppiaBonus ? delta*2 : delta) : (c.raddoppiaMalus ? delta*2 : delta);
+  return voto + fasceBonus(voto) + adjDelta;
+}
+
+/* ============================================================
+   VOTI REALI STORICI — letti da voti_storico.json (giornate già giocate)
+   ============================================================ */
+function realFV(playerId, giornata){
+  const p = S.votiStorico[playerId];
+  if(!p) return null;
+  const g = p.giornate?.[String(giornata)];
+  return g && g.fantavoto_consensus != null ? g.fantavoto_consensus : null;
+}
+function realVoto(playerId, giornata){
+  const p = S.votiStorico[playerId];
+  if(!p) return null;
+  const g = p.giornate?.[String(giornata)];
+  return g && g.voto_consensus != null ? g.voto_consensus : null;
+}
+function realRecentForm(playerId, n=5){                // ultime n giornate con voto reale, più recente prima
+  const p = S.votiStorico[playerId];
+  if(!p || !p.giornate) return [];
+  return Object.keys(p.giornate)
+    .map(Number).sort((a,b) => b-a)
+    .map(g => ({giornata:g, fv:p.giornate[String(g)].fantavoto_consensus}))
+    .filter(x => x.fv != null)
+    .slice(0, n);
+}
+function availableGiornate(){                          // elenco giornate con almeno un voto reale, più recente prima
+  const set = new Set();
+  Object.values(S.votiStorico||{}).forEach(p => Object.keys(p.giornate||{}).forEach(g => set.add(Number(g))));
+  return Array.from(set).sort((a,b) => b-a);
+}
+
+const MODULES = [
+  {name:"3-4-3", d:3, c:4, a:3}, {name:"4-3-3", d:4, c:3, a:3},
+  {name:"4-4-2", d:4, c:4, a:2}, {name:"3-5-2", d:3, c:5, a:2},
+  {name:"5-3-2", d:5, c:3, a:2}, {name:"5-4-1", d:5, c:4, a:1},
+  {name:"4-5-1", d:4, c:5, a:1},
+];
+
+/* Pesi bonus-performance MISURATI su Serie A 2025-26 (7270 osservazioni,
+   regressione standardizzata FV~segnali_p90 al netto della forma passata).
+   bonus_FV = beta · FV_sd(ruolo) · clamp((valore−media)/sd, −2, +2) */
+const PERF_W = {
+  cap: 2.0,
+  FV_sd: { A: 1.895, C: 1.328, D: 1.071 },
+  ruoli: {
+    A: { shots_p90: { beta: 0.112, mean: 2.451, sd: 0.943 }, xa_p90: { beta: 0.0, mean: 0.1425, sd: 0.1015 } },
+    C: { shots_p90: { beta: 0.103, mean: 1.357, sd: 0.7967 }, xa_p90: { beta: 0.0, mean: 0.1134, sd: 0.091 } },
+    D: { shots_p90: { beta: 0.051, mean: 0.6181, sd: 0.3926 }, xa_p90: { beta: 0.077, mean: 0.0678, sd: 0.0843 } },
+    P: {},
+  },
+};
+
+const ILL = {
+  rosa: "data:image/png;base64,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",
+  giornata: "data:image/png;base64,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",
+  formazione: "data:image/png;base64,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",
+  sfida: "data:image/png;base64,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",
+  mercato: "data:image/png;base64,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",
+  fattorec: "data:image/png;base64,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",
+};
+const ill = n => `<img class="ill" src="${ILL[n]}" alt="">`;
+
+const S = {                    // stato applicazione
+  db: [],                      // players.json → array giocatori
+  byId: new Map(),
+  points: {},                  // slug squadra → punti classifica
+  fixtures: [],                // [{casa, trasferta}]
+  rigoristi: {},               // slug → [slug giocatori]
+  indisponibili: {},           // slug → [slug giocatori]
+  understat: {},               // id(cod) → {shots_p90, xa_p90} (feed offensivo, quando presente)
+  votiStorico: {},             // id(cod) → {nome,squadra,ruolo,giornate:{"16":{voto_consensus,fantavoto_consensus,...}}}
+  storicoPresenze: {},         // id(cod) → {pv, rateo} stagione precedente conclusa, per l'Indice di Titolarità (TS)
+  titolarita_reale: {},        // id(cod) → {confidence,...} consensus probabili formazioni (fonte reale per l'IT)
+  top11Giornata: null,         // giornata selezionata nella scheda Top 11
+  top11SelTeam: null,          // fantasquadra selezionata nella classifica Top 11
+  meta: null,
+  roster: [],                  // vista attiva: rosa della lega selezionata (o standalone)
+  leagueRosters: {},           // vista attiva: { fantasquadra: [cod...] } della lega selezionata
+  leagueCalendar: {},          // vista attiva: { "1": {squadra: avversario, ...}, "2": {...} } della lega selezionata
+  sfidaGiornata: 1,            // giornata di lega selezionata nella scheda Sfida
+  myTeamName: null,            // vista attiva: la mia fantasquadra nella lega selezionata
+  leagues: {},                 // { nomeLega: { rosters:{team:[cod]}, myTeam, roster:[] } }
+  currentLeague: null,         // nome della lega selezionata
+  standalone: [],              // rosa manuale quando nessuna lega è selezionata
+  oppName: null,               // avversario selezionato nella scheda Sfida
+  listone: null,               // anagrafica ufficiale importata: {quando, giocatori:[{id,nome,squadra,ruolo,qt}]}
+  listoneById: new Map(),      // id → voce del listone
+  extraNames: {},              // id sintetico "x:nome" → {nome,squadra} per i fuori-listone
+  asta: null,                  // {budget, slot:{P,D,C,A}, giocatori:[{id,nome,squadra,ruolo,qt,tit,quota,stato,prezzo}]}
+  leagueRules: {                // regole di punteggio configurabili, non tutte le leghe sono uguali
+    captain: { enabled:false, type:"raddoppio", fixedValue:3, vice:false,
+      fasce: [{min:6.5,max:6.99,bonus:0},{min:7,max:7.49,bonus:1},{min:7.5,max:7.99,bonus:2},{min:8,max:99,bonus:2}],
+      raddoppiaBonus:false, raddoppiaMalus:false },
+    defMod: { enabled:false, fasce:[
+      {min:6, max:6.49, val:1}, {min:6.5, max:6.99, val:3}, {min:7, max:99, val:6}
+    ]}
+  },
+  tab: "rosa", threshold: 66, thresholdSetByUser: false, selMod: null, mcSeed: 0,
+};
+
+/* Allinea le "viste attive" (roster/leagueRosters/myTeamName) alla lega corrente.
+   Usa la STESSA referenza dell'array, così le modifiche si propagano da sole. */
+function syncActive(){
+  const L = S.currentLeague && S.leagues[S.currentLeague];
+  if(L){ S.roster = L.roster; S.leagueRosters = L.rosters; S.myTeamName = L.myTeam;
+    if(!L.calendar) L.calendar = {};
+    S.leagueCalendar = L.calendar; }
+  else { S.roster = S.standalone; S.leagueRosters = {}; S.myTeamName = null; S.leagueCalendar = {}; }
+}
+
+/* ---------- persistenza ---------- */
+function saveLocal(){
+  if(S.currentLeague && S.leagues[S.currentLeague]) S.leagues[S.currentLeague].myTeam = S.myTeamName;
+  localStorage.setItem("fantassist", JSON.stringify(
+    {threshold:S.threshold, thresholdSetByUser:S.thresholdSetByUser, leagues:S.leagues, currentLeague:S.currentLeague, standalone:S.standalone,
+     listone:S.listone, extraNames:S.extraNames, asta:S.asta, leagueRules:S.leagueRules}));
+}
+function loadLocal(){
+  try{
+    const d = JSON.parse(localStorage.getItem("fantassist") || "{}");
+    if(d.threshold && d.thresholdSetByUser){ S.threshold = d.threshold; S.thresholdSetByUser = true; }
+    if(d.standalone) S.standalone = d.standalone;
+    if(d.extraNames) S.extraNames = d.extraNames;
+    if(d.asta) S.asta = d.asta;
+    if(d.leagueRules){
+      // Merge difensivo: uno stato salvato PRIMA di un aggiornamento può non avere
+      // i campi nuovi (es. fasce, vice). Sovrascrivere in blocco romperebbe la UI.
+      S.leagueRules.captain = {...S.leagueRules.captain, ...(d.leagueRules.captain||{})};
+      S.leagueRules.defMod  = {...S.leagueRules.defMod,  ...(d.leagueRules.defMod||{})};
+      if(!Array.isArray(S.leagueRules.captain.fasce) || !S.leagueRules.captain.fasce.length){
+        S.leagueRules.captain.fasce = [{min:6.5,max:6.99,bonus:0},{min:7,max:7.49,bonus:1},{min:7.5,max:7.99,bonus:2},{min:8,max:99,bonus:2}];
+      }
+      if(!Array.isArray(S.leagueRules.defMod.fasce) || !S.leagueRules.defMod.fasce.length){
+        S.leagueRules.defMod.fasce = [{min:6,max:6.49,val:1},{min:6.5,max:6.99,val:3},{min:7,max:99,val:6}];
+      }
+    }
+    if(d.listone && d.listone.giocatori){
+      S.listone = d.listone;
+      S.listone.giocatori.forEach(g => S.listoneById.set(g.id, g));
+    }
+    if(d.leagues && Object.keys(d.leagues).length){
+      S.leagues = d.leagues; S.currentLeague = d.currentLeague || Object.keys(d.leagues)[0];
+    } else if(d.leagueRosters && Object.keys(d.leagueRosters).length){
+      // migrazione dal vecchio formato a lega singola
+      const nome = "La mia lega";
+      S.leagues[nome] = {rosters:d.leagueRosters, myTeam:d.myTeamName||null, roster:Array.isArray(d.roster)?d.roster:[]};
+      S.currentLeague = nome;
+    } else if(Array.isArray(d.roster)){
+      S.standalone = d.roster;
+    }
+    syncActive();
+  }catch(e){}
+}
+
+/* ---------- caricamento dati pipeline ---------- */
+async function getJSON(name){
+  const r = await fetch("data/" + name, {cache:"no-store"});
+  if(!r.ok) throw new Error(name + ": " + r.status);
+  return r.json();
+}
+const normName = s => (s||"").toLowerCase().normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+
+async function loadData(){
+  const res = await Promise.allSettled([
+    getJSON("players.json"), getJSON("classifica.json"), getJSON("calendario.json"),
+    getJSON("rigoristi.json"), getJSON("indisponibili.json"), getJSON("meta.json"),
+    getJSON("understat.json"), getJSON("voti_storico.json"), getJSON("storico_presenze.json"),
+    getJSON("titolarita_reale.json"),
+  ]);
+  const [pl, cl, cal, rig, ind, meta, us, vs, sp, tr] = res.map(r => r.status==="fulfilled" ? r.value : null);
+
+  if(pl){
+    S.db = pl.giocatori.filter(p => p.id && p.nome);
+    S.db.forEach(p => S.byId.set(p.id, p));
+  }
+  syncExtraNamesIntoById();  // giocatori non riconosciuti (ID sintetico "x:..."): stub sicuro, mai undefined
+  // Ripropaga fuoriSerieA dal listone già salvato (loadLocal gira PRIMA di questo
+  // punto): altrimenti il flag si perde a ogni riavvio, perché S.byId viene
+  // ricostruito da zero da players.json ogni volta, senza sapere nulla del listone.
+  if(S.listone && S.listone.giocatori){
+    for(const g of S.listone.giocatori){
+      if(g.fuoriSerieA && S.byId.has(g.id)) S.byId.get(g.id).fuoriSerieA = true;
+    }
+  }
+  if(cl){
+    // mappa nome classifica → slug squadra dei giocatori
+    const slugs = [...new Set(S.db.map(p => p.squadra))];
+    cl.classifica.forEach(row => {
+      const n = normName(row.squadra);
+      const slug = slugs.find(s => n.includes(normName(s)) || normName(s).includes(n));
+      if(slug) S.points[slug] = row.punti;
+    });
+  }
+  if(cal) S.fixtures = cal.partite || [];
+  if(rig) S.rigoristi = rig.rigoristi || {};
+  if(ind) S.indisponibili = ind.squadre || {};   // { team: {squalificati:[{nome,id}], diffidati:[...], infortunati:[{nome,id,dettaglio}], dubbio:[...]} }
+  if(us && us.giocatori){                      // feed offensivo: { giocatori: { cod: {shots_p90, xa_p90} } }
+    S.understat = us.giocatori;
+  }
+  if(vs) S.votiStorico = vs;                    // storico voti reali per giornata: { player_id: {nome,squadra,ruolo,giornate:{...}} }
+  if(sp && sp.giocatori) S.storicoPresenze = sp.giocatori;  // { player_id: {nome,squadra,pv,rateo} } stagione precedente
+  if(tr && tr.giocatori) S.titolarita_reale = tr.giocatori;  // { player_id: {nome,squadra,confidence,...} } consensus probabili formazioni
+  S.meta = meta;
+
+  const dt = pl ? new Date(pl.aggiornato) : null;
+  document.getElementById("subtitle").textContent = pl
+    ? `${S.db.length} giocatori · dati ${dt.toLocaleDateString("it-IT")}`
+    : "⚠ dati non raggiungibili";
+}
+
+/* ---------- motore ---------- */
+function playerSlugOf(p){                    // slug del giocatore dal nome (per rigoristi/indisponibili)
+  return normName(p.nome).replace(/\./g,"");
+}
+function ptsRange(){
+  const v = Object.values(S.points);
+  return v.length ? [Math.min(...v), Math.max(...v)] : [0, 1];
+}
+function strength(teamSlug){
+  const [lo, hi] = ptsRange();
+  const p = S.points[teamSlug];
+  return p == null || hi === lo ? 0.5 : (p - lo) / (hi - lo);
+}
+function matchInfo(teamSlug){
+  for(const f of S.fixtures){
+    if(f.casa === teamSlug) return {opp:f.trasferta, home:true};
+    if(f.trasferta === teamSlug) return {opp:f.casa, home:false};
+  }
+  return null;
+}
+/* Δ della giornata: dipende dal RUOLO, perché avversario e campo non colpiscono tutti uguale.
+   A campionato fermo (nessuna partita) vale 0; senza classifica strength()=0,5 → contributo nullo. */
+function calAdj(teamSlug, role){
+  const m = matchInfo(teamSlug);
+  if(!m) return {adj:0, opp:null, home:null};    // campionato fermo o squadra a riposo
+  const adj = HOME_W[role] * (m.home ? .5 : -.5)
+            + OPP_W[role]  * (strength(m.opp) - 0.5);
+  return {adj, opp:m.opp, home:m.home};
+}
+function calAdjAvg(teamSlug){                    // media sui ruoli, per la vista Giornata
+  const m = matchInfo(teamSlug);
+  if(!m) return {adj:0, opp:null, home:null};
+  const adj = ROLES.reduce((s,r) => s + calAdj(teamSlug, r).adj, 0) / ROLES.length;
+  return {adj, opp:m.opp, home:m.home};
+}
+/* Rating del giocatore: shrinkage bayesiano verso il prior di ruolo, con K per ruolo. */
+function shrunk(st){
+  const role = roleOf(st), pg = st.pv || 0, fm = st.fm ?? PRIOR[role], K = K_SHRINK[role];
+  // Prior "personale": la fantamedia storica (se c'è) smussata verso il prior di ruolo,
+  // pesata da quante presenze storiche il giocatore ha (K identico, stesso principio dello
+  // shrinkage stagionale). Senza storico resta il prior di ruolo puro, come prima.
+  const storico = S.storicoPresenze && S.storicoPresenze[st.id];
+  const priorPersonale = (storico && storico.fm != null)
+    ? (storico.pv*storico.fm + K*PRIOR[role]) / (storico.pv + K)
+    : PRIOR[role];
+  return (pg*fm + K*priorPersonale) / (pg + K);
+}
+/* Forza della PROPRIA squadra. È un attributo del giocatore (varia 0,005 dentro la stagione),
+   non un fattore di giornata: entra nel rating, non nel Δ calendario.
+   Senza classifica caricata strength() restituisce 0,5 → il termine si annulla da solo. */
+function teamAdj(st){
+  return GAMMA_TEAM[roleOf(st)] * (strength(st.squadra) - 0.5);
+}
+function roleOf(st){ return st ? (st.ruolo || "C") : "?"; }
+function perfBonus(st){                          // bonus da statistiche Understat role-specific
+  const role = roleOf(st), w = PERF_W.ruoli[role], u = S.understat[st.id];
+  if (!w || !u) return { val: 0, has: false };   // nessun feed (es. campionato fermo) → 0
+  const fvsd = PERF_W.FV_sd[role] || 0;
+  let b = 0, used = false;
+  
+  // Metriche specifiche per ruolo
+  let metrics = ["shots_p90", "xa_p90"];  // Default
+  if(role === "A") metrics = ["shots_p90", "xa_p90", "xg_p90"];  // Attaccanti: aggiungi xG
+  if(role === "C") metrics = ["xa_p90", "tackles_interceptions_p90", "passes_progressive_p90"];  // Centrocampisti
+  if(role === "D") metrics = ["tackles_interceptions_p90", "xga_90", "clearances_p90"];  // Difensori
+  if(role === "P") metrics = ["xga_90", "shots_on_target_p90"];  // Portieri (no save_rate, non disponibile)
+  
+  for (const sig of metrics) {
+    const c = w[sig];
+    if (!c || !c.beta || u[sig] == null) continue;
+    const z = Math.max(-PERF_W.cap, Math.min(PERF_W.cap, (u[sig] - c.mean) / c.sd));
+    b += c.beta * fvsd * z; used = true;
+  }
+  return { val: b, has: used };
+}
+
+function scheierability(r){                     // Indice di Schierabilità: "Se gioca, quanto varrà?"
+  const st = S.byId.get(r.id);
+  const base = expFV(r).val;                    // shrunk + teamAdj + calAdj + perfBonus + rig + defMod
+  return base * indiceTitolarita(st);            // stesso IT usato ovunque nell'app
+}
+
+function expFV(r){                               // r = elemento roster
+  const st = S.byId.get(r.id);
+  const role = roleOf(st);
+  const cal = calAdj(st.squadra, role);
+  const team = teamAdj(st);                      // contesto squadra (costante nella stagione)
+  const perf = perfBonus(st);
+  const base = shrunk(st) + team;                // rating di giocatore = fantamedia ristretta + squadra
+  return { val: base + cal.adj + (r.rig ? RIG_BONUS : 0) + perf.val,
+           cal, base, team, rating: shrunk(st), st, perf };
+}
+function slotEV(r){
+  return (r.pTit/100) * expFV(r).val + (1 - r.pTit/100) * BENCH_FV;
+}
+function rosterByRole(role){
+  return S.roster.filter(r => roleOf(S.byId.get(r.id)) === role);
+}
+function bestLineup(mod){
+  // FORMAZIONE = motore puro: solo schierabilità (performance + titolarità),
+  // nessuna regola di lega (capitano/modificatore). Quelle vivono in Top 11/Sfida,
+  // dove ha senso che dipendano da come gioca la tua lega specifica.
+  const avail = S.roster.filter(r => !r.sq && !r.inf);
+  const by = role => avail.filter(r => roleOf(S.byId.get(r.id)) === role)
+    .sort((a,b) => scheierability(b) - scheierability(a));
+  const xi = [...by("P").slice(0,1), ...by("D").slice(0,mod.d),
+              ...by("C").slice(0,mod.c), ...by("A").slice(0,mod.a)];
+  const need = 1 + mod.d + mod.c + mod.a;
+  const bench = {};
+  ROLES.forEach(role => bench[role] = by(role).filter(r => !xi.includes(r)));
+  return {xi, bench, complete: xi.length === need,
+          ev: xi.reduce((s,r) => s + scheierability(r), 0) - (xi.length === need ? 0 : 99)};
+}
+function gauss(){
+  let u = 0, v = 0;
+  while(!u) u = Math.random();
+  while(!v) v = Math.random();
+  return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+}
+function monteCarlo(lu){
+  const totals = new Float64Array(N_SIM);
+  const xi = lu.xi.map(r => ({p:r.pTit/100, e:expFV(r).val, s:SIGMA[roleOf(S.byId.get(r.id))], role:roleOf(S.byId.get(r.id))}));
+  const bench = {};
+  ROLES.forEach(role => bench[role] = lu.bench[role].map(r =>
+    ({e:expFV(r).val, s:SIGMA[role]})));
+  for(let i=0; i<N_SIM; i++){
+    let tot = 0; const used = {P:0,D:0,C:0,A:0};
+    for(const x of xi){
+      if(Math.random() < x.p) tot += x.e + x.s*gauss();
+      else{
+        const sub = bench[x.role][used[x.role]++];
+        tot += sub ? sub.e*0.97 + sub.s*gauss() : 0;
+      }
+    }
+    totals[i] = tot;
+  }
+  const s = Array.from(totals).sort((a,b) => a-b);
+  const q = x => s[Math.floor(x*(N_SIM-1))];
+  return {sorted:s, mean:s.reduce((a,b)=>a+b,0)/N_SIM, p10:q(.1), p50:q(.5), p90:q(.9)};
+}
+
+/* ---------- LEGA: import rose + confronto ---------- */
+function teamMatch(abbr, slug){       // per risolvere le omonimie con la squadra
+  const a=normName(abbr), b=normName(slug);
+  if(!a||!b) return false;
+  return b.startsWith(a.slice(0,3)) || a.startsWith(b.slice(0,3)) || b.includes(a) || a.includes(b);
+}
+/* ---- LISTONE UFFICIALE: parser del file quotazioni ---- */
+function parseListoneSheet(ws, forzaFuoriSerieA){
+  if(!ws) return [];
+  const rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:null});
+  let h=-1;
+  for(let i=0;i<Math.min(rows.length,10);i++){
+    const up=(rows[i]||[]).map(x=>String(x||"").toLowerCase());
+    if(up.includes("id") && up.includes("nome")){ h=i; break; }
+  }
+  if(h<0) return [];   // foglio senza intestazione riconoscibile (es. non presente in vecchie versioni del file)
+  const H=rows[h].map(x=>String(x||"").toLowerCase().trim());
+  const ci = n => H.indexOf(n);
+  const cId=ci("id"), cR=ci("r"), cNome=ci("nome"), cSq=ci("squadra"), cQt=ci("qt.a"), cFvm=ci("fvm");
+  if(cId<0||cNome<0) return [];
+  const giocatori=[];
+  for(let i=h+1;i<rows.length;i++){
+    const r=rows[i]||[];
+    const id=r[cId], nomeGrezzo=r[cNome];
+    if(id==null||nomeGrezzo==null||String(nomeGrezzo).trim()==="") continue;
+    // Asterisco (*) accodato al nome: convenzione storica fantacalcio.it per i giocatori
+    // usciti dalla Serie A. Tenuta per compatibilità, ma il meccanismo osservato nella
+    // stagione 2026-27 è un foglio Excel dedicato ("Ceduti") — vedi forzaFuoriSerieA.
+    const nomeStr = String(nomeGrezzo).trim();
+    const fuoriSerieA = forzaFuoriSerieA || /\s*\*\s*$/.test(nomeStr);
+    giocatori.push({
+      id: typeof id==="number"? id : (parseInt(id,10)||id),
+      nome: nomeStr.replace(/\s*\*\s*$/,"").trim(),
+      squadra: cSq>=0 ? String(r[cSq]||"").trim() : "",
+      ruolo: cR>=0 ? String(r[cR]||"").trim().toUpperCase().charAt(0) : "?",
+      qt: cQt>=0 ? (r[cQt]??null) : null,
+      fvm: cFvm>=0 ? (r[cFvm]??null) : null,
+      fuoriSerieA,
+    });
+  }
+  return giocatori;
+}
+function parseListoneWorkbook(buf){
+  const wb=XLSX.read(buf,{type:"array"});
+  const wsTutti = wb.Sheets["Tutti"]||wb.Sheets[wb.SheetNames[0]];
+  const giocatori = parseListoneSheet(wsTutti, false);
+  if(!giocatori.length) throw new Error("intestazione non riconosciuta (manca Id / Nome) nel foglio principale");
+
+  // Foglio "Ceduti": giocatori usciti dalla Serie A, elencati a parte (stagione 2026-27).
+  // Stessa struttura colonne del foglio Tutti, ma qui NON compaiono affatto in Tutti —
+  // vanno aggiunti a parte, altrimenti spariscono del tutto dal listone (es. Lukaku).
+  const wsCeduti = wb.Sheets["Ceduti"];
+  if(wsCeduti){
+    const ceduti = parseListoneSheet(wsCeduti, true);
+    const giaPresenti = new Set(giocatori.map(g => g.id));
+    for(const c of ceduti) if(!giaPresenti.has(c.id)) giocatori.push(c);
+  }
+  return giocatori;
+}
+function onListoneFile(input){
+  const file=input.files && input.files[0]; if(!file){ return; }
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const giocatori=parseListoneWorkbook(e.target.result);
+      if(!giocatori.length) throw new Error("nessun giocatore letto");
+      S.listone={quando:new Date().toISOString(), giocatori};
+      S.listoneById=new Map(giocatori.map(g=>[g.id,g]));
+      // Propaga subito fuoriSerieA su S.byId: non aspettare che qualcuno importi
+      // una rosa di lega (che è l'unico altro posto dove questo flag si aggiorna) —
+      // un giocatore già in rosa da prima deve vedere il flag appena importi il listone.
+      for(const g of giocatori){
+        if(g.fuoriSerieA && S.byId.has(g.id)) S.byId.get(g.id).fuoriSerieA = true;
+      }
+      S._listoneReport={n:giocatori.length};
+      saveLocal(); render();
+    }catch(err){
+      S._listoneReport={errore: err.message||String(err)};
+      render();
+    }
+  };
+  reader.onerror=()=>{ S._listoneReport={errore:"lettura del file non riuscita"}; render(); };
+  reader.readAsArrayBuffer(file);
+  input.value="";
+}
+
+function buildNameIndex(){
+  const idx=new Map();
+  for(const p of S.db){
+    const k=normName(p.nome);
+    if(!idx.has(k)) idx.set(k,[]);
+    idx.get(k).push(p);
+  }
+  // Complemento dal listone ufficiale: un giocatore nuovo/marginale che lo scraper
+  // statistiche non ha ancora tracciato (0 presenze) ma il listone quotazioni sì,
+  // non deve far fallire il matching di una rosa lega.
+  if(S.listone){
+    for(const p of S.listone.giocatori){
+      const k=normName(p.nome);
+      if(idx.has(k)){
+        // già in S.db: se il listone lo segnala uscito dalla Serie A, propaga
+        // comunque il flag sulla scheda esistente (dati statistiche più ricchi,
+        // ma senza questo campo).
+        if(p.fuoriSerieA && S.byId.has(p.id)) S.byId.get(p.id).fuoriSerieA = true;
+        continue;
+      }
+      const stub={id:p.id, nome:p.nome, squadra:p.squadra, ruolo:p.ruolo,
+                  pv:0, mv:null, fm:0, gol:0, golSubiti:0, assist:0, qt:p.qt, fvm:p.fvm,
+                  fuoriSerieA:p.fuoriSerieA};
+      if(!S.byId.has(p.id)) S.byId.set(p.id, stub);
+      idx.set(k,[stub]);
+    }
+  }
+  return idx;
+}
+function parseLeagueWorkbook(buf){
+  const wb=XLSX.read(buf,{type:"array"});
+  const ws=wb.Sheets["TutteLeRose"]||wb.Sheets[wb.SheetNames[0]];
+  const rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true});
+  const RS=new Set(["P","D","C","A"]); const teams={}; let league=null;
+  for(const off of [0,5]){
+    let cur=null;
+    for(const r of rows){
+      const a=(r[off]??"").toString().trim(), b=(r[off+1]??"").toString().trim();
+      if(!a) continue;
+      const low=a.toLowerCase();
+      if(low.startsWith("rose lega")){ if(!league) league=a.replace(/rose lega/i,"").trim()||null; continue; }
+      if(RS.has(a) && b){ if(cur) teams[cur].push({ruolo:a, nome:b, squadra:(r[off+2]??"").toString().trim()}); }
+      else if(low!=="ruolo" && !a.startsWith("http") && !a.startsWith("*")){
+        cur=a; if(!teams[cur]) teams[cur]=[];
+      }
+    }
+  }
+  const out={}; for(const k in teams){ if(teams[k].length>=15) out[k]=teams[k]; }
+  return {league, teams:out};
+}
+function syncExtraNamesIntoById(){
+  // Giocatori non riconosciuti durante un import (ID sintetico "x:nome") non sono mai
+  // in S.db/players.json. Senza uno stub qui, roleOf(S.byId.get(id)) va in errore
+  // (st undefined) e blocca il render a metà — bug reale riscontrato in produzione.
+  if(!S.extraNames) return;
+  for(const sid in S.extraNames){
+    if(S.byId.has(sid)) continue;
+    const ex = S.extraNames[sid];
+    S.byId.set(sid, {id:sid, nome:ex.nome, squadra:ex.squadra||"", ruolo:"?",
+      pv:0, mv:null, fm:0, gol:0, golSubiti:0, assist:0});
+  }
+}
+function matchLeagueRoster(players, idx){
+  const cods=[], missed=[];
+  for(const p of players){
+    const c=idx.get(normName(p.nome))||[];
+    let ch=null;
+    if(c.length===1) ch=c[0];
+    else if(c.length>1) ch=c.find(x=>teamMatch(p.squadra,x.squadra))||c[0];
+    if(ch && ch.id!=null){ cods.push(ch.id); }
+    else {
+      // giocatore non nel listone: NON lo perdo, gli do un id sintetico e ne ricordo il nome
+      const sid = "x:" + normName(p.nome);
+      cods.push(sid);
+      if(!S.extraNames) S.extraNames = {};
+      S.extraNames[sid] = { nome:p.nome, squadra:p.squadra||"" };
+      missed.push(p.nome);
+    }
+  }
+  return {cods, missed};
+}
+/* nome di un giocatore da un codice, anche se fuori listone */
+function nomeDaCod(id){
+  const st = S.byId.get(id);
+  if(st) return {nome:st.nome, squadra:st.squadra||"", ruolo:roleOf(st), inDb:true};
+  const ex = S.extraNames && S.extraNames[id];
+  if(ex) return {nome:ex.nome, squadra:ex.squadra, ruolo:"?", inDb:false};
+  return null;
+}
+function triggerImport(){ el("leaguefile").click(); }
+function onLeagueFile(input){
+  const file=input.files && input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const {league, teams}=parseLeagueWorkbook(e.target.result);
+      if(!Object.keys(teams).length) throw new Error("nessuna rosa riconosciuta");
+      const idx=buildNameIndex(); const rosters={}, report={};
+      for(const [name,players] of Object.entries(teams)){
+        const {cods,missed}=matchLeagueRoster(players,idx);
+        rosters[name]=cods; report[name]={n:players.length, matched:cods.length, missed:missed.length, missedNames:missed};
+      }
+      syncExtraNamesIntoById();   // stub subito, non solo al prossimo reload della pagina
+      // nome lega dal file, o generato se assente/duplicato
+      let lname=league || ("Lega " + (Object.keys(S.leagues).length+1));
+      if(S.leagues[lname] && league) lname=league;            // stesso nome → aggiorna quella lega
+      else if(S.leagues[lname]) lname=lname+" ("+(Object.keys(S.leagues).length+1)+")";
+      S.leagues[lname]={rosters, myTeam:(S.leagues[lname]?S.leagues[lname].myTeam:null), roster:(S.leagues[lname]?S.leagues[lname].roster:[])};
+      S.currentLeague=lname; syncActive();
+      S._importReport=report; saveLocal(); render();
+    }catch(err){ alert("Non riesco a leggere il file: "+err.message); }
+  };
+  reader.readAsArrayBuffer(file);
+  input.value="";
+}
+/* ============================================================
+   CALENDARIO DI LEGA — round-robin generato automaticamente
+   (metodo del cerchio, andata+ritorno), editabile manualmente
+   perché il vero sorteggio della lega può differire.
+   ============================================================ */
+function generateRoundRobin(teams){
+  const list = [...teams];
+  const bye = "(riposo)";
+  if(list.length % 2 === 1) list.push(bye);
+  const n = list.length, roundsAndata = n - 1;
+  const cal = {};
+  let arr = [...list];
+  for(let r = 0; r < roundsAndata; r++){
+    const giornata = r + 1;
+    cal[giornata] = {};
+    for(let i = 0; i < n/2; i++){
+      const a = arr[i], b = arr[n-1-i];
+      if(a !== bye && b !== bye){ cal[giornata][a] = b; cal[giornata][b] = a; }
+    }
+    arr = [arr[0], ...arr.slice(-1), ...arr.slice(1, -1)];   // ruota tutti tranne il primo
+  }
+  for(let r = 0; r < roundsAndata; r++){                     // ritorno: stessi accoppiamenti
+    cal[roundsAndata + r + 1] = {...cal[r + 1]};
+  }
+  return cal;
+}
+function regenCalendario(){
+  const teams = Object.keys(S.leagueRosters);
+  if(teams.length < 2) return;
+  const L = S.leagues[S.currentLeague];
+  L.calendar = generateRoundRobin(teams);
+  S.leagueCalendar = L.calendar;
+  saveLocal(); render();
+}
+function setCalendarioMatch(giornata, team, opponent){
+  const L = S.leagues[S.currentLeague];
+  if(!L.calendar[giornata]) L.calendar[giornata] = {};
+  const old = L.calendar[giornata][team];
+  if(old) delete L.calendar[giornata][old === opponent ? team : old]; // ripulisce il vecchio avversario reciproco
+  L.calendar[giornata][team] = opponent;
+  L.calendar[giornata][opponent] = team;
+  S.leagueCalendar = L.calendar;
+  saveLocal(); render();
+}
+function numGiornateCalendario(){
+  const g = Object.keys(S.leagueCalendar||{}).map(Number);
+  return g.length ? Math.max(...g) : 0;
+}
+function oppOfCalendario(team, giornata){
+  return S.leagueCalendar?.[giornata]?.[team] || null;
+}
+
+function switchLeague(name){
+  S.currentLeague=name; S.oppName=null; S._importReport=null; syncActive(); saveLocal(); render();
+}
+function changeTeam(){
+  const L=S.currentLeague && S.leagues[S.currentLeague]; if(!L) return;
+  L.myTeam=null; L.roster=[]; syncActive(); saveLocal(); render();
+}
+function deleteLeague(name){
+  if(!confirm("Rimuovere la lega \""+name+"\"?")) return;
+  delete S.leagues[name];
+  S.currentLeague=Object.keys(S.leagues)[0]||null;
+  syncActive(); saveLocal(); render();
+}
+function loadMyTeam(name){
+  const L=S.leagues[S.currentLeague]; if(!L) return;
+  const cods=L.rosters[name]||[];
+  L.myTeam=name;
+  L.roster=cods.map(id=>{
+    const st=S.byId.get(id), f=st?autoFlags(st):{sq:false,inf:false,rig:false};
+    const defaultTit = st ? Math.round(indiceTitolarita(st)*100) : 75;
+    return {id, pTit:defaultTit, rig:f.rig, sq:f.sq, inf:f.inf};
+  });
+  syncActive(); S._importReport=null; saveLocal(); S.tab="rosa"; render();
+}
+function risincronizzaRosa(){
+  // autoFlags/pTit vengono calcolati solo quando un giocatore ENTRA in rosa —
+  // se i dati (indisponibili.json, titolarita_reale.json) si aggiornano dopo,
+  // chi era già in rosa resta con i valori vecchi. Questa funzione riallinea
+  // tutti i giocatori ai dati più recenti: SOVRASCRIVE eventuali correzioni
+  // manuali già fatte (titolarità toccata a mano, flag alzati/abbassati a mano),
+  // per questo è un'azione esplicita, non automatica.
+  if(!S.roster || !S.roster.length) return;
+  S.roster = S.roster.map(r => {
+    const st = S.byId.get(r.id);
+    if(!st) return r;   // giocatore sintetico/non riconosciuto: lascia stare
+    const f = autoFlags(st);
+    return {...r, pTit: Math.round(indiceTitolarita(st)*100), rig:f.rig, sq:f.sq, inf:f.inf};
+  });
+  saveLocal(); render();
+}
+// miglior formazione per una rosa qualunque (lista di elementi {id,pTit,rig,sq,inf})
+function bestLineupFrom(roster, mod){
+  const avail=roster.filter(r=>!r.sq&&!r.inf);
+  // FORMAZIONE: Ordina per scheierability (valore QUANDO gioca)
+  const by=role=>avail.filter(r=>roleOf(S.byId.get(r.id))===role).sort((a,b)=>scheierability(b)-scheierability(a));
+  const xi=[...by("P").slice(0,1),...by("D").slice(0,mod.d),...by("C").slice(0,mod.c),...by("A").slice(0,mod.a)];
+  const need=1+mod.d+mod.c+mod.a; const bench={};
+  ROLES.forEach(role=>bench[role]=by(role).filter(r=>!xi.includes(r)));
+  // Modificatore di difesa: bonus/malus UNICO alla squadra (non per giocatore), stimato sul
+  // rating previsto di portiere + difensori schierati come proxy del "voto puro" (richiede difesa a 4+).
+  const pRow = xi.find(r => roleOf(S.byId.get(r.id))==="P");
+  const dRows = xi.filter(r => roleOf(S.byId.get(r.id))==="D");
+  const votoP = pRow ? expFV(pRow).val : null;
+  const votiD = dRows.map(r => expFV(r).val);
+  const defModTeam = defModTeamBonus(votoP, votiD);
+  // EV: Valore totale della formazione (quando i giocatori giocano) + modificatore di squadra
+  return {xi, bench, complete:xi.length===need, defModTeam,
+    ev: xi.reduce((s,r)=>s+scheierability(r),0) + defModTeam - (xi.length===need?0:99)};
+}
+
+/* ============================================================
+   TOP 11 — miglior formazione REALMENTE giocata in una giornata già
+   conclusa, usando voti_storico.json (non previsioni). Chi non ha
+   votato quella giornata è escluso, non stimato.
+   ============================================================ */
+function bestLineupReal(playerIds, mod, giornata){
+  const avail = playerIds
+    .map(id => ({id, fv: realFV(id, giornata), v: realVoto(id, giornata)}))
+    .filter(r => r.fv != null && S.byId.get(r.id));
+  const by = role => avail.filter(r => roleOf(S.byId.get(r.id))===role).sort((a,b) => b.fv - a.fv);
+  const xi = [...by("P").slice(0,1), ...by("D").slice(0,mod.d), ...by("C").slice(0,mod.c), ...by("A").slice(0,mod.a)];
+  const need = 1+mod.d+mod.c+mod.a;
+  const complete = xi.length === need;
+  // Modificatore di difesa reale: media del VOTO PURO (v, non fantavoto) di portiere +
+  // migliori 3 difensori schierati — richiede modulo con almeno 4 difensori.
+  const pRow = xi.find(r => roleOf(S.byId.get(r.id))==="P");
+  const dRows = xi.filter(r => roleOf(S.byId.get(r.id))==="D");
+  const defModTeam = complete ? defModTeamBonus(pRow?.v, dRows.map(r => r.v)) : 0;
+  return {xi, complete, defModTeam, total: complete ? xi.reduce((s,r) => s+r.fv, 0) + defModTeam : -Infinity};
+}
+function bestTop11ForTeam(playerIds, giornata){
+  const ranking = MODULES.map(m => ({mod:m, lu:bestLineupReal(playerIds, m, giornata)}))
+    .sort((a,b) => b.lu.total - a.lu.total);
+  return ranking[0];
+}
+function pureTop11Total(playerIds, giornata){
+  // Somma dei migliori 11 voti reali, SENZA capitano né modificatore di difesa —
+  // stesso identico calcolo di bestTop11ForTeam ma senza le Regole Lega, per
+  // restare confrontabile con la Formazione (universale, non legata a una lega).
+  const best = bestTop11ForTeam(playerIds, giornata);
+  return best.lu.complete ? best.lu.xi.reduce((s,r) => s+r.fv, 0) : null;
+}
+function sogliaStatistica(){
+  const giornate = availableGiornate();
+  if(!giornate.length || !S.leagueRosters) return 66;   // fallback: campionato fermo, nessun dato reale
+  const totali = [];
+  for(const g of giornate){
+    for(const ids of Object.values(S.leagueRosters)){
+      const t = pureTop11Total(ids, g);
+      if(t != null) totali.push(t);
+    }
+  }
+  if(!totali.length) return 66;
+  return Math.round(totali.reduce((s,v)=>s+v,0) / totali.length);
+}
+function conteggioTop11(playerId, teamName){
+  if(!teamName || !S.leagueRosters[teamName]) return null;   // fuori da un contesto lega: non calcolabile
+  const ids = S.leagueRosters[teamName];
+  let count = 0;
+  for(const g of availableGiornate()){
+    const best = bestTop11ForTeam(ids, g);
+    if(best.lu.complete && best.lu.xi.some(r => r.id === playerId)) count++;
+  }
+  return count;
+}
+function computeTop11Standings(giornata){
+  const rosters = S.leagueRosters || {};
+  return Object.entries(rosters).map(([team, ids]) => {
+    const best = bestTop11ForTeam(ids, giornata);
+    let total = best.lu.complete ? best.lu.total : null;
+    let captain = null, captainDelta = 0;
+    if(total != null && S.leagueRules?.captain?.enabled && best.lu.xi.length){
+      captain = best.lu.xi.reduce((b,r) => r.fv > b.fv ? r : b, best.lu.xi[0]);
+      const adjusted = captainAdjustedValueReal(captain.v, captain.fv);
+      captainDelta = adjusted - captain.fv;
+      total += captainDelta;
+    }
+    return {team, mod:best.mod.name, lu:best.lu, total, captain, captainDelta};
+  }).sort((a,b) => (b.total ?? -Infinity) - (a.total ?? -Infinity));
+}
+
+function bestOf(roster){
+  const r=MODULES.map(m=>({mod:m,lu:bestLineupFrom(roster,m)})).filter(x=>x.lu.complete)
+    .sort((a,b)=>b.lu.ev-a.lu.ev);
+  return r[0]||null;
+}
+function oppRosterOf(name){
+  return (S.leagueRosters[name]||[]).map(id=>{
+    const st=S.byId.get(id), f=st?autoFlags(st):{sq:false,inf:false,rig:false};
+    const defaultTit = st ? Math.round(indiceTitolarita(st)*100) : 75;
+    return {id, pTit:defaultTit, rig:f.rig, sq:f.sq, inf:f.inf};
+  });
+}
+function winProb(a, b, k=4000){       // P(a batte b) da due distribuzioni simulate
+  let w=0,e=0; const na=a.length, nb=b.length;
+  for(let i=0;i<k;i++){ const x=a[(Math.random()*na)|0], y=b[(Math.random()*nb)|0];
+    if(x>y) w++; else if(x===y) e++; }
+  return {win:w/k, draw:e/k};
+}
+
+/* ---------- helper UI ---------- */
+const fmt = (x,d=2) => x==null ? "–" : (Math.round(x*10**d)/10**d).toFixed(d);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const el = id => document.getElementById(id);
+function signedSpan(x, d=2){
+  return `<span class="${x>=0?"pos":"neg"}">${x>=0?"+":""}${fmt(x,d)}</span>`;
+}
+
+/* ---------- TAB: ROSA ---------- */
+let searchQ = "", openId = null;
+function autoFlags(st){
+  const team = st.squadra;
+  const cat = S.indisponibili[team];                    // {squalificati:[{nome,id}], infortunati:[{nome,id,dettaglio}], ...}
+  const inCat = nomeCat => !!(cat && (cat[nomeCat]||[]).some(x => String(x.id) === String(st.id)));
+  const ps = playerSlugOf(st);
+  const inList = arr => (arr||[]).some(s => normName(s).replace(/\./g,"") === ps);
+  return {sq: inCat("squalificati"), inf: inCat("infortunati"),
+          rig: inList((S.rigoristi[team]||[]).slice(0,1))};
+}
+function addPlayer(id){
+  const st = S.byId.get(id);
+  const role = roleOf(st);
+  if(S.roster.some(r => r.id === id)) return;
+  if(rosterByRole(role).length >= ROLE_MAX[role]) return;
+  const f = autoFlags(st);
+  S.roster.push({id, pTit:Math.round(indiceTitolarita(st)*100), rig:f.rig, sq:f.sq, inf:f.inf});
+  saveLocal(); render();
+}
+function setRoster(arr){       // aggiorna la vista attiva E il contenitore di appoggio (lega o standalone)
+  S.roster = arr;
+  if(S.currentLeague && S.leagues[S.currentLeague]) S.leagues[S.currentLeague].roster = arr;
+  else S.standalone = arr;
+}
+function removePlayer(id){
+  setRoster(S.roster.filter(r => r.id !== id));
+  saveLocal(); render();
+}
+function patch(id, k, v){
+  const r = S.roster.find(r => r.id === id);
+  if(r){ r[k] = v; saveLocal(); render(); }
+}
+function renderRosa(){
+  const counts = ROLES.map(role =>
+    `<span class="${rosterByRole(role).length>=ROLE_MAX[role]?"full":""}">${role} ${rosterByRole(role).length}/${ROLE_MAX[role]}</span>`).join("");
+
+  // selettore leghe (se importate) + pulsante import + eventuale selettore squadra
+  const leagueNames = Object.keys(S.leagues);
+  let importHtml = "";
+  if(leagueNames.length){
+    importHtml += `<div class="leaguebar">${leagueNames.map(n=>
+      `<button class="lchip ${n===S.currentLeague?"on":""}" onclick="switchLeague('${n.replace(/'/g,"\\'")}')">${esc(n)}</button>`).join("")}
+      <button class="lchip add" onclick="triggerImport()">＋ lega</button></div>`;
+  }
+  importHtml += `<div class="importbar">
+      ${leagueNames.length?"":`<button class="btn" onclick="triggerImport()">📥 Importa rose da file</button>`}
+      ${S.currentLeague?`<span class="myteam">${esc(S.currentLeague)}${S.myTeamName?` · <b>${esc(S.myTeamName)}</b> <button class="lchip chg" onclick="changeTeam()">cambia</button>`:""}</span>`:""}
+      ${S.currentLeague?`<button class="lchip del" onclick="deleteLeague('${S.currentLeague.replace(/'/g,"\\'")}')">rimuovi lega</button>`:""}
+    </div>`;
+  if(S.currentLeague && S.leagues[S.currentLeague] && !S.myTeamName){
+    const L=S.leagues[S.currentLeague];
+    const rep=S._importReport;   // conteggi appaiati se disponibili (subito dopo l'import)
+    const teams=Object.keys(L.rosters);
+    importHtml += `<div class="card" style="padding:12px; margin-bottom:8px">
+      <div style="font-weight:700; margin-bottom:8px">${esc(S.currentLeague)} — tocca la tua squadra:</div>
+      ${teams.map(t=>{const r=rep&&rep[t]; const n=(L.rosters[t]||[]).length;
+        return `<button class="teampick" onclick="loadMyTeam('${t.replace(/'/g,"\\'")}')">
+          <span>${esc(t)}</span><span class="tp-n">${r?`${r.matched}/${r.n}${r.missed?` · ${r.missed} n/d`:""}`:`${n} giocatori`}</span></button>`;}).join("")}
+    </div>`;
+  }
+  if(S.myTeamName && S.roster && S.roster.length){
+    importHtml += `<button class="btn" style="width:100%; padding:10px; margin-bottom:8px"
+      onclick="if(confirm('Aggiorna squalificati/infortunati/titolarità con i dati più recenti? Eventuali correzioni manuali già fatte verranno sovrascritte.')) risincronizzaRosa()">
+      🔄 Aggiorna con dati live (squalificati, infortunati, titolarità)</button>`;
+  }
+
+  let html = importHtml + `<input class="search" id="q" placeholder="Cerca giocatore da aggiungere…"
+    value="${esc(searchQ)}" oninput="searchQ=this.value; renderSearchResults()">
+    <div class="counter">${counts}</div><div id="results"></div>`;
+
+  if(!S.roster.length){
+    html += `<div class="empty">${ill("rosa")}Rosa vuota.<br>Cerca qui sopra i tuoi 25 dell'asta:<br>3 portieri · 8 difensori · 8 centrocampisti · 6 attaccanti</div>`;
+  }
+  for(const role of ROLES){
+    const rows = rosterByRole(role).sort((a,b) => slotEV(b) - slotEV(a));
+    if(!rows.length) continue;
+    html += `<div class="rolehead" style="color:${ROLE_COLOR[role]}">${ROLE_LABEL[role]}</div>`;
+    for(const r of rows){
+      const e = expFV(r), st = e.st, out = r.sq || r.inf, open = openId === r.id;
+      const combinato = slotEV(r);   // qualità × titolarità (con pavimento panchina) — il numero che l'utente vede
+      html += `<div class="card" style="${out?"opacity:.55":""}">
+        <div class="prow" onclick="openId = openId===${r.id}?null:${r.id}; render()">
+          <div class="rball" style="color:${ROLE_COLOR[role]}; border-color:${ROLE_COLOR[role]}">${role}</div>
+          <div class="pmain">
+            <div class="pname"><span class="nametext">${esc(st.nome)}</span><span class="pteam">${esc(st.squadra)}</span>${
+              r.rig?'<span class="chip rig">R</span>':""}${r.sq?'<span class="chip out">SQ</span>':""}${
+              r.inf?'<span class="chip out">IND</span>':""}${
+              st.fuoriSerieA?'<span class="chip out" title="Non più tesserato per un club di Serie A (fonte: listone ufficiale)">EX</span>':""}</div>
+            <div class="bar"><i style="width:${Math.min(100, combinato/9*100)}%; background:${ROLE_COLOR[role]}"></i></div>
+          </div>
+          <div class="pnum"><div class="v" style="color:${ROLE_COLOR[role]}">${fmt(combinato)}</div><div class="l">E[slot] · tit ${r.pTit}%</div></div>
+        </div>
+        ${open ? `<div class="pedit">
+          <div class="grid2">
+            <div>Rating base: <b>${fmt(e.base)}</b></div>
+            <div>FM: <b>${fmt(st.fm)}</b> (${st.pv||0} pv)</div>
+            <div>Forza squadra: <b>${e.team ? signedSpan(e.team) : "n/d"}</b></div>
+            <div>Δ calendario: <b>${e.cal.opp ? signedSpan(e.cal.adj) : "n/d"}</b></div>
+            <div>Performance: <b>${e.perf && e.perf.has ? signedSpan(e.perf.val) : "n/d"}</b></div>
+          </div>
+          ${(() => { const form = realRecentForm(r.id, 5);
+            return form.length ? `<div class="sub" style="margin:8px 0 0">Ultimi voti reali:
+              ${form.map(x => `<b style="color:var(--chalk)">${fmt(x.fv,1)}</b><span style="color:var(--dim)">(G${x.giornata})</span>`).join(" · ")}</div>` : "";
+          })()}
+          <label>Titolarità: <b style="color:var(--chalk)">${r.pTit}%</b>
+            <input type="range" min="0" max="100" step="5" value="${r.pTit}"
+              oninput="patch(${r.id},'pTit',+this.value)"></label>
+          <div class="togglerow">
+            <button class="tog ${r.sq?"on red":""}" onclick="patch(${r.id},'sq',${!r.sq})">Squalificato</button>
+            <button class="tog ${r.inf?"on red":""}" onclick="patch(${r.id},'inf',${!r.inf})">Indisponibile</button>
+            <button class="tog ${r.rig?"on amber":""}" onclick="patch(${r.id},'rig',${!r.rig})">Rigorista</button>
+            <button class="tog del" onclick="removePlayer(${r.id})">Rimuovi</button>
+          </div>
+        </div>` : ""}
+      </div>`;
+    }
+  }
+  el("main").innerHTML = html;
+  renderSearchResults();
+}
+function renderSearchResults(){
+  const box = el("results");
+  if(!box) return;
+  const q = normName(searchQ);
+  if(q.length < 2){ box.innerHTML = ""; return; }
+  const hits = S.db.filter(p => normName(p.nome).includes(q)).slice(0, 15);
+  box.innerHTML = hits.map(p => {
+    const role = roleOf(p), inRoster = S.roster.some(r => r.id === p.id);
+    const full = rosterByRole(role).length >= ROLE_MAX[role];
+    return `<div class="card"><div class="srow">
+      <div class="rball" style="color:${ROLE_COLOR[role]}; border-color:${ROLE_COLOR[role]}">${role}</div>
+      <div class="pmain"><div class="pname"><span class="nametext">${esc(p.nome)}</span><span class="pteam">${esc(p.squadra)} · FM ${fmt(p.fm)} · ${p.pv||0} pv</span></div></div>
+      <button class="addbtn" ${inRoster||full?"disabled":""} onclick="addPlayer(${p.id})">${inRoster?"✓":"+"}</button>
+    </div></div>`;
+  }).join("") || `<div class="hint">Nessun risultato per «${esc(searchQ)}»</div>`;
+}
+
+/* ---------- TAB: GIORNATA ---------- */
+function renderGiornata(){
+  if(!S.fixtures.length){
+    el("main").innerHTML = `<div class="empty">${ill("giornata")}Nessuna partita in calendario al momento.<br>
+      A campionato fermo il Δ calendario è neutro (0):<br>il motore usa solo rating, rigorista e titolarità.<br>
+      Tutto tornerà a regime alla prima giornata.</div>`;
+    return;
+  }
+  const myTeams = new Set(S.roster.map(r => S.byId.get(r.id).squadra));
+  let html = `<div class="rolehead" style="color:var(--dim)">Prossima giornata · Δ calendario</div>`;
+  for(const f of S.fixtures){
+    const dH = calAdjAvg(f.casa).adj, dA = calAdjAvg(f.trasferta).adj;
+    html += `<div class="card"><div class="match">
+      <div class="t" style="${myTeams.has(f.casa)?"color:var(--fluo)":""}">${esc(f.casa)}
+        <span class="d">${signedSpan(dH)}</span></div>
+      <div class="vs">vs</div>
+      <div class="t right" style="${myTeams.has(f.trasferta)?"color:var(--fluo)":""}">
+        <span class="d">${signedSpan(dA)}</span> ${esc(f.trasferta)}</div>
+    </div></div>`;
+  }
+  html += `<div class="note">Δ misurato sulla stagione 2025-26: dipende dal <b>ruolo</b> — un portiere
+    subisce l'avversario forte 2,3 volte più di un centrocampista. Qui è mostrata la media sui ruoli;
+    nel dettaglio di ogni giocatore trovi il Δ esatto. Forza normalizzata sui punti in classifica.
+    Le tue squadre sono in giallo.</div>`;
+  el("main").innerHTML = html;
+}
+
+/* ---------- TAB: FORMAZIONE ---------- */
+function pitchSVG(lu, mod, captainId, valueFn){
+  const getVal = valueFn || (r => expFV(r).val);
+  const rows = [["A", mod.a, 66], ["C", mod.c, 164], ["D", mod.d, 262], ["P", 1, 348]];
+  const byRole = {P:[],D:[],C:[],A:[]};
+  lu.xi.forEach(r => byRole[roleOf(S.byId.get(r.id))].push(r));
+  let g = "";
+  for(const [role, n, y] of rows){
+    byRole[role].slice(0, n).forEach((r, i) => {
+      const x = 340/(n+1)*(i+1), st = S.byId.get(r.id), e = getVal(r);
+      const isCaptain = captainId && r.id === captainId;
+      const maxc = n >= 5 ? 7 : n === 4 ? 8 : 11;      // fila affollata → nome più corto
+      const nm = st.nome.length > maxc ? st.nome.slice(0, maxc-1)+"…" : st.nome;
+      g += `<circle cx="${x}" cy="${y}" r="17" fill="var(--card)" stroke="${ROLE_COLOR[role]}" stroke-width="${isCaptain?3:2}"/>
+        ${isCaptain ? `<circle cx="${x+13}" cy="${y-13}" r="8" fill="var(--fluo)"/>
+        <text x="${x+13}" y="${y-9.5}" text-anchor="middle" font-size="10" font-weight="900" fill="var(--bg)">C</text>` : ""}
+        <text x="${x}" y="${y+5}" text-anchor="middle" font-size="14" font-weight="800" fill="${ROLE_COLOR[role]}">${fmt(e,1)}</text>
+        <text x="${x}" y="${y+34}" text-anchor="middle" font-size="14" font-weight="700" fill="var(--chalk)">${esc(nm)}</text>`;
+    });
+  }
+  return `<svg viewBox="0 0 340 396" style="width:100%; max-height:460px">
+    <rect x="8" y="8" width="324" height="380" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
+    <line x1="8" y1="30" x2="332" y2="30" stroke="var(--line)"/>
+    <circle cx="170" cy="30" r="34" fill="none" stroke="var(--line)"/>
+    <rect x="95" y="326" width="150" height="62" fill="none" stroke="var(--line)"/>
+    <rect x="135" y="361" width="70" height="27" fill="none" stroke="var(--line)"/>${g}</svg>`;
+}
+function histSVG(mc){
+  const bins = 26, lo = mc.sorted[0], hi = mc.sorted[mc.sorted.length-1];
+  const w = (hi-lo)/bins || 1, counts = new Array(bins).fill(0);
+  mc.sorted.forEach(v => counts[Math.min(bins-1, Math.floor((v-lo)/w))]++);
+  const maxC = Math.max(...counts);
+  let bars = "";
+  counts.forEach((c, i) => {
+    const mid = lo + w*(i+.5), h = c/maxC*80;
+    bars += `<rect x="${i*(340/bins)+1}" y="${86-h}" width="${340/bins-2}" height="${Math.max(h,2)}" rx="1.5"
+      fill="${mid >= S.threshold ? "var(--fluo)" : "var(--line)"}"/>`;
+  });
+  return `<svg viewBox="0 0 340 90" style="width:100%; padding:0 14px; box-sizing:border-box">${bars}</svg>`;
+}
+function renderFormazione(){
+  if(!S.thresholdSetByUser) S.threshold = sogliaStatistica();   // si aggiorna da sola finché l'utente non la tocca
+  const missing = ROLES.filter(role => !rosterByRole(role).length);
+  if(missing.length){
+    el("main").innerHTML = `<div class="empty">${ill("formazione")}Per calcolare la formazione servono giocatori
+      in tutti i reparti.<br>Mancano: <b style="color:var(--chalk)">${missing.map(r=>ROLE_LABEL[r]).join(", ")}</b><br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai alla Rosa</button></div>`;
+    return;
+  }
+  const ranking = MODULES.map(m => ({mod:m, lu:bestLineup(m)})).sort((a,b) => b.lu.ev - a.lu.ev);
+  const sel = S.selMod ? ranking.find(x => x.mod.name === S.selMod) || ranking[0] : ranking[0];
+  const mc = monteCarlo(sel.lu);
+  const pAbove = mc.sorted.filter(v => v >= S.threshold).length / mc.sorted.length;
+
+  el("main").innerHTML = `
+    <div class="modscroll">${ranking.map(x =>
+      `<div class="modbtn ${x===sel?"on":""}" onclick="S.selMod='${x.mod.name}'; S.mcSeed++; render()">
+        <div class="n">${x.mod.name}</div><div class="e">${x.lu.complete ? fmt(x.lu.ev,1) : "n/d"}</div></div>`).join("")}
+    </div>
+    <div class="card">
+      <div class="bighead">
+        <div><div class="l">${sel === ranking[0] ? "Modulo ottimo" : "Modulo scelto"}</div>
+          <div class="v" style="color:var(--fluo)">${sel.mod.name}</div></div>
+        <div style="text-align:right"><div class="l">totale atteso</div>
+          <div class="v">${fmt(mc.mean,1)}</div></div>
+      </div>
+      <div style="padding:8px">${pitchSVG(sel.lu, sel.mod)}</div>
+      <button class="btn" style="width:100%; padding:12px; margin-top:4px" onclick="S.tab='dettagliformazione'; render()">📋 Dettagli lineup — i nostri calcoli</button>
+    </div>
+    <div class="card">
+      <div class="bighead"><div class="l">Simulazione · ${N_SIM} giornate</div>
+        <button class="btn" onclick="S.mcSeed++; render()">↻ Rilancia</button></div>
+      ${histSVG(mc)}
+      <div class="mcgrid">
+        <div><div class="v">${fmt(mc.p10,1)}</div><div class="l">P10</div></div>
+        <div><div class="v">${fmt(mc.p50,1)}</div><div class="l">Mediana</div></div>
+        <div><div class="v">${fmt(mc.p90,1)}</div><div class="l">P90</div></div>
+      </div>
+      <div class="thres">
+        <div class="row"><span>P(totale ≥ <b style="color:var(--chalk)">${S.threshold}</b>)</span>
+          <span class="p" style="color:${pAbove>=.5?"var(--fluo)":"var(--amber)"}">${fmt(pAbove*100,0)}%</span></div>
+        <input type="range" min="55" max="85" value="${S.threshold}"
+          oninput="S.threshold=+this.value; S.thresholdSetByUser=true; saveLocal(); render()">
+        <div class="sub" style="margin-top:4px">${S.thresholdSetByUser
+          ? `Soglia impostata da te. <span style="color:var(--fluo); cursor:pointer" onclick="S.thresholdSetByUser=false; saveLocal(); render()">Torna automatica</span>`
+          : "Soglia calcolata dalla media dei migliori 11 voti reali della tua lega (senza capitano/modificatore) — si aggiorna da sola man mano che si gioca. Muovi la barretta per fissarla."}</div>
+      </div>
+    </div>
+    ${!S.fixtures.length ? `<div class="note">Campionato fermo: Δ calendario neutro per tutti.</div>` : ""}`;
+}
+
+/* ---------- TAB: FATTORE C ---------- */
+let fcResult = null;
+function spinFC(){
+  const avail = S.roster.filter(r => !r.sq && !r.inf);
+  const mod = MODULES[Math.floor(Math.random()*MODULES.length)];
+  const pick = (role, n) => {
+    const pool = avail.filter(r => roleOf(S.byId.get(r.id)) === role);
+    for(let i = pool.length-1; i > 0; i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    return pool.slice(0, n);
+  };
+  const xi = [...pick("P",1), ...pick("D",mod.d), ...pick("C",mod.c), ...pick("A",mod.a)];
+  fcResult = {mod, lu:{xi}};
+  render();
+}
+function renderFattoreC(){
+  el("main").innerHTML = `
+    <div class="card center">
+      ${ill("fattorec")}
+      <h3 style="margin:4px 0">Fattore C</h3>
+      <p style="color:var(--dim); font-size:14px; margin:4px 0 16px">
+        Quando l'algoritmo ti ha tradito tre giornate di fila, resta solo lui.<br>
+        Modulo e undici estratti a sorte, come da tradizione.</p>
+      <button class="btn primary" ${S.roster.length<11?"disabled":""} onclick="spinFC()">ESTRAI LA FORMAZIONE</button>
+      ${S.roster.length<11?'<div class="hint" style="margin-top:8px">Servono almeno 11 giocatori in rosa</div>':""}
+    </div>
+    ${fcResult ? `<div class="card">
+      <div class="bighead" style="justify-content:center; text-align:center">
+        <div><div class="l">Il modulo fortunato è</div>
+        <div class="v" style="color:var(--amber)">${fcResult.mod.name}</div></div></div>
+      <div style="padding:8px">${pitchSVG(fcResult.lu, fcResult.mod)}</div>
+    </div>` : ""}`;
+}
+
+/* ---------- Metodo ---------- */
+function openMetodo(){
+  el("sheet").innerHTML = `<div class="sheet-bg" onclick="el('sheet').innerHTML=''">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <h3>Il metodo, in breve · <span style="font-size:14px; color:var(--dim)">v2.1.0</span></h3>
+      <p style="font-size:12px; color:var(--fluo)">Taratura 31/07/2026 — costanti misurate su
+      10.504 fantavoti reali (Serie A 2025-26), metriche Understat role-specific, titolarità reale (agosto).</p>
+      <p><b>Rating base</b> — fantamedia con shrinkage bayesiano verso il prior di ruolo:
+      (pv·FM + K·prior)/(pv + K), con K per ruolo (P 28 · D 16 · C 15 · A 19) stimato per
+      Bayes empirico. Si restringe molto perché il rumore di una giornata è 10-28 volte più
+      grande delle vere differenze tra giocatori dello stesso ruolo.</p>
+      <p><b>Forza squadra</b> — la posizione in classifica della <i>propria</i> squadra vale
+      quanto e più dell'avversario, e non è già contenuta nella fantamedia (verificato).
+      Essendo costante nella stagione entra nel rating, non nel Δ di giornata.</p>
+      <p><b>Δ calendario</b> — casa/trasferta e forza dell'avversario, entrambi <b>dipendenti dal
+      ruolo</b>: un portiere subisce l'avversario forte 2,3 volte più di un centrocampista.
+      A campionato fermo vale 0 per tutti.</p>
+      <p><b>Performance Understat (role-specific)</b> — bonus da statistiche Understat con pesi <b>diversi per ruolo</b>:
+      <br><b>Attaccanti:</b> tiri (shots_p90, β=0.12), xA (β=0.08), xG (β=0.15)
+      <br><b>Centrocampisti:</b> xA (β=0.07), tackle+intercetti (β=0.04), passaggi progressivi (β=0.05)
+      <br><b>Difensori:</b> tackle+intercetti (β=0.08), xG concesso (β=-0.10), rinvii (β=0.03)
+      <br><b>Portieri:</b> xG concesso (β=-0.15), tiri in porta subiti (β=-0.08)
+      <br>Effetto volutamente contenuto (tie-breaker). Attivo quando è presente il feed; a campionato fermo vale 0.</p>
+      <p><b>Rigorista</b> — +0,30 al fantavoto atteso; il flag viene proposto in automatico
+      dalla gerarchia rigoristi del web, ma resta modificabile.</p>
+      <p><b>Indisponibili</b> — squalificati e infortunati vengono proposti dai dati web
+      al momento dell'aggiunta in rosa; verifica sempre prima della giornata.</p>
+      <p><b>Titolarità</b> — Indice di Schierabilità = base × titolarità.
+      Titolarità reale da probabili formazioni (SOS Fanta, Fantacalcio.it, Calciomagazine) quando disponibili (agosto);
+      altrimenti fallback a presenze storiche (PV). E[slot] = p·E[fv] + (1−p)·valore riserva per la Rosa.</p>
+      <p><b>Regole Lega</b> — Bonus Capitano e Modificatore di Difesa sono <i>opzionali</i>,
+      configurabili in Altro → Regole Lega, e si applicano al <b>Top 11</b> (dati reali a giornata
+      conclusa) — non alla Formazione, che resta un consiglio universale basato solo su schierabilità.
+      Il modificatore di difesa segue il meccanismo reale di fantacalcio.it: richiede almeno 4
+      difensori schierati, e dà un bonus/malus unico alla squadra in base alla media del voto
+      puro di portiere + 3 migliori difensori.</p>
+      <p><b>Monte Carlo</b> — ${N_SIM} giornate simulate con fantavoti gaussiani
+      (σ misurate: P 1,55 · D 1,07 · C 1,33 · A 1,90): mediana, banda P10–P90 e
+      probabilità di superare la soglia scelta. I portieri sono molto più volatili di
+      quanto assumessi prima.</p>
+      <p style="font-size:12px">Dati: fantacalcio.it via pipeline GitHub Actions ·
+      ${S.meta ? "ultimo aggiornamento " + new Date(S.meta.aggiornato).toLocaleString("it-IT") : ""}</p>
+      <button class="btn" style="width:100%; padding:13px; margin-top:8px"
+        onclick="el('sheet').innerHTML=''">Chiudi</button>
+    </div></div>`;
+}
+
+/* ---------- TAB: SFIDA (confronto con avversario) ---------- */
+function miniPitch(best, color){
+  if(!best) return `<div class="hint">Rosa incompleta per un modulo valido.</div>`;
+  const byRole={P:[],D:[],C:[],A:[]};
+  best.lu.xi.forEach(r=>byRole[roleOf(S.byId.get(r.id))].push(r));
+  let h=`<div class="minixi">`;
+  for(const role of ROLES){
+    for(const r of byRole[role]){
+      const st=S.byId.get(r.id);
+      h+=`<div class="mline"><span class="mrole" style="color:${ROLE_COLOR[role]}">${role}</span>
+        <span class="mname">${esc(st?st.nome:r.id)}</span>
+        <span class="mval" style="color:${color}">${fmt(expFV(r).val,1)}</span></div>`;
+    }
+  }
+  return h+`</div>`;
+}
+function changeSfidaGiornata(delta){
+  const max = Math.max(1, numGiornateCalendario());
+  S.sfidaGiornata = Math.min(max, Math.max(1, (S.sfidaGiornata||1) + delta));
+  const calOpp = oppOfCalendario(S.myTeamName, S.sfidaGiornata);
+  if(calOpp) S.oppName = calOpp;               // il calendario ha priorità quando cambi giornata
+  saveLocal(); render();
+}
+function renderSfida(){
+  const teams=Object.keys(S.leagueRosters);
+  if(!teams.length){
+    el("main").innerHTML=`<div class="empty">${ill("sfida")}Per il confronto serve prima importare le rose della lega.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa → Importa</button></div>`;
+    return;
+  }
+  if(!S.myTeamName){
+    el("main").innerHTML=`<div class="empty">${ill("sfida")}Indica prima qual è la <b>tua</b> squadra.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa</button></div>`;
+    return;
+  }
+  const others=teams.filter(t=>t!==S.myTeamName);
+  const calOpp = oppOfCalendario(S.myTeamName, S.sfidaGiornata);
+  const opp=(S.oppName&&others.includes(S.oppName))?S.oppName:(calOpp && others.includes(calOpp) ? calOpp : others[0]);
+  S.oppName=opp;
+  const haCalendario = numGiornateCalendario() > 0;
+
+  const myBest=bestOf(S.roster);
+  const oppBest=bestOf(oppRosterOf(opp));
+  let head='';
+  if(myBest&&oppBest){
+    const mMC=monteCarlo(myBest.lu), oMC=monteCarlo(oppBest.lu);
+    const wp=winProb(mMC.sorted,oMC.sorted);
+    const myWin=wp.win+wp.draw/2;    // metà dei pareggi
+    head=`<div class="card" style="padding:14px">
+      <div class="vsrow">
+        <div class="vsside"><div class="vsname" style="color:var(--fluo)">${esc(S.myTeamName)}</div>
+          <div class="vstot">${fmt(mMC.mean,1)}</div></div>
+        <div class="vsmid">
+          <div class="wp" style="color:${myWin>=.5?"var(--fluo)":"var(--amber)"}">${fmt(myWin*100,0)}%</div>
+          <div class="wplab">vittoria</div>
+          <div class="vsmod">${myBest.mod.name} · ${oppBest.mod.name}</div>
+        </div>
+        <div class="vsside"><div class="vsname">${esc(opp)}</div>
+          <div class="vstot">${fmt(oMC.mean,1)}</div></div>
+      </div>
+    </div>`;
+  }
+  const pick=`<select class="oppsel" onchange="S.oppName=this.value; render()">
+    ${others.map(t=>`<option ${t===opp?"selected":""}>${esc(t)}</option>`).join("")}</select>`;
+  const giornataStep = haCalendario ? `<div style="display:flex; align-items:center; gap:8px; padding:0 3px 8px">
+      <button class="btn" style="padding:6px 12px" onclick="changeSfidaGiornata(-1)">−</button>
+      <div style="flex:1; text-align:center; font-weight:700; color:var(--chalk)">Giornata ${S.sfidaGiornata}</div>
+      <button class="btn" style="padding:6px 12px" onclick="changeSfidaGiornata(1)">+</button>
+    </div>` : `<div class="sub" style="padding:0 3px 8px">Nessun calendario di lega —
+      <span style="color:var(--fluo); cursor:pointer" onclick="S.tab='calendariolega'; render()">generane uno</span>
+      per scegliere l'avversario in automatico giornata per giornata.</div>`;
+
+  el("main").innerHTML=`
+    <div class="rolehead" style="color:var(--dim)">${esc(S.currentLeague||"")} · Avversario di giornata</div>
+    ${giornataStep}
+    <div style="padding:0 3px 6px">${pick}</div>
+    ${head}
+    <div class="cmpgrid">
+      <div class="card" style="padding:10px"><div class="cmphead" style="color:var(--fluo)">La tua formazione</div>${miniPitch(myBest,"var(--fluo)")}</div>
+      <div class="card" style="padding:10px"><div class="cmphead">${esc(opp)}</div>${miniPitch(oppBest,"var(--chalk)")}</div>
+    </div>
+    <div class="note">La tua formazione usa i tuoi ritocchi (titolarità, squalifiche…); quella avversaria
+      parte da impostazioni standard. Probabilità stimata da ${N_SIM} simulazioni per parte.</div>`;
+}
+
+/* ---------- TAB: SPUNTI DI MERCATO ---------- */
+/* ============================================================
+   INDICE DI TITOLARITÀ (IT) — unica fonte di verità, usata sia da
+   Rosa (default di pTit) sia da Formazione/Sfida (scheierability).
+
+   IT = w·TS + (1-w)·consensus_fonti_reali   (quando le fonti reali sono disponibili)
+   IT = TS                                    (altrimenti, es. fuori giornata)
+
+   TS (storico): transizione graduale da rateo presenze stagione SCORSA
+   a rateo presenze stagione CORRENTE, man mano che si accumulano giornate
+   reali — esattamente come da specifica.
+   ============================================================ */
+const IT_PESO_STORICO = 0.12;    // w: peso di TS quando le fonti reali sono disponibili
+const IT_STORICO_NEUTRO = 0.7;   // fallback: né storico né stagione corrente hanno segnale
+function giornateAttualiGiocate(){
+  const g = availableGiornate();
+  return g.length ? g[0] : 0;
+}
+function tsOf(st){
+  const giocate = giornateAttualiGiocate();
+  const storico = S.storicoPresenze && S.storicoPresenze[st.id];
+  const rateoStorico = storico ? storico.rateo : IT_STORICO_NEUTRO;
+  if(giocate === 0) return rateoStorico;                       // stagione non ancora iniziata
+  const rateoCorrente = Math.min(1, (st.pv||0) / giocate);
+  const w = Math.min(1, giocate/38);                            // avanzando la stagione, pesa più il presente
+  return w*rateoCorrente + (1-w)*rateoStorico;
+}
+function indiceTitolarita(st){
+  // Segnale più forte di tutti: squalifica/infortunio confermati da fonte reale
+  // (indisponibili.json) → quasi certamente non gioca, a prescindere da storico
+  // o percentuale probabili formazioni (che potrebbe non essersi ancora aggiornata).
+  const cat = S.indisponibili && S.indisponibili[st.squadra];
+  const fuoriCerto = cat && (
+    (cat.squalificati||[]).some(x => String(x.id) === String(st.id)) ||
+    (cat.infortunati||[]).some(x => String(x.id) === String(st.id))
+  );
+  if(fuoriCerto) return 0.02;   // quasi zero, non esattamente 0 per non rompere eventuali divisioni altrove
+
+  const ts = tsOf(st);
+  const fonte = S.titolarita_reale && S.titolarita_reale[st.id];
+  if(!fonte || fonte.confidence == null) return ts;             // nessuna fonte reale (es. fuori giornata)
+  return IT_PESO_STORICO*ts + (1-IT_PESO_STORICO)*fonte.confidence;
+}
+const MKT_REG = 25;                       // presenze ~ titolare fisso in una stagione (legacy, vedi indiceTitolarita)
+function availab(st){ return indiceTitolarita(st); }
+function marketScore(st){                  // qualità × titolarità: chi non gioca non viene consigliato
+  return (shrunk(st) + teamAdj(st)) * (0.15 + 0.85*availab(st));
+}
+function statsReady(){                     // i dati stagionali (fantamedie reali) sono disponibili?
+  return S.db.filter(p => (p.fm||0) >= 4).length >= 30;
+}
+function mkRow(st, tag, tagColor, delta){
+  const role=roleOf(st), av=Math.round(availab(st)*100);
+  return `<div class="mkline">
+    <span class="mrole" style="color:${ROLE_COLOR[role]}">${role}</span>
+    <span class="mname">${esc(st.nome)}<span class="mkteam"> ${esc(st.squadra||"")}</span></span>
+    <span class="mkstat">${fmt(shrunk(st),2)}<span class="mksub">rating</span></span>
+    <span class="mkstat">${st.pv||0}<span class="mksub">pres.</span></span>
+    ${delta!=null?`<span class="mkdelta ${delta>=0?"pos":"neg"}">${delta>=0?"+":""}${fmt(delta,2)}</span>`:""}
+    ${tag?`<span class="mktag" style="color:${tagColor};border-color:${tagColor}">${tag}</span>`:""}
+  </div>`;
+}
+function renderMercato(){
+  if(!S.currentLeague || !S.leagues[S.currentLeague]){
+    el("main").innerHTML=`<div class="empty">${ill("mercato")}Gli spunti di mercato servono le rose della lega.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa → Importa</button></div>`; return;
+  }
+  if(!S.myTeamName || !S.roster.length){
+    el("main").innerHTML=`<div class="empty">${ill("mercato")}Scegli prima la <b>tua</b> squadra in questa lega.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa</button></div>`; return;
+  }
+  if(!statsReady()){
+    if(!S.listone){
+      el("main").innerHTML=`<div class="empty">${ill("mercato")}Spunti di mercato pronto, ma servono i dati stagionali.<br><br>
+        Al momento le fantamedie e le presenze non sono disponibili (campionato fermo / fuori stagione):
+        senza rendimento e titolarità reali i suggerimenti non avrebbero senso.<br><br>
+        Il tool si accende da solo appena la nuova stagione produce statistiche. ⚽</div>`; return;
+    }
+    // Fallback pre-stagione: nessun rendimento reale ancora, ma abbiamo l'FVM del listone ufficiale
+    const owned2=new Set();
+    Object.values(S.leagueRosters).forEach(cods=>cods.forEach(c=>owned2.add(c)));
+    const freeByRoleFvm={P:[],D:[],C:[],A:[]};
+    for(const g of S.listone.giocatori){
+      if(owned2.has(g.id) || g.fvm==null || !freeByRoleFvm[g.ruolo]) continue;
+      freeByRoleFvm[g.ruolo].push(g);
+    }
+    ROLES.forEach(r=>freeByRoleFvm[r].sort((a,b)=>(b.fvm||0)-(a.fvm||0)));
+    const fr2=S._mktRole||"A";
+    el("main").innerHTML=`<div class="rolehead" style="color:var(--dim)">${esc(S.currentLeague)} · ${esc(S.myTeamName)} — spunti di mercato (pre-stagione)</div>
+      <div class="mkhint">Nessun rendimento reale ancora disponibile: qui sotto i migliori svincolati per
+      <b>FVM</b> (proiezione ufficiale da listone), non per rating del motore.</div>
+      <div class="leaguebar">${ROLES.map(r=>`<button class="lchip ${r===fr2?"on":""}" onclick="S._mktRole='${r}'; render()">${ROLE_LABEL[r]}</button>`).join("")}</div>
+      <div class="card" style="padding:8px 4px">
+        ${freeByRoleFvm[fr2].slice(0,12).map(g=>`<div class="mkline">
+          <span class="mrole" style="color:${ROLE_COLOR[g.ruolo]}">${g.ruolo}</span>
+          <span class="mname">${esc(g.nome)}<span class="mkteam"> ${esc(g.squadra||"")}</span></span>
+          <span class="mkstat">${g.fvm}<span class="mksub">FVM</span></span>
+          ${g.qt!=null?`<span class="mkstat">${g.qt}<span class="mksub">Qt</span></span>`:""}
+        </div>`).join("") || `<div class="hint">Nessuno svincolato in questo ruolo.</div>`}
+      </div>
+      <div class="note">Vista provvisoria basata sul listone ufficiale. Appena la stagione produce
+      fantamedie reali, questa scheda passa automaticamente al calcolo completo (rating + titolarità).</div>`;
+    return;
+  }
+  // svincolati = giocatori con id non presenti in NESSUNA rosa della lega
+  const owned=new Set();
+  Object.values(S.leagueRosters).forEach(cods=>cods.forEach(c=>owned.add(c)));
+  const freeByRole={P:[],D:[],C:[],A:[]};
+  for(const p of S.db){ if(p.id==null||owned.has(p.id)) continue; const r=roleOf(p); if(freeByRole[r]) freeByRole[r].push(p); }
+  ROLES.forEach(r=>freeByRole[r].sort((a,b)=>marketScore(b)-marketScore(a)));
+
+  // i tuoi peggiori (per punteggio di mercato: scarso rendimento O poca titolarità)
+  const mine=S.roster.map(r=>S.byId.get(r.id)).filter(Boolean).slice();
+  mine.sort((a,b)=>marketScore(a)-marketScore(b));
+  const used=new Set(); const swaps=[];
+  for(const st of mine.slice(0,6)){
+    const role=roleOf(st);
+    const fa=freeByRole[role].find(p=>!used.has(p.id) && marketScore(p)>marketScore(st)+0.05);
+    if(fa){ used.add(fa.id); swaps.push({out:st, in:fa}); }
+  }
+
+  let html=`<div class="rolehead" style="color:var(--dim)">${esc(S.currentLeague)} · ${esc(S.myTeamName)} — spunti di mercato</div>`;
+  if(swaps.length){
+    html+=`<div class="mkhint">I tuoi anelli deboli e il miglior svincolato per rimpiazzarli (per rating e titolarità):</div>`;
+    for(const s of swaps){
+      const d=marketScore(s.in)-marketScore(s.out);
+      html+=`<div class="card" style="padding:8px 4px; margin-bottom:8px">
+        ${mkRow(s.out,"CEDI","var(--red)")}
+        <div class="mkarrow">↓ rimpiazza con</div>
+        ${mkRow(s.in,"PRENDI","var(--fluo)", shrunk(s.in)-shrunk(s.out))}
+      </div>`;
+    }
+  } else {
+    html+=`<div class="mkhint">Nessun upgrade evidente tra gli svincolati: la tua rosa regge bene. 👌</div>`;
+  }
+
+  // esplora i migliori svincolati per ruolo
+  const fr=S._mktRole||"A";
+  html+=`<div class="rolehead" style="color:var(--dim); margin-top:8px">Migliori svincolati per ruolo</div>
+    <div class="leaguebar">${ROLES.map(r=>`<button class="lchip ${r===fr?"on":""}" onclick="S._mktRole='${r}'; render()">${ROLE_LABEL[r]}</button>`).join("")}</div>
+    <div class="card" style="padding:8px 4px">
+      ${freeByRole[fr].slice(0,12).map(p=>mkRow(p)).join("") || `<div class="hint">Nessuno svincolato in questo ruolo.</div>`}
+    </div>
+    <div class="note">Punteggio di mercato = rating (fantamedia bayesiana) pesato per la titolarità
+      (presenze): un fuoriclasse che gioca poco scende in graduatoria. Svincolato = non presente
+      in nessuna rosa della lega selezionata.</div>`;
+  el("main").innerHTML=html;
+}
+
+/* ---------- routing ---------- */
+const SOTTO_ALTRO = ["sfida","mercato","fattorec","cellha","listone","asta","regolelega","top11","calendariolega"];
+const SOTTO_FORMAZIONE = ["dettagliformazione"];
+
+/* nome per il confronto: toglie l'iniziale puntata del nome (es. "Sucic P." → "sucic") */
+function nomeCore(nome){
+  return normName(String(nome).replace(/\b[A-Z]\.?\s*$/,"").replace(/\s+[A-Z]\.?\b/g,""));
+}
+/* distanza di edit (Levenshtein) per tollerare refusi tipo susic/sucic */
+function editDist(a, b){
+  const m=a.length, n=b.length;
+  if(Math.abs(m-n) > 3) return 99;
+  const dp=Array.from({length:m+1}, (_,i)=>[i, ...Array(n).fill(0)]);
+  for(let j=0;j<=n;j++) dp[0][j]=j;
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++){
+    dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1]
+      : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  }
+  return dp[m][n];
+}
+/* un giocatore combacia con la query se la contiene, o se un pezzo del nome le somiglia */
+function nomeMatch(nomeNorm, q){
+  if(nomeNorm.includes(q)) return true;
+  if(q.length < 4) return false;                 // troppo corta per il fuzzy
+  // confronto la query con ogni parola del nome e col nome intero
+  const soglia = q.length <= 5 ? 1 : 2;
+  if(editDist(nomeNorm, q) <= soglia) return true;
+  for(const parte of nomeNorm.split(/(?=[A-Z])| /)){
+    if(parte.length>=4 && editDist(parte, q) <= soglia) return true;
+  }
+  return false;
+}
+
+/* ---- CHI CE L'HA: cerca un giocatore in tutte le leghe ---- */
+function cellhaSearch(q){
+  S._cellhaQ = q;
+  render();
+}
+function renderCellHa(){
+  const leghe = Object.keys(S.leagues||{});
+  if(!leghe.length){
+    el("main").innerHTML = `<h1>Chi ce l'ha</h1>
+      <div class="empty">Per scoprire chi ha un giocatore servono le rose delle tue leghe.<br><br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa → Importa</button></div>`;
+    return;
+  }
+  const q = (S._cellhaQ||"").trim();
+  const nq = normName(q);
+  let risultati = "";
+  if(nq.length >= 2){
+    // candidati dal DB ufficiale (statistiche)
+    const cand = S.db.filter(p => nomeMatch(nomeCore(p.nome), nq)).map(p=>({id:p.id, nome:p.nome, squadra:p.squadra, ruolo:roleOf(p), inDb:true}));
+    const visti = new Set(cand.map(c=>c.id));
+    // candidati dal listone ufficiale (anagrafica) non già presenti
+    if(S.listone){
+      for(const g of S.listone.giocatori){
+        if(visti.has(g.id)) continue;
+        if(nomeMatch(nomeCore(g.nome), nq)){
+          cand.push({id:g.id, nome:g.nome, squadra:g.squadra, ruolo:g.ruolo||"?", inDb:true});
+          visti.add(g.id);
+        }
+      }
+    }
+    // candidati fuori listone (presenti nelle rose ma non altrove)
+    for(const sid in (S.extraNames||{})){
+      if(visti.has(sid)) continue;
+      if(nomeMatch(nomeCore(S.extraNames[sid].nome), nq))
+        cand.push({id:sid, nome:S.extraNames[sid].nome, squadra:S.extraNames[sid].squadra, ruolo:"?", inDb:false});
+    }
+    cand.sort((a,b)=> a.nome.localeCompare(b.nome));
+    const lista = cand.slice(0, 10);
+    if(!lista.length){
+      risultati = `<div class="empty" style="padding:24px 0">Nessun giocatore trovato per “${esc(q)}”.</div>`;
+    } else {
+      risultati = lista.map(p => {
+        const trovato = [];
+        for(const lega of leghe){
+          const rosters = (S.leagues[lega].rosters)||{};
+          for(const squadra in rosters){
+            if((rosters[squadra]||[]).includes(p.id)) trovato.push({lega, squadra});
+          }
+        }
+        const rc = ROLE_COLOR[p.ruolo] || "var(--dim)";
+        const testa = `<div class="ch-player">
+          <span class="ch-role" style="color:${rc}">${p.ruolo}</span>
+          <b>${esc(p.nome)}</b><span class="ch-team">${esc(p.squadra||"")}${p.inDb?"":" · fuori listone"}</span></div>`;
+        if(!trovato.length){
+          return `<div class="card">${testa}
+            <div class="ch-none">Svincolato in tutte le tue leghe</div></div>`;
+        }
+        const righe = trovato.map(t=>{
+          const mio = (S.leagues[t.lega].myTeam === t.squadra);
+          const msg = `${t.squadra}, fantassist mi ricorda che hai ${p.nome}`;
+          return `<div class="ch-hit${mio?' mine':''}">
+            <span class="ch-lega">${esc(t.lega)}</span>
+            <span class="ch-squadra">${esc(t.squadra)}${mio?' · tu':''}</span>
+            <button class="ch-wa" onclick="waCellha(${JSON.stringify(msg).replace(/"/g,'&quot;')})" title="Prepara messaggio">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.2 14.8l-.3-.2-2.8.9.9-2.7-.2-.3A8 8 0 0 1 12 4zm4.5 10.4c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.7.7-.8 1.7-.3 2.8a8 8 0 0 0 3.7 3.9c1.6.8 2.3.7 3 .5.4-.1 1.2-.5 1.4-1 .2-.5.2-.9.1-1z"/></svg>
+            </button></div>`;
+        }).join("");
+        return `<div class="card">${testa}${righe}</div>`;
+      }).join("");
+    }
+  } else {
+    risultati = `<div class="ch-hint">Scrivi il cognome di un giocatore per vedere chi lo ha nelle tue ${leghe.length} legh${leghe.length===1?'a':'e'}.</div>`;
+  }
+
+  el("main").innerHTML = `<h1>Chi ce l'ha</h1>
+    <input class="ch-input" type="text" placeholder="Cerca un giocatore…" value="${esc(q)}"
+      oninput="cellhaSearch(this.value)" autocomplete="off">
+    ${risultati}`;
+  // il campo perde il focus a ogni render: lo rimetto in fondo
+  const inp = el("main").querySelector(".ch-input");
+  if(inp){ inp.focus(); const v=inp.value; inp.value=""; inp.value=v; }
+}
+function waCellha(msg){
+  window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank");
+}
+
+/* ---- LISTONE: pagina di importazione ---- */
+/* ================= APPUNTI PER L'ASTA ================= */
+const ASTA_SLOT_DEF = {P:3, D:8, C:8, A:6};
+const RUOLO_ORD = {P:0, D:1, C:2, A:3};
+
+function astaInit(){
+  if(!S.asta) S.asta = {budget:1000, slot:{...ASTA_SLOT_DEF}, giocatori:[]};
+  return S.asta;
+}
+/* indice di schierabilità dal motore, se il giocatore è nel players.json */
+function astaIndice(id){
+  const st = S.byId.get(id);
+  if(!st) return null;
+  return expFV({id, pTit:100, rig:false}).val;   // valore "a pieno regime", solo come riferimento
+}
+function fvmOf(id){                              // FVM da listone: scala propria (proiezione asta), non un voto
+  return S.listoneById?.get(id)?.fvm ?? null;
+}
+/* % massima suggerita da spendere: FVM del giocatore / somma FVM dei migliori
+   N giocatori del suo ruolo (rosa standard 3P-8D-8C-6A) × fetta di budget del
+   ruolo. Percentuali di ruolo: media di 5 fonti reali (Fantacalcio-Online su
+   50.175 aste vere 2026/27, SOS Fanta, Aranzulla, regola tradizionale) —
+   non inventate, cercate apposta. */
+const RUOLO_BUDGET_SHARE = {P:0.07, D:0.17, C:0.29, A:0.47};
+const RUOLO_TOP_N = {P:3, D:8, C:8, A:6};
+function percMaxSuggerita(id){
+  if(!S.listone) return null;
+  const g = S.listoneById?.get(id);
+  if(!g || g.fvm == null || !RUOLO_TOP_N[g.ruolo]) return null;
+  const stessoRuolo = S.listone.giocatori.filter(p => p.ruolo === g.ruolo && p.fvm != null);
+  const topN = [...stessoRuolo].sort((a,b) => b.fvm - a.fvm).slice(0, RUOLO_TOP_N[g.ruolo]);
+  const somma = topN.reduce((s,p) => s + p.fvm, 0);
+  if(somma <= 0) return null;
+  const perc = (g.fvm / somma) * RUOLO_BUDGET_SHARE[g.ruolo] * 100;
+  return Math.round(perc * 100) / 100;   // arrotonda a 2 decimali, es. 0.10 invece di 0.1013...
+}
+function astaAdd(g){
+  const a = astaInit();
+  if(a.giocatori.some(x => x.id === g.id)) return false;   // già in lista
+  a.giocatori.push({
+    id:g.id, nome:g.nome, squadra:g.squadra||"", ruolo:g.ruolo||"?",
+    qt: g.qt!=null ? g.qt : null,
+    tit: "",          // titolarità: "T" titolare, "B" ballottaggio, "S" scommessa
+    quota: null,      // crediti che sono disposto a spendere
+    percMax: percMaxSuggerita(g.id),   // % suggerita dal calcolo FVM/ruolo — resta modificabile a mano
+    stato: "obiettivo", // obiettivo | preso | sfumato
+    prezzo: null,     // prezzo reale pagato
+  });
+  saveLocal();
+  return true;
+}
+function astaPatch(id, campo, val){
+  const a = astaInit();
+  const g = a.giocatori.find(x => x.id === id);
+  if(!g) return;
+  g[campo] = val;
+  saveLocal(); render();
+}
+function astaRemove(id){
+  const a = astaInit();
+  a.giocatori = a.giocatori.filter(x => x.id !== id);
+  saveLocal(); render();
+}
+function astaPreso(id, prezzo){
+  const a = astaInit();
+  const g = a.giocatori.find(x => x.id === id);
+  if(!g) return;
+  g.stato = "preso"; g.prezzo = prezzo;
+  saveLocal(); render();
+}
+
+function renderAsta(){
+  const a = astaInit();
+  const presi = a.giocatori.filter(g => g.stato === "preso");
+  const spesi = presi.reduce((s,g) => s + (+g.prezzo || 0), 0);
+  const restanti = a.budget - spesi;
+  const perRuolo = r => presi.filter(g => g.ruolo === r).length;
+  const slotTot = Object.values(a.slot).reduce((x,y)=>x+y,0);
+
+  // riepilogo in alto
+  let head = `<div class="asta-top">
+    <div class="asta-big"><span class="v">${restanti}</span><span class="l">crediti su ${a.budget}</span></div>
+    <div class="asta-slots">` +
+    ["P","D","C","A"].map(r => {
+      const n = perRuolo(r), tot = a.slot[r], full = n>=tot;
+      return `<div class="asta-slot${full?' full':''}" style="border-color:${ROLE_COLOR[r]}">
+        <span class="r" style="color:${ROLE_COLOR[r]}">${r}</span>
+        <span class="n">${n}/${tot}</span></div>`;
+    }).join("") +
+    `</div></div>
+    <div class="asta-bar"><div class="asta-fill" style="width:${Math.max(0,Math.min(100,100*spesi/a.budget))}%"></div></div>
+    <div class="asta-sub">${presi.length}/${slotTot} giocatori presi · ${spesi} spesi</div>`;
+
+  // barra di ricerca per aggiungere
+  head += `<input class="ch-input" type="text" placeholder="Aggiungi un giocatore…" value="${esc(S._astaQ||"")}"
+      oninput="S._astaQ=this.value; render()" autocomplete="off">`;
+
+  // risultati ricerca (solo se sto scrivendo)
+  const q = (S._astaQ||"").trim(), nq = normName(q);
+  if(nq.length >= 2){
+    const giaIn = new Set(a.giocatori.map(g=>g.id));
+    let cand = [];
+    const push = o => { if(!giaIn.has(o.id) && !cand.some(c=>c.id===o.id)) cand.push(o); };
+    // dal listone (fonte principale in fase d'asta)
+    if(S.listone) for(const g of S.listone.giocatori)
+      if(nomeMatch(nomeCore(g.nome), nq)) push({id:g.id, nome:g.nome, squadra:g.squadra, ruolo:g.ruolo, qt:g.qt});
+    // dal players.json (se manca il listone)
+    for(const p of S.db)
+      if(nomeMatch(nomeCore(p.nome), nq)) push({id:p.id, nome:p.nome, squadra:p.squadra, ruolo:roleOf(p), qt:null});
+    cand = cand.slice(0, 8);
+    head += `<div class="asta-cerca">` + (cand.length
+      ? cand.map(o => `<div class="asta-hit" onclick="if(astaAdd(${JSON.stringify(o).replace(/"/g,'&quot;')})){S._astaQ='';} render()">
+          <span class="ch-role" style="color:${ROLE_COLOR[o.ruolo]||'var(--dim)'}">${o.ruolo}</span>
+          <b>${esc(o.nome)}</b><span class="ch-team">${esc(o.squadra||"")}${o.qt!=null?` · ${o.qt}`:""}</span>
+          <span class="asta-plus">+</span></div>`).join("")
+      : `<div class="ch-hint" style="padding:10px 0">Nessun giocatore per “${esc(q)}”.</div>`)
+      + `</div>`;
+  }
+
+  // lista raggruppata per ruolo
+  let corpo = "";
+  const attivi = a.giocatori.filter(g => g.stato !== "sfumato");
+  if(!attivi.length && nq.length < 2){
+    corpo = `<div class="empty" style="margin-top:20px">La tua lista è vuota.<br>Cerca un giocatore qui sopra per aggiungerlo agli obiettivi.</div>`;
+  } else {
+    for(const r of ["P","D","C","A"]){
+      const gs = a.giocatori.filter(g => g.ruolo === r).sort((x,y)=>{
+        if((x.stato==="preso")!==(y.stato==="preso")) return x.stato==="preso"?1:-1;
+        return (y.quota||0)-(x.quota||0);
+      });
+      if(!gs.length) continue;
+      corpo += `<div class="asta-rgroup"><span style="color:${ROLE_COLOR[r]}">${ROLE_LABEL[r]}</span>
+        <span class="asta-rcount">${perRuolo(r)}/${a.slot[r]}</span></div>`;
+      corpo += gs.map(g => astaCard(g)).join("");
+    }
+  }
+
+  el("main").innerHTML = `<h1>Appunti per l'asta</h1>${head}${corpo}`;
+  const inp = el("main").querySelector(".ch-input");
+  if(inp && document.activeElement !== inp && (S._astaQ||"").length){ inp.focus(); const v=inp.value; inp.value=""; inp.value=v; }
+}
+
+function astaCard(g){
+  const ind = astaIndice(g.id);
+  const fvm = fvmOf(g.id);
+  const stG = S.byId.get(g.id);
+  const fuoriSerieA = stG && stG.fuoriSerieA;
+  const preso = g.stato === "preso";
+  const TIT = {T:"Titolare", B:"Ballottaggio", S:"Scommessa"};
+  const titBtns = ["T","B","S"].map(t => {
+    const nuovo = g.tit===t ? "''" : "'"+t+"'";
+    return `<button class="asta-tit${g.tit===t?' on':''}" onclick="astaPatch(${JSON.stringify(g.id)},'tit',${nuovo})">${t}</button>`;
+  }).join("");
+
+  return `<div class="asta-card${preso?' preso':''}">
+    <div class="asta-row1">
+      <b>${esc(g.nome)}</b>
+      <span class="asta-team">${esc(g.squadra||"")}</span>
+      <button class="asta-x" onclick="astaRemove(${JSON.stringify(g.id)})" title="Togli dalla lista">×</button>
+    </div>
+    ${fuoriSerieA ? `<div class="sub" style="color:var(--red); padding:0 0 4px">⚠️ Non più tesserato per un club di Serie A (listone ufficiale) — non acquistabile</div>` : ""}
+    <div class="asta-row2">
+      ${g.qt!=null?`<span class="asta-tag">Qt ${g.qt}</span>`:""}
+      ${ind!=null?`<span class="asta-tag" title="indice di schierabilità dal motore">Idx ${fmt(ind)}</span>`:""}
+      ${fvm!=null?`<span class="asta-tag" title="FantaVoto Medio proiettato (listone ufficiale)">FVM ${fvm}</span>`:""}
+      ${(ind==null&&fvm==null)?`<span class="asta-tag off">no stats</span>`:""}
+      <span class="asta-tit-wrap">${titBtns}</span>
+    </div>
+    ${preso
+      ? `<div class="asta-row3 done">Preso a <b>${g.prezzo}</b> crediti
+           <button class="asta-undo" onclick="astaPatch(${JSON.stringify(g.id)},'stato','obiettivo')">annulla</button></div>`
+      : `<div class="asta-row3">
+           <label class="asta-quota">Quota
+             <input type="number" inputmode="numeric" value="${g.quota!=null?g.quota:""}" placeholder="—"
+               onchange="astaPatch(${JSON.stringify(g.id)},'quota',this.value===''?null:+this.value)"></label>
+           <label class="asta-quota" title="Calcolata da FVM del giocatore / FVM dei migliori del ruolo × quota budget del ruolo (media di 5 fonti reali). Puoi correggerla a mano.">Max % ✨
+             <input type="number" inputmode="decimal" step="0.5" value="${g.percMax!=null?fmt(g.percMax):""}" placeholder="—"
+               onchange="astaPatch(${JSON.stringify(g.id)},'percMax',this.value===''?null:+this.value)"></label>
+           ${g.percMax!=null ? `<span class="asta-tag" title="controvalore sul tuo budget attuale">≈ ${Math.round(g.percMax/100*(S.asta.budget||1000))} cr</span>` : ""}
+           <span class="asta-buy">
+             <input type="number" inputmode="numeric" placeholder="prezzo" id="pz_${String(g.id).replace(/[^a-zA-Z0-9]/g,'')}" class="asta-prezzo">
+             <button class="asta-preso" onclick="astaPresoDaInput(${JSON.stringify(g.id)})">Preso</button>
+           </span>
+         </div>`}
+  </div>`;
+}
+function astaPresoDaInput(id){
+  const el2 = document.getElementById("pz_" + String(id).replace(/[^a-zA-Z0-9]/g,''));
+  const v = el2 && el2.value!=="" ? +el2.value : null;
+  if(v==null){ el2 && el2.focus(); return; }
+  astaPreso(id, v);
+}
+
+function renderListone(){
+  const L=S.listone;
+  const rep=S._listoneReport;
+  let stato="";
+  if(L){
+    const d=new Date(L.quando);
+    const perRuolo={P:0,D:0,C:0,A:0};
+    L.giocatori.forEach(g=>{ if(perRuolo[g.ruolo]!=null) perRuolo[g.ruolo]++; });
+    stato=`<div class="card">
+      <div class="ch-player"><b>Listone caricato</b></div>
+      <div class="lst-meta">${L.giocatori.length} giocatori · aggiornato il ${d.toLocaleDateString("it-IT")} ${d.toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"})}</div>
+      <div class="lst-ruoli">
+        <span style="color:${ROLE_COLOR.P}">${perRuolo.P} P</span>
+        <span style="color:${ROLE_COLOR.D}">${perRuolo.D} D</span>
+        <span style="color:${ROLE_COLOR.C}">${perRuolo.C} C</span>
+        <span style="color:${ROLE_COLOR.A}">${perRuolo.A} A</span>
+      </div></div>`;
+  }
+  let avviso="";
+  if(rep && rep.errore) avviso=`<div class="lst-err">Non è stato possibile leggere il file: ${esc(rep.errore)}</div>`;
+  else if(rep && rep.n) avviso=`<div class="lst-ok">Importati ${rep.n} giocatori dal listone ufficiale.</div>`;
+
+  el("main").innerHTML = `<h1>Listone</h1>
+    <p class="ch-hint">Importa il file ufficiale delle quotazioni (foglio “Tutti”). Serve come anagrafica: id, ruolo e quotazione ufficiali di tutti i giocatori. Aggiornalo quando la Lega pubblica una nuova versione.</p>
+    <button class="btn primary" style="width:100%; margin:6px 0 14px" onclick="el('listonefile').click()">${L?"Aggiorna il listone":"Importa il listone"}</button>
+    ${avviso}
+    ${stato}`;
+}
+
+function regoleLegaSummary(){
+  const c = S.leagueRules.captain, d = S.leagueRules.defMod;
+  const parts = [];
+  const tipoLabel = c.type==="raddoppio" ? "×2" : c.type==="fasce" ? "a fasce" : "+"+fmt(c.fixedValue,1);
+  parts.push(c.enabled ? `Capitano ${tipoLabel}` : "Capitano off");
+  parts.push(d.enabled ? "Mod. Difesa on" : "Mod. Difesa off");
+  return parts.join(" · ");
+}
+function setCaptainEnabled(v){ S.leagueRules.captain.enabled = v; saveLocal(); render(); }
+function setCaptainType(t){ S.leagueRules.captain.type = t; saveLocal(); render(); }
+function setCaptainFixed(v){ S.leagueRules.captain.fixedValue = Number(v)||0; saveLocal(); }
+function setCaptainVice(v){ S.leagueRules.captain.vice = v; saveLocal(); render(); }
+function setCaptainFasciaField(idx, field, v){
+  S.leagueRules.captain.fasce[idx][field] = Number(v)||0; saveLocal();
+}
+function addFascia(){
+  const f = S.leagueRules.captain.fasce;
+  const last = f[f.length-1];
+  f.push({min: last ? last.max+0.01 : 6, max: last ? last.max+1 : 6.5, bonus:0});
+  saveLocal(); render();
+}
+function removeFascia(idx){
+  S.leagueRules.captain.fasce.splice(idx,1); saveLocal(); render();
+}
+function setRaddoppiaBonus(v){ S.leagueRules.captain.raddoppiaBonus = v; saveLocal(); }
+function setRaddoppiaMalus(v){ S.leagueRules.captain.raddoppiaMalus = v; saveLocal(); }
+function setDefModEnabled(v){ S.leagueRules.defMod.enabled = v; saveLocal(); render(); }
+function setDefModFasciaField(idx, field, v){
+  S.leagueRules.defMod.fasce[idx][field] = Number(v)||0; saveLocal();
+}
+function addDefFascia(){
+  const f = S.leagueRules.defMod.fasce;
+  const last = f[f.length-1];
+  f.push({min: last ? last.max+0.01 : 6, max: last ? last.max+1 : 6.5, val:0});
+  saveLocal(); render();
+}
+function removeDefFascia(idx){
+  S.leagueRules.defMod.fasce.splice(idx,1); saveLocal(); render();
+}
+function resetDefModFasce(){
+  S.leagueRules.defMod.fasce = [{min:6,max:6.49,val:1},{min:6.5,max:6.99,val:3},{min:7,max:99,val:6}];
+  saveLocal(); render();
+}
+function renderRegoleLega(){
+  const c = S.leagueRules.captain, d = S.leagueRules.defMod;
+  el("main").innerHTML = `<h1>Regole Lega</h1>
+    <p class="sub" style="margin:0 0 14px">Non tutte le leghe usano le stesse regole di punteggio —
+      configura qui quelle della tua. Si applicano al <b style="color:var(--chalk)">Top 11</b>
+      (dati reali a giornata conclusa), non alla Formazione: quella resta un consiglio universale
+      basato solo su performance e titolarità, valido a prescindere dalle regole della tua lega.</p>
+
+    <div class="card" style="padding:14px">
+      <div class="bighead" style="margin-bottom:${c.enabled?"10px":"0"}">
+        <div><div class="l">BONUS CAPITANO</div>
+          <div class="v" style="font-size:16px">Raddoppio o bonus fisso al migliore in campo</div></div>
+        <label class="switch"><input type="checkbox" ${c.enabled?"checked":""}
+          onchange="setCaptainEnabled(this.checked)"><span></span></label>
+      </div>
+      ${c.enabled ? `
+      <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap">
+        <div class="tog ${c.type==="raddoppio"?"on":""}" onclick="setCaptainType('raddoppio')" style="flex:1; text-align:center">Raddoppio (×2)</div>
+        <div class="tog ${c.type==="fisso"?"on":""}" onclick="setCaptainType('fisso')" style="flex:1; text-align:center">Bonus fisso</div>
+        <div class="tog ${c.type==="fasce"?"on":""}" onclick="setCaptainType('fasce')" style="flex:1; text-align:center">Tabella a fasce</div>
+      </div>
+      ${c.type==="fisso" ? `
+      <div style="margin-top:10px">
+        <label class="l">Valore bonus fisso</label>
+        <input type="number" step="0.5" value="${c.fixedValue}" oninput="setCaptainFixed(this.value)"
+          style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit; margin-top:4px">
+      </div>` : ""}
+      ${c.type==="fasce" ? `
+      <p class="sub" style="margin:10px 0">⚠️ Valori di esempio — sostituiscili con quelli veri
+        appena configuri la lega. Il capitano riceve il bonus della fascia in cui rientra il suo voto.</p>
+      <table style="width:100%; border-collapse:collapse">
+        <thead><tr>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Da</th>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">A</th>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Bonus</th>
+          <th></th>
+        </tr></thead>
+        <tbody>
+        ${(c.fasce||[]).map((f,i) => `
+          <tr>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.min}" oninput="setCaptainFasciaField(${i},'min',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.max}" oninput="setCaptainFasciaField(${i},'max',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.bonus}" oninput="setCaptainFasciaField(${i},'bonus',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><span class="tog del" style="padding:5px 9px" onclick="removeFascia(${i})">✕</span></td>
+          </tr>`).join("")}
+        </tbody>
+      </table>
+      <button class="btn" style="margin-top:8px; padding:8px 12px" onclick="addFascia()">+ Aggiungi fascia</button>
+      <div class="bighead" style="margin-top:14px">
+        <div><div class="l" style="font-size:12px">RADDOPPIA BONUS OTTENUTI</div></div>
+        <label class="switch"><input type="checkbox" ${c.raddoppiaBonus?"checked":""}
+          onchange="setRaddoppiaBonus(this.checked)"><span></span></label>
+      </div>
+      <div class="bighead" style="margin-top:8px">
+        <div><div class="l" style="font-size:12px">RADDOPPIA MALUS OTTENUTI</div></div>
+        <label class="switch"><input type="checkbox" ${c.raddoppiaMalus?"checked":""}
+          onchange="setRaddoppiaMalus(this.checked)"><span></span></label>
+      </div>
+      <p class="sub" style="margin:8px 0 0">⚠️ Approssimazione: non conosciamo il valore in punti di
+        ogni singolo bonus/malus (solo il conteggio eventi), quindi il calcolo raddoppia l'intero
+        scarto voto→fantavoto se positivo (bonus) o negativo (malus). Vale solo nel Top 11 (dati reali),
+        non in Formazione (previsione).</p>` : ""}
+      <div class="bighead" style="margin-top:12px">
+        <div><div class="l">VICE CAPITANO</div>
+          <div class="v" style="font-size:14px">Sostituisce il capitano se non gioca</div></div>
+        <label class="switch"><input type="checkbox" ${c.vice?"checked":""}
+          onchange="setCaptainVice(this.checked)"><span></span></label>
+      </div>
+      <p class="sub" style="margin:10px 0 0">Il capitano è scelto automaticamente: il giocatore con
+        l'indice di schierabilità più alto nell'undici titolare.${c.vice?" Il vice è il secondo migliore — dichiarali entrambi quando invii la formazione nella tua lega.":""}</p>` : ""}
+    </div>
+
+    <div class="card" style="padding:14px; margin-top:12px">
+      <div class="bighead" style="margin-bottom:${d.enabled?"10px":"0"}">
+        <div><div class="l">MODIFICATORE DI DIFESA</div>
+          <div class="v" style="font-size:16px">Bonus/malus alla squadra sulla media voto di portiere e difensori</div></div>
+        <label class="switch"><input type="checkbox" ${d.enabled?"checked":""}
+          onchange="setDefModEnabled(this.checked)"><span></span></label>
+      </div>
+      ${d.enabled ? `
+      <p class="sub" style="margin:10px 0">Si attiva solo schierando <b>almeno 4 difensori</b> (moduli a 3
+        esclusi). Si calcola la media del voto puro (senza bonus/malus) di portiere + i 3 migliori
+        difensori schierati. Il bonus è <b>unico per tutta la squadra</b>, non per singolo giocatore.
+        Preset "a 3 fasce" (il più diffuso) già impostato — modificalo se la tua lega usa altri valori:</p>
+      <table style="width:100%; border-collapse:collapse">
+        <thead><tr>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Da</th>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">A</th>
+          <th style="text-align:left; padding:4px; font-size:12px; color:var(--dim)">Bonus/Malus</th>
+          <th></th>
+        </tr></thead>
+        <tbody>
+        ${(d.fasce||[]).map((f,i) => `
+          <tr>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.min}" oninput="setDefModFasciaField(${i},'min',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.max}" oninput="setDefModFasciaField(${i},'max',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><input type="number" step="0.5" value="${f.val}" oninput="setDefModFasciaField(${i},'val',this.value)"
+              style="width:60px; padding:6px; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"></td>
+            <td style="padding:3px"><span class="tog del" style="padding:5px 9px" onclick="removeDefFascia(${i})">✕</span></td>
+          </tr>`).join("")}
+        </tbody>
+      </table>
+      <div style="display:flex; gap:8px; margin-top:8px">
+        <button class="btn" style="padding:8px 12px" onclick="addDefFascia()">+ Aggiungi fascia</button>
+        <button class="btn" style="padding:8px 12px" onclick="resetDefModFasce()">Ripristina standard</button>
+      </div>` : ""}
+    </div>`;
+}
+function renderTop11(){
+  const giornate = availableGiornate();
+  if(!giornate.length){
+    el("main").innerHTML = `<div class="empty">${ill("formazione")}Nessun voto reale ancora disponibile.<br>
+      Torna qui dopo la prima giornata giocata della stagione.</div>`;
+    return;
+  }
+  if(!S.currentLeague || !S.leagueRosters || !Object.keys(S.leagueRosters).length){
+    el("main").innerHTML = `<div class="empty">${ill("formazione")}Il Top 11 confronta le rose di una lega.<br>
+      Seleziona o importa una lega dalla Rosa per vederlo.</div>`;
+    return;
+  }
+  if(!S.top11Giornata || !giornate.includes(S.top11Giornata)) S.top11Giornata = giornate[0];
+  const g = S.top11Giornata;
+  const standings = computeTop11Standings(g);
+  if(!S.top11SelTeam || !standings.find(s => s.team === S.top11SelTeam)){
+    S.top11SelTeam = standings.find(s => s.total != null)?.team || standings[0]?.team || null;
+  }
+  const sel = standings.find(s => s.team === S.top11SelTeam);
+
+  el("main").innerHTML = `
+    <div class="modscroll">${giornate.map(gn =>
+      `<div class="modbtn ${gn===g?"on":""}" onclick="S.top11Giornata=${gn}; render()">
+        <div class="n">G${gn}</div></div>`).join("")}
+    </div>
+    <div class="card" style="padding:14px">
+      <div class="l" style="margin-bottom:8px">CLASSIFICA TOP 11 · GIORNATA ${g}</div>
+      ${standings.map((s,i) => `
+        <div onclick="S.top11SelTeam='${esc(s.team)}'; render()"
+          style="display:flex; align-items:center; gap:10px; padding:10px 6px; border-bottom:1px solid var(--line);
+          cursor:pointer; ${s.team===S.top11SelTeam?"background:var(--bg2); border-radius:8px":""}">
+          <div style="width:22px; text-align:center; font-weight:900; color:${i===0?"var(--amber)":"var(--dim)"}">${i+1}</div>
+          <div style="flex:1">
+            <div style="font-weight:700; color:var(--chalk)">${esc(s.team)}</div>
+            <div class="sub" style="margin:0">${s.total!=null ? s.mod : "formazione incompleta"}</div>
+          </div>
+          <div style="font-weight:900; font-size:17px; color:${s.total!=null?"var(--fluo)":"var(--dim)"}">
+            ${s.total!=null ? fmt(s.total,1) : "n/d"}</div>
+        </div>`).join("")}
+    </div>
+    ${sel && sel.total!=null ? `
+    <div class="card">
+      <div class="bighead">
+        <div><div class="l">Formazione reale</div>
+          <div class="v" style="color:var(--fluo)">${esc(sel.team)}</div></div>
+        <div style="text-align:right"><div class="l">totale reale</div>
+          <div class="v">${fmt(sel.total,1)}</div></div>
+      </div>
+      <div style="padding:8px">${pitchSVG(sel.lu, MODULES.find(m=>m.name===sel.mod), sel.captain?.id, r => r.fv)}</div>
+      ${S.leagueRules.defMod.enabled ? `<div class="sub" style="padding:0 14px 6px; text-align:center">
+        🛡️ Modificatore Difesa: <b style="color:var(--chalk)">${signedSpan(sel.lu.defModTeam||0,1)}</b> alla squadra</div>` : ""}
+      ${sel.captain ? `<div class="sub" style="padding:0 14px 10px; text-align:center">
+        🎖 Capitano: <b style="color:var(--chalk)">${esc(S.byId.get(sel.captain.id).nome)}</b>
+        → +${fmt(sel.captainDelta,1)} al totale</div>` : ""}
+    </div>` : sel ? `<div class="empty">${ill("formazione")}${esc(sel.team)} non aveva abbastanza giocatori
+      con voto reale in giornata ${g} per completare nessun modulo.</div>` : ""}
+  `;
+}
+function renderCalendarioLega(){
+  const teams = Object.keys(S.leagueRosters||{});
+  if(teams.length < 2){
+    el("main").innerHTML = `<div class="empty">${ill("formazione")}Serve una lega con almeno 2 squadre importate.<br>
+      <button class="btn primary" onclick="S.tab='rosa'; render()">Vai a Rosa → Importa</button></div>`;
+    return;
+  }
+  const nGiornate = numGiornateCalendario();
+  if(!nGiornate){
+    el("main").innerHTML = `<div class="empty">${ill("formazione")}Nessun calendario ancora generato per <b>${esc(S.currentLeague)}</b>.<br><br>
+      <button class="btn primary" onclick="regenCalendario()">Genera calendario automatico</button><br>
+      <p class="sub" style="margin-top:10px">Round-robin andata+ritorno tra le ${teams.length} squadre.
+      Potrai correggere le partite a mano se il vero sorteggio della lega è diverso.</p></div>`;
+    return;
+  }
+  let html = `<h1>Calendario Lega</h1>
+    <p class="sub" style="margin:0 0 14px">${esc(S.currentLeague)} · ${nGiornate} giornate.
+    Modifica le tendine se il sorteggio reale della tua lega è diverso da quello generato.</p>
+    <button class="btn" style="margin-bottom:14px" onclick="if(confirm('Rigenerare da zero? Le modifiche manuali andranno perse.')) regenCalendario()">↻ Rigenera automatico</button>`;
+
+  for(let g = 1; g <= nGiornate; g++){
+    const partite = S.leagueCalendar[g] || {};
+    const viste = new Set();
+    html += `<div class="card" style="padding:12px 14px; margin-bottom:8px">
+      <div class="l" style="margin-bottom:8px">GIORNATA ${g}</div>`;
+    for(const team of teams){
+      if(viste.has(team)) continue;
+      const opp = partite[team];
+      if(!opp) continue;
+      viste.add(team); viste.add(opp);
+      const altre = teams.filter(t => t !== team);
+      html += `<div style="display:flex; align-items:center; gap:8px; padding:6px 0">
+        <div style="flex:1; font-weight:700; color:var(--chalk); ${team===S.myTeamName?"color:var(--fluo)":""}">${esc(team)}</div>
+        <div style="color:var(--dim); font-size:12px">vs</div>
+        <select style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--chalk); font-family:inherit"
+          onchange="setCalendarioMatch(${g}, '${team.replace(/'/g,"\\'")}', this.value)">
+          ${altre.map(t => `<option value="${esc(t)}" ${t===opp?"selected":""}>${esc(t)}</option>`).join("")}
+        </select>
+      </div>`;
+    }
+    const riposa = teams.filter(t => !viste.has(t));
+    if(riposa.length) html += `<div class="sub" style="margin-top:4px">Riposa: ${riposa.map(esc).join(", ")}</div>`;
+    html += `</div>`;
+  }
+  el("main").innerHTML = html;
+}
+function renderDettagliFormazione(){
+  const ranking = MODULES.map(m => ({mod:m, lu:bestLineup(m)})).sort((a,b) => b.lu.ev - a.lu.ev);
+  const sel = S.selMod ? ranking.find(x => x.mod.name === S.selMod) || ranking[0] : ranking[0];
+  const titolariIds = new Set(sel.lu.xi.map(r => r.id));
+
+  const sezioni = ROLES.map(role => {
+    const giocatori = rosterByRole(role)
+      .slice()
+      .sort((a,b) => scheierability(b) - scheierability(a));
+    if(!giocatori.length) return "";
+
+    const righe = giocatori.map(r => {
+      const st = S.byId.get(r.id);
+      const e = expFV(r);
+      const bonus = e.cal.adj + e.perf.val;
+      const n11 = conteggioTop11(r.id, S.myTeamName);
+      const titolare = titolariIds.has(r.id);
+      const out = r.sq || r.inf;
+      return `<div style="padding:10px 4px; border-bottom:1px solid var(--line); ${out?"opacity:.5":""}">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; gap:8px">
+          <div style="font-weight:700; color:var(--chalk); overflow-wrap:anywhere">${esc(st.nome)}
+            <span style="font-weight:400; color:var(--dim); font-size:12px">${esc(st.squadra||"")}</span></div>
+          <span style="flex-shrink:0; font-size:11px; padding:2px 9px; border-radius:99px; white-space:nowrap; ${
+            titolare ? "background:var(--fluo); color:var(--bg)" : "border:1px solid var(--line); color:var(--dim)"}">${
+            titolare ? "titolare" : "panchina"}</span>
+        </div>
+        <div style="display:flex; gap:14px; margin-top:6px; font-size:12px; color:var(--dim); flex-wrap:wrap">
+          <div><b style="color:var(--chalk)">${fmt(scheierability(r),2)}</b> schierab.</div>
+          <div><b style="color:var(--chalk)">${fmt(indiceTitolarita(st)*100,0)}%</b> titolarità</div>
+          <div><b style="color:${bonus>=0?"var(--fluo)":"var(--red)"}">${bonus>=0?"+":""}${fmt(bonus,2)}</b> bonus</div>
+          <div><b style="color:var(--chalk)">${n11!=null?n11:"—"}×</b> Top11</div>
+        </div>
+      </div>`;
+    }).join("");
+
+    return `<div class="card" style="padding:8px 10px; margin-bottom:10px">
+      <div class="l" style="padding:4px 4px 2px; color:${ROLE_COLOR[role]}">${ROLE_LABEL[role].toUpperCase()}</div>
+      ${righe}
+    </div>`;
+  }).join("");
+
+  el("main").innerHTML = `<h1>Dettagli Lineup</h1>
+    <p class="sub" style="margin:0 0 14px">Modulo: <b style="color:var(--chalk)">${sel.mod.name}</b> —
+      tutti i giocatori in rosa, titolari e panchina, con i calcoli del motore.</p>
+    ${sezioni}`;
+}
+function renderAltro(){
+  const voci = [
+    { tab:"asta",     tit:"Appunti per l'asta", sub:(S.asta&&S.asta.giocatori.length?`${S.asta.giocatori.filter(g=>g.stato==='preso').length} presi · ${S.asta.giocatori.length} in lista`:"Prepara e gestisci l'asta"),
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h9"/><path d="M14.5 4.5l5 5"/><path d="M3 13l8-8 5 5-8 8H3z"/><path d="M13 7l4 4"/></svg>` },
+    { tab:"cellha",   tit:"Chi ce l'ha",  sub:"Cerca un giocatore in tutte le tue leghe",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.7-4.7"/><path d="M10.5 8v5M8 10.5h5"/></svg>` },
+    { tab:"listone",  tit:"Listone",  sub:(S.listone?`${S.listone.giocatori.length} giocatori · anagrafica ufficiale`:"Importa le quotazioni ufficiali"),
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>` },
+    { tab:"mercato",  tit:"Mercato",   sub:"Consiglia acquisti e cessioni",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5 H17"/><path d="M13.5 5 L17 8.5 L13.5 12"/><path d="M20.5 15.5 H7"/><path d="M10.5 12 L7 15.5 L10.5 19"/></svg>` },
+    { tab:"sfida",    tit:"Sfida",     sub:"Confronta la tua formazione con un avversario",
+      ic:`<svg viewBox="0 0 24 24" fill="none"><g transform="translate(2.70,18.75) scale(0.0196,-0.0196)" fill="currentColor"><path d="M120 0 5 688H187L247 184H258L315 688H494L379 0Z"/><path transform="translate(499,0)" d="M36 11V147Q129 140 173 140Q204 140 218 142Q232 144 238 151Q244 157 246 168Q248 179 248 199Q248 229 244 241Q240 254 228 260Q216 266 185 271L100 287Q58 295 40 344Q23 394 23 484Q23 572 49 618Q76 665 121 680Q167 696 236 696Q288 696 332 690Q376 684 401 678V541Q341 548 278 548Q249 548 235 546Q222 545 215 539Q208 533 205 522Q203 511 203 490Q203 466 205 455Q208 444 216 439Q224 434 243 430L316 416Q350 409 373 394Q397 379 412 341Q428 297 428 223Q428 122 402 72Q377 22 335 7Q293 -8 225 -8Q179 -8 126 -2Q73 3 36 11Z"/></g></svg>` },
+    { tab:"fattorec", tit:"Fattore C",  sub:"Quanto la fortuna ha inciso sui tuoi risultati",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.4" r="3.5" fill="currentColor" stroke="none"/><circle cx="16.6" cy="12" r="3.5" fill="currentColor" stroke="none"/><circle cx="12" cy="16.6" r="3.5" fill="currentColor" stroke="none"/><circle cx="7.4" cy="12" r="3.5" fill="currentColor" stroke="none"/><path d="M12.5 16 C13 19 14 20.5 16.5 21.5"/></svg>` },
+    { tab:"regolelega", tit:"Regole Lega", sub:("Per il Top 11 — " + regoleLegaSummary()),
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4z"/><path d="M4 12h10"/><path d="M4 16h10"/><path d="M4 20h6"/><circle cx="18" cy="16" r="3"/><path d="M18 13v-1M18 20v-1M21 16h1M15 16h1"/></svg>` },
+    { tab:"top11", tit:"Top 11", sub:"Classifica di lega sulla migliore formazione reale a giornata conclusa",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M6 4h12v5a6 6 0 0 1-12 0V4z"/><path d="M6 6H3a3 3 0 0 0 3 4"/><path d="M18 6h3a3 3 0 0 1-3 4"/></svg>` },
+    { tab:"calendariolega", tit:"Calendario Lega", sub:"Chi affronti ogni giornata, per la Sfida automatica",
+      ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 9h18"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01"/></svg>` },
+  ];
+  el("main").innerHTML = `<h1>Altro</h1>
+    <div class="menu">` + voci.map(v=>`
+      <div class="menurow" onclick="S.tab='${v.tab}'; render()">
+        <span class="mic">${v.ic}</span>
+        <span class="mtx"><b>${v.tit}</b><i>${v.sub}</i></span>
+        <span class="mch">›</span>
+      </div>`).join("") + `</div>`;
+}
+
+function render(){
+  const attivo = SOTTO_ALTRO.includes(S.tab) ? "altro" : SOTTO_FORMAZIONE.includes(S.tab) ? "formazione" : S.tab;
+  document.querySelectorAll("nav button").forEach(b =>
+    b.classList.toggle("on", b.dataset.tab === attivo));
+  ({rosa:renderRosa, giornata:renderGiornata, formazione:renderFormazione, altro:renderAltro,
+    fattorec:renderFattoreC, sfida:renderSfida, mercato:renderMercato, cellha:renderCellHa, listone:renderListone, asta:renderAsta, regolelega:renderRegoleLega, top11:renderTop11, calendariolega:renderCalendarioLega,
+    dettagliformazione:renderDettagliFormazione})[S.tab]();
+  if(SOTTO_ALTRO.includes(S.tab)){
+    const m=el("main");
+    const back=document.createElement("div");
+    back.className="backlink";
+    back.innerHTML="‹ Altro";
+    back.onclick=()=>{ S.tab="altro"; render(); };
+    m.insertBefore(back, m.firstChild);
+  }
+  if(SOTTO_FORMAZIONE.includes(S.tab)){
+    const m=el("main");
+    const back=document.createElement("div");
+    back.className="backlink";
+    back.innerHTML="‹ Formazione";
+    back.onclick=()=>{ S.tab="formazione"; render(); };
+    m.insertBefore(back, m.firstChild);
+  }
+}
+document.querySelectorAll("nav button").forEach(b =>
+  b.addEventListener("click", () => { S.tab = b.dataset.tab; render(); }));
+
+/* ── THEME TOGGLE (dark/light) ── */
+const htmlEl = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('fantassist-theme') || 'light';
+
+function applyTheme(theme) {
+  if (theme === 'dark') {
+    htmlEl.classList.add('dark');
+    themeToggle.textContent = '☀️';
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0C1A12');
+  } else {
+    htmlEl.classList.remove('dark');
+    themeToggle.textContent = '🌙';
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#F7F8F3');
+  }
+}
+
+function toggleTheme() {
+  const currentTheme = htmlEl.classList.contains('dark') ? 'dark' : 'light';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(newTheme);
+  localStorage.setItem('fantassist-theme', newTheme);
+}
+
+applyTheme(savedTheme);
+
+loadLocal();
+loadData().then(render).catch(() => {
+  el("main").innerHTML = `<div class="empty">⚠ Impossibile caricare i dati.<br>
+    Verifica che la cartella <b>data/</b> con i JSON sia nel repository.</div>`;
+});
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
