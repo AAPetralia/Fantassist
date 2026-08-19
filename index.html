@@ -131,6 +131,7 @@ nav button.on{color:var(--fluo)}
 .asta-quota{font-size:12px; color:var(--dim); display:flex; align-items:center; gap:6px}
 .asta-quota input{width:56px; background:var(--bg2); border:1px solid var(--line); border-radius:7px;
   padding:6px 8px; color:var(--chalk); font-size:14px; font-family:inherit; text-align:center}
+.asta-percmax{width:64px !important}
 .asta-buy{margin-left:auto; display:flex; gap:6px}
 .asta-prezzo{width:70px; background:var(--bg2); border:1px solid var(--line); border-radius:7px;
   padding:6px 8px; color:var(--chalk); font-size:14px; font-family:inherit; text-align:center}
@@ -2036,7 +2037,7 @@ function astaCard(g){
              <input type="number" inputmode="numeric" value="${g.quota!=null?g.quota:""}" placeholder="—"
                onchange="astaPatch(${JSON.stringify(g.id)},'quota',this.value===''?null:+this.value)"></label>
            <label class="asta-quota" title="Prezzo medio realmente pagato all'asta (fantacalcio-online.com), riscalato sul tuo budget. Se non disponibile: stima da FVM/ruolo. Puoi correggerla a mano.">Max % ✨
-             <input type="number" inputmode="decimal" step="0.5" value="${g.percMax!=null?fmt(g.percMax):""}" placeholder="—"
+             <input type="number" inputmode="decimal" step="0.5" class="asta-percmax" value="${g.percMax!=null?fmt(g.percMax):""}" placeholder="—"
                onchange="astaPatch(${JSON.stringify(g.id)},'percMax',this.value===''?null:+this.value)"></label>
            ${g.percMax!=null ? `<span class="asta-tag" title="controvalore sul tuo budget attuale">≈ ${Math.round(g.percMax/100*(S.asta.budget||1000))} cr</span>` : ""}
          </div>
