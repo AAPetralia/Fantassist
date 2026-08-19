@@ -46,6 +46,9 @@ jobs:
       - name: Titolarità da SOS Fanta (seconda fonte per il consensus)
         run: python sosfanta_titolarita_scraper.py
 
+      - name: Prezzi reali d'asta da Fantacalcio-Online (sostituisce la stima FVM per il Max % in Asta)
+        run: python fantacalcio_online_scraper.py
+
       - name: Consensus titolarità (fantacalcio.it + sosfanta.com)
         run: python titolarita_consensus.py
 
