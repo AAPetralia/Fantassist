@@ -469,6 +469,7 @@ const S = {                    // stato applicazione
   votiStorico: {},             // id(cod) → {nome,squadra,ruolo,giornate:{"16":{voto_consensus,fantavoto_consensus,...}}}
   storicoPresenze: {},         // id(cod) → {pv, rateo} stagione precedente conclusa, per l'Indice di Titolarità (TS)
   titolarita_reale: {},        // id(cod) → {confidence,...} consensus probabili formazioni (fonte reale per l'IT)
+  prezziRealiAsta: {},         // id(cod) → {percMax, comprato_pct, prezzo_500, ...} da fantacalcio-online.com
   top11Giornata: null,         // giornata selezionata nella scheda Top 11
   top11SelTeam: null,          // fantasquadra selezionata nella classifica Top 11
   meta: null,
@@ -564,9 +565,9 @@ async function loadData(){
     getJSON("players.json"), getJSON("classifica.json"), getJSON("calendario.json"),
     getJSON("rigoristi.json"), getJSON("indisponibili.json"), getJSON("meta.json"),
     getJSON("understat.json"), getJSON("voti_storico.json"), getJSON("storico_presenze.json"),
-    getJSON("titolarita_reale.json"),
+    getJSON("titolarita_reale.json"), getJSON("prezzi_reali_asta.json"),
   ]);
-  const [pl, cl, cal, rig, ind, meta, us, vs, sp, tr] = res.map(r => r.status==="fulfilled" ? r.value : null);
+  const [pl, cl, cal, rig, ind, meta, us, vs, sp, tr, pa] = res.map(r => r.status==="fulfilled" ? r.value : null);
 
   if(pl){
     S.db = pl.giocatori.filter(p => p.id && p.nome);
@@ -599,6 +600,7 @@ async function loadData(){
   if(vs) S.votiStorico = vs;                    // storico voti reali per giornata: { player_id: {nome,squadra,ruolo,giornate:{...}} }
   if(sp && sp.giocatori) S.storicoPresenze = sp.giocatori;  // { player_id: {nome,squadra,pv,rateo} } stagione precedente
   if(tr && tr.giocatori) S.titolarita_reale = tr.giocatori;  // { player_id: {nome,squadra,confidence,...} } consensus probabili formazioni
+  if(pa && pa.giocatori) S.prezziRealiAsta = pa.giocatori;   // { player_id: {percMax, comprato_pct, prezzo_500,...} } fantacalcio-online.com
   S.meta = meta;
 
   const dt = pl ? new Date(pl.aggiornato) : null;
@@ -1877,6 +1879,13 @@ function fvmOf(id){                              // FVM da listone: scala propri
 const RUOLO_BUDGET_SHARE = {P:0.07, D:0.17, C:0.29, A:0.47};
 const RUOLO_TOP_N = {P:3, D:8, C:8, A:6};
 function percMaxSuggerita(id){
+  // Priorità 1: prezzo REALE misurato su migliaia d'aste vere (fantacalcio-online.com),
+  // già in % del budget standard — molto più affidabile di una formula nostra.
+  const reale = S.prezziRealiAsta?.[id];
+  if(reale?.percMax != null) return reale.percMax;
+
+  // Ripiego: stima da FVM/ripartizione-budget-per-ruolo, solo se un giocatore
+  // non è coperto dalla fonte reale (es. nuovo arrivo, ancora poco tracciato).
   if(!S.listone) return null;
   const g = S.listoneById?.get(id);
   if(!g || g.fvm == null || !RUOLO_TOP_N[g.ruolo]) return null;
@@ -1885,7 +1894,7 @@ function percMaxSuggerita(id){
   const somma = topN.reduce((s,p) => s + p.fvm, 0);
   if(somma <= 0) return null;
   const perc = (g.fvm / somma) * RUOLO_BUDGET_SHARE[g.ruolo] * 100;
-  return Math.round(perc * 100) / 100;   // arrotonda a 2 decimali, es. 0.10 invece di 0.1013...
+  return Math.round(perc * 100) / 100;
 }
 function astaAdd(g){
   const a = astaInit();
@@ -2026,11 +2035,13 @@ function astaCard(g){
            <label class="asta-quota">Quota
              <input type="number" inputmode="numeric" value="${g.quota!=null?g.quota:""}" placeholder="—"
                onchange="astaPatch(${JSON.stringify(g.id)},'quota',this.value===''?null:+this.value)"></label>
-           <label class="asta-quota" title="Calcolata da FVM del giocatore / FVM dei migliori del ruolo × quota budget del ruolo (media di 5 fonti reali). Puoi correggerla a mano.">Max % ✨
+           <label class="asta-quota" title="Prezzo medio realmente pagato all'asta (fantacalcio-online.com), riscalato sul tuo budget. Se non disponibile: stima da FVM/ruolo. Puoi correggerla a mano.">Max % ✨
              <input type="number" inputmode="decimal" step="0.5" value="${g.percMax!=null?fmt(g.percMax):""}" placeholder="—"
                onchange="astaPatch(${JSON.stringify(g.id)},'percMax',this.value===''?null:+this.value)"></label>
            ${g.percMax!=null ? `<span class="asta-tag" title="controvalore sul tuo budget attuale">≈ ${Math.round(g.percMax/100*(S.asta.budget||1000))} cr</span>` : ""}
-           <span class="asta-buy">
+         </div>
+         <div class="asta-row3">
+           <span class="asta-buy" style="margin-left:0; width:100%; justify-content:flex-end">
              <input type="number" inputmode="numeric" placeholder="prezzo" id="pz_${String(g.id).replace(/[^a-zA-Z0-9]/g,'')}" class="asta-prezzo">
              <button class="asta-preso" onclick="astaPresoDaInput(${JSON.stringify(g.id)})">Preso</button>
            </span>
