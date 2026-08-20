@@ -1,6 +1,6 @@
 {
   "fonte": "sosfanta.com",
-  "aggiornato": "2026-08-19T18:37:01.104234+00:00",
+  "aggiornato": "2026-08-20T06:26:04.756057+00:00",
   "squadre": {
     "atalanta": {
       "infortunati": [
@@ -9,13 +9,6 @@
           "dettaglio": "Distrazione di basso grado a carico dei muscoli adduttori della gamba destra, in dubbio per la 2a",
           "rientro_giornata": 2,
           "id": "6916",
-          "match_score": 1.0
-        },
-        {
-          "nome": "De Ketelaere",
-          "dettaglio": "Distrazione di basso grado a carico dei muscoli adduttori della gamba sinistra, in dubbio per la 2a",
-          "rientro_giornata": 2,
-          "id": "5995",
           "match_score": 1.0
         },
         {
@@ -43,13 +36,6 @@
           "dettaglio": "Risentimento agli adduttori di sinistra, in dubbio per la 2a",
           "rientro_giornata": 2,
           "id": "5498",
-          "match_score": 1.0
-        },
-        {
-          "nome": "Vitik",
-          "dettaglio": "Affaticamento muscolare alla coscia destra, in dubbio per la 2a",
-          "rientro_giornata": 2,
-          "id": "7068",
           "match_score": 1.0
         }
       ],
@@ -174,20 +160,6 @@
           "rientro_giornata": 2,
           "id": "7008",
           "match_score": 1.0
-        },
-        {
-          "nome": "Leao",
-          "dettaglio": "Risentimento muscolare al quadricipite, in dubbio per la 2a",
-          "rientro_giornata": 2,
-          "id": "4510",
-          "match_score": 1.0
-        },
-        {
-          "nome": "Pulisic",
-          "dettaglio": "Microfrattura e un edema osseo a tibia e perone della gamba destra, in dubbio per la 1a giornata",
-          "rientro_giornata": 1,
-          "id": "2423",
-          "match_score": 1.0
         }
       ],
       "squalificati": [],
@@ -209,10 +181,10 @@
     "napoli": {
       "infortunati": [
         {
-          "nome": "Beukema",
-          "dettaglio": "Programma di rieducazione intrapreso dopo la riacutizzazione di una patologia cronica bilaterale del tendine achilleo, in dubbio per la 2a",
-          "rientro_giornata": 2,
-          "id": "6202",
+          "nome": "Neres",
+          "dettaglio": "Ritardo di condizione",
+          "rientro_giornata": null,
+          "id": "6831",
           "match_score": 1.0
         },
         {
@@ -227,13 +199,6 @@
           "dettaglio": "Intervento chirurgico di riparazione della radice del menisco mediale del ginocchio destro, in dubbio per la 12a",
           "rientro_giornata": 12,
           "id": "2724",
-          "match_score": 1.0
-        },
-        {
-          "nome": "Neres",
-          "dettaglio": "Ritardo di condizione, in dubbio per la 2a",
-          "rientro_giornata": 2,
-          "id": "6831",
           "match_score": 1.0
         }
       ],
@@ -281,6 +246,13 @@
     },
     "sassuolo": {
       "infortunati": [
+        {
+          "nome": "Berardi",
+          "dettaglio": "Sovraccarico alla caviglia destra, in dubbio per la 2a",
+          "rientro_giornata": 2,
+          "id": "531",
+          "match_score": 1.0
+        },
         {
           "nome": "Boloca",
           "dettaglio": "Intervento chirurgico in artroscopia al ginocchio sinistro per la pulizia meniscale e l’applicazione di PRP, in dubbio per la 3a",

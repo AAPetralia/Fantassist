@@ -1,5 +1,5 @@
 {
- "aggiornato": "2026-08-19T18:23:45.670992+00:00",
+ "aggiornato": "2026-08-20T06:25:05.990568+00:00",
  "fonte": "tabella HTML statistiche-serie-a",
  "giocatori": [
   {
@@ -8915,6 +8915,40 @@
    "nome": "Omar Fayed",
    "squadra": "frosinone",
    "ruolo": "D",
+   "pv": 0,
+   "mv": null,
+   "fm": 0,
+   "gol": 0,
+   "golSubiti": 0,
+   "rigoriSegnati": null,
+   "rigoriCalciati": null,
+   "rigoriParati": null,
+   "assist": null,
+   "ammonizioni": null,
+   "espulsioni": null
+  },
+  {
+   "id": 4468,
+   "nome": "Bleve",
+   "squadra": "lecce",
+   "ruolo": "P",
+   "pv": 0,
+   "mv": null,
+   "fm": 0,
+   "gol": 0,
+   "golSubiti": 0,
+   "rigoriSegnati": null,
+   "rigoriCalciati": null,
+   "rigoriParati": null,
+   "assist": null,
+   "ammonizioni": null,
+   "espulsioni": null
+  },
+  {
+   "id": 6372,
+   "nome": "Moreira",
+   "squadra": "milan",
+   "ruolo": "C",
    "pv": 0,
    "mv": null,
    "fm": 0,
