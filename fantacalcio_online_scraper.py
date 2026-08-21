@@ -176,7 +176,7 @@ def main():
             percMax = round(r["prezzo_350"] / 350 * 100, 2)
 
         giocatori[pid] = {
-            "nome": r["nome"], "squadra": r["squadra"],
+            "nome": r["nome"], "squadra": r["squadra"], "ruolo": r["ruolo"],
             "percMax": percMax,
             "comprato_pct": r["comprato_pct"],
             "prezzo_350": r["prezzo_350"], "prezzo_500": r["prezzo_500"],
