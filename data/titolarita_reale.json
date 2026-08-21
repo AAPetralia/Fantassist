@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-20T18:30:03.288976+00:00",
+  "aggiornato": "2026-08-21T06:26:26.594309+00:00",
   "fonti_usate": [
     "fantacalcio.it",
     "sosfanta.com"
@@ -789,6 +789,15 @@
       ],
       "n_fonti": 2
     },
+    "6896": {
+      "nome": "Van Der Brempt",
+      "squadra": "como",
+      "confidence": 0.2,
+      "fonti": [
+        "fantacalcio.it"
+      ],
+      "n_fonti": 1
+    },
     "5036": {
       "nome": "Caqueret",
       "squadra": "como",
@@ -809,15 +818,6 @@
     },
     "7357": {
       "nome": "Lahdo",
-      "squadra": "como",
-      "confidence": 0.15,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "6815": {
-      "nome": "Fadera",
       "squadra": "como",
       "confidence": 0.15,
       "fonti": [
@@ -2693,17 +2693,18 @@
       ],
       "n_fonti": 1
     },
+    "5578": {
+      "nome": "Kossounou",
+      "squadra": "atalanta",
+      "confidence": 0.85,
+      "fonti": [
+        "fantacalcio.it",
+        "sosfanta.com"
+      ],
+      "n_fonti": 2
+    },
     "6485": {
       "nome": "Kristensen T.",
-      "squadra": "atalanta",
-      "confidence": 0.6,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "5526": {
-      "nome": "Scalvini",
       "squadra": "atalanta",
       "confidence": 0.85,
       "fonti": [
@@ -2725,7 +2726,7 @@
     "5119": {
       "nome": "Samardzic",
       "squadra": "atalanta",
-      "confidence": 0.67,
+      "confidence": 0.537,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -2735,7 +2736,7 @@
     "4364": {
       "nome": "Gaetano",
       "squadra": "atalanta",
-      "confidence": 0.717,
+      "confidence": 0.583,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -2775,7 +2776,7 @@
     "4371": {
       "nome": "Raspadori",
       "squadra": "atalanta",
-      "confidence": 0.917,
+      "confidence": 0.85,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -2803,36 +2804,26 @@
     "2640": {
       "nome": "Kolasinac",
       "squadra": "atalanta",
-      "confidence": 0.417,
-      "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
-      ],
-      "n_fonti": 2
-    },
-    "554": {
-      "nome": "Zappacosta",
-      "squadra": "atalanta",
-      "confidence": 0.5,
-      "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
-      ],
-      "n_fonti": 2
-    },
-    "5578": {
-      "nome": "Kossounou",
-      "squadra": "atalanta",
-      "confidence": 0.4,
+      "confidence": 0.35,
       "fonti": [
         "fantacalcio.it"
       ],
       "n_fonti": 1
     },
+    "554": {
+      "nome": "Zappacosta",
+      "squadra": "atalanta",
+      "confidence": 0.47,
+      "fonti": [
+        "fantacalcio.it",
+        "sosfanta.com"
+      ],
+      "n_fonti": 2
+    },
     "2077": {
       "nome": "Pasalic",
       "squadra": "atalanta",
-      "confidence": 0.6,
+      "confidence": 0.45,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2841,7 +2832,7 @@
     "22": {
       "nome": "De Roon",
       "squadra": "atalanta",
-      "confidence": 0.55,
+      "confidence": 0.4,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -2878,7 +2869,7 @@
     "6189": {
       "nome": "Missori",
       "squadra": "sassuolo",
-      "confidence": 0.85,
+      "confidence": 0.783,
       "fonti": [
         "fantacalcio.it",
         "sosfanta.com"
@@ -3041,15 +3032,6 @@
       "nome": "Pinamonti",
       "squadra": "sassuolo",
       "confidence": 0.5,
-      "fonti": [
-        "fantacalcio.it"
-      ],
-      "n_fonti": 1
-    },
-    "7158": {
-      "nome": "Moro L.",
-      "squadra": "sassuolo",
-      "confidence": 0.25,
       "fonti": [
         "fantacalcio.it"
       ],
@@ -3820,21 +3802,21 @@
     "5500": {
       "nome": "Cancellieri",
       "squadra": "lazio",
-      "confidence": 0.85,
+      "confidence": 0.767,
       "fonti": [
-        "fantacalcio.it"
+        "fantacalcio.it",
+        "sosfanta.com"
       ],
-      "n_fonti": 1
+      "n_fonti": 2
     },
     "5672": {
       "nome": "Dia",
       "squadra": "lazio",
       "confidence": 0.6,
       "fonti": [
-        "fantacalcio.it",
-        "sosfanta.com"
+        "fantacalcio.it"
       ],
-      "n_fonti": 2
+      "n_fonti": 1
     },
     "632": {
       "nome": "Zaccagni",
