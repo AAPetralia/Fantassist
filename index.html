@@ -2390,7 +2390,8 @@ function renderPiuComprati(){
         </div>
         <div class="sub" style="margin-top:3px">
           <b style="color:var(--fluo)">${g.comprato_pct!=null?fmt(g.comprato_pct,1)+"%":"–"}</b> comprato ·
-          ${g.prezzo_500!=null?`≈ ${fmt(g.prezzo_500,0)} cr (lega 500)`:"prezzo n/d"}
+          ${g.prezzo_500!=null?`≈ ${fmt(g.prezzo_500,0)} cr (lega 500)`:
+            g.prezzo_350!=null?`≈ ${fmt(g.prezzo_350,0)} cr (lega 350)`:"prezzo n/d"}
         </div>
       </div>
       <button class="addbtn" ${inAsta?"disabled":""} onclick="astaAdd({id:${JSON.stringify(g.id)}, nome:${JSON.stringify(g.nome)}, squadra:${JSON.stringify(g.squadra||"")}, ruolo:${JSON.stringify(g.ruolo||"?")}, qt:${g.quotazione??"null"}}); render()">${inAsta?"✓":"+"}</button>
