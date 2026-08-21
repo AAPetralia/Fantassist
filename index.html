@@ -2469,13 +2469,28 @@ function renderAltro(){
     { tab:"calendariolega", tit:"Calendario Lega", sub:"Chi affronti ogni giornata, per la Sfida automatica",
       ic:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 9h18"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01"/></svg>` },
   ];
+  const contesto = encodeURIComponent(
+    `\n\n---\nNon cancellare questa parte, aiuta a capire il problema:\n` +
+    `Dati aggiornati al: ${S.meta ? new Date(S.meta.aggiornato).toLocaleString("it-IT") : "n/d"}\n` +
+    `Giocatori in database: ${S.db ? S.db.length : "n/d"}\n` +
+    `Schermata: ${S.tab}\n` +
+    `Browser: ${navigator.userAgent}`
+  );
+  const mailtoFeedback = `mailto:info@datigrezzi.it?subject=${encodeURIComponent("Fantassist — segnalazione")}&body=${encodeURIComponent("Cosa hai visto / cosa ti aspettavi:\n\n")}${contesto}`;
+
   el("main").innerHTML = `<h1>Altro</h1>
     <div class="menu">` + voci.map(v=>`
       <div class="menurow" onclick="S.tab='${v.tab}'; render()">
         <span class="mic">${v.ic}</span>
         <span class="mtx"><b>${v.tit}</b><i>${v.sub}</i></span>
         <span class="mch">›</span>
-      </div>`).join("") + `</div>`;
+      </div>`).join("") + `
+      <a class="menurow" href="${mailtoFeedback}" style="text-decoration:none; color:inherit">
+        <span class="mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v14H3z"/><path d="M3 6l9 7 9-7"/></svg></span>
+        <span class="mtx"><b>Segnala un problema</b><i>Bug, dati strani, idee — mi arriva via email</i></span>
+        <span class="mch">›</span>
+      </a>
+    </div>`;
 }
 
 function render(){
